@@ -1,0 +1,3 @@
+Subject Code: CourceIDSem/Year10_
+Student Userid  : cource-sem-rollnumber
+Faculty userid  : Faculty id
