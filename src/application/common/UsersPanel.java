@@ -19,9 +19,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import application.admin.AdminMain;
-import application.faculty.Faculty;
-import application.faculty.FacultyData;
-import application.faculty.ViewFacultyPanel;
+import application.teacher.Teacher;
+import application.teacher.TeacherData;
+import application.teacher.ViewTeacherPanel;
 import application.student.Student;
 import application.student.StudentData;
 import application.student.ViewStudentPanel;
@@ -61,16 +61,16 @@ public class UsersPanel extends JPanel {
                         am.viewstudentpanel.setVisible(true);
                         am.viewstudentpanel.setFocusable(true);
                         am.contentPane.add(am.viewstudentpanel);
-                    } else if (userprofile.equals("Faculty")) {
+                    } else if (userprofile.equals("Teacher")) {
                         int fid = Integer.parseInt(userid);
-                        Faculty f = new FacultyData().getFacultyInfobyId(fid);
-                        am.viewfacultypanel = new ViewFacultyPanel(f, am, am.userspanel);
-                        am.viewfacultypanel.setVisible(true);
+                        Teacher f = new TeacherData().getTeacherInfobyId(fid);
+                        am.viewteacherpanel = new ViewTeacherPanel(f, am, am.userspanel);
+                        am.viewteacherpanel.setVisible(true);
                         am.userspanel.setVisible(false);
-                        am.viewfacultypanel.setLocation(am.panelx, am.panely);
-                        am.viewfacultypanel.setVisible(true);
-                        am.viewfacultypanel.setFocusable(true);
-                        am.contentPane.add(am.viewfacultypanel);
+                        am.viewteacherpanel.setLocation(am.panelx, am.panely);
+                        am.viewteacherpanel.setVisible(true);
+                        am.viewteacherpanel.setFocusable(true);
+                        am.contentPane.add(am.viewteacherpanel);
                     }
                 }
             }
@@ -127,7 +127,7 @@ public class UsersPanel extends JPanel {
             User user = list.get(i);
             model.addRow(new Object[0]);
             model.setValueAt(user.getUserProfile(), i, 0);
-            model.setValueAt(user.getCourceCode() + "-" + user.getSemorYear(), i, 1);
+            model.setValueAt(user.getDeptCode() + "-" + user.getSemorYear(), i, 1);
             model.setValueAt(user.getUserid(), i, 2);
             model.setValueAt(user.getName(), i, 3);
             model.setValueAt(user.getLoginDate(), i, 4);

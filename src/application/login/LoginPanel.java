@@ -23,9 +23,9 @@ import application.admin.AdminData;
 import application.admin.AdminMain;
 import application.common.HintPasswordField;
 import application.common.HintTextField;
-import application.faculty.Faculty;
-import application.faculty.FacultyData;
-import application.faculty.FacultyMain;
+import application.teacher.Teacher;
+import application.teacher.TeacherData;
+import application.teacher.TeacherMain;
 import application.common.UserData;
 import application.student.Student;
 import application.student.StudentData;
@@ -44,7 +44,6 @@ public class LoginPanel extends JPanel implements ActionListener {
      * Create the panel.
      */
     public LoginPanel(String loginprofile, ImageIcon imageicon, LoginPageFrame lpf) {
-
         this.loginprofile = loginprofile;
         this.loginpageframe = lpf;
         setBorder(new LineBorder(new Color(72, 72, 72)));
@@ -155,12 +154,9 @@ public class LoginPanel extends JPanel implements ActionListener {
 
     @SuppressWarnings("deprecation")
     public void actionPerformed(ActionEvent arg0) {
-        // TODO Auto-generated method stub
-
         if (loginprofile.equals("Admin")) {
             boolean result = new AdminData().checkPassword(useridfield.getText(), passwordfield.getText());
             if (result == true) {
-
                 AdminMain am = new AdminMain();
                 am.setVisible(true);
                 am.setLocationRelativeTo(null);
@@ -169,17 +165,15 @@ public class LoginPanel extends JPanel implements ActionListener {
                 System.out.println("Timer running " + loginpageframe.timer.isRunning());
 
                 loginpageframe.dispose();
-
             }
-
-        } else if (loginprofile.equals("Faculty")) {
-            boolean result = new FacultyData().checkPassword(useridfield.getText(), passwordfield.getText());
+        } else if (loginprofile.equals("Teacher")) {
+            boolean result = new TeacherData().checkPassword(useridfield.getText(), passwordfield.getText());
             if (result == true) {
-                Faculty f = new FacultyData().getFacultyInfobyUserId(useridfield.getText());
-                if (!f.getCourceCode().equals("Not Assigned")) {
+                Teacher f = new TeacherData().getTacherInfobyUserId(useridfield.getText());
+                if (!f.getDeptCode().equals("Not Assigned")) {
 
-                    new UserData().addFacultyLoginTime(f);
-                    FacultyMain fm = new FacultyMain(f);
+                    new UserData().addTeacherLoginTime(f);
+                    TeacherMain fm = new TeacherMain(f);
                     fm.setVisible(true);
                     fm.setLocationRelativeTo(null);
                     loginpageframe.timer.stop();

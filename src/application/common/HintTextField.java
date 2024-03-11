@@ -16,9 +16,7 @@ import javax.swing.text.Document;
 
 /*
  * Title : HintTextField.java
- * Created by : Ajaysinh Rathod
  * Purpose : For giving hint to user in text field
- * Mail : ajaysinhrathod1290@gmail.com
  */
 @SuppressWarnings("serial")
 public class HintTextField extends JTextField {

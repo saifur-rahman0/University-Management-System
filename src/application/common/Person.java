@@ -8,20 +8,17 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import javax.imageio.ImageIO;
+import application.department.Department;
+import application.department.DepartmentData;
 
-import application.cource.Cource;
-import application.cource.CourceData;
-
-public abstract class Person extends Cource {
+public abstract class Person extends Department {
 
     private String emailid;
     private String contactnumber;
     private String birthdate;
     private String gender;
-    private String state;
-    private String city;
+    private String address;
     private Image image;
     private int sr_no;
     private String lastlogin;
@@ -44,12 +41,8 @@ public abstract class Person extends Cource {
         this.gender = gender;
     }
 
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public void setProfilePic(Image image) {
@@ -76,8 +69,8 @@ public abstract class Person extends Cource {
         this.isactive = isactive;
     }
 
-    public String getCourceName() {
-        return new CourceData().getcourcename(this.getCourceCode());
+    public String getDeptName() {
+        return new DepartmentData().getdeptname(this.getDeptCode());
     }
 
     public String getEmailId() {
@@ -97,7 +90,6 @@ public abstract class Person extends Cource {
         try {
             date = new SimpleDateFormat("dd-MM-yyyy").parse(this.birthdate);
         } catch (ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return date;
@@ -107,20 +99,13 @@ public abstract class Person extends Cource {
         return gender;
     }
 
-    public String getAddress() {
-        return city + ", " + state;
-    }
 
     public String getPassword() {
         return password;
     }
 
-    public String getState() {
-        return state;
-    }
-
-    public String getCity() {
-        return city;
+    public String getAddress() {
+        return address;
     }
 
     public Image getProfilePic() {
@@ -136,7 +121,6 @@ public abstract class Person extends Cource {
             e.printStackTrace();
         }
         return imagedata.toByteArray();
-
     }
 
     public boolean comparePassword(String password) {

@@ -31,18 +31,14 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableModel;
 
 import application.admin.AdminMain;
-import application.common.Notification;
-import application.common.NotificationData;
-import application.common.TimeUtil;
-import application.cource.CourceData;
-import application.faculty.FacultyMain;
-import application.subject.SubjectData;
+import application.department.DepartmentData;
+import application.teacher.TeacherMain;
+import application.course.CourseData;
 
 /*
  * Title : MarkAttandancePanel.java
@@ -55,9 +51,9 @@ public class MarkAttandancePanel extends JPanel implements ActionListener {
     private JComboBox<String> semoryearcombo;
     private JLabel lblError;
     private JScrollPane scrollPane;
-    private JComboBox<String> subjectnamecombo;
+    private JComboBox<String> coursenamecombo;
     private JSpinner datespinner;
-    private JComboBox<String> courcenamecombo;
+    private JComboBox<String> deptnamecombo;
     int totalstudent = 0;
     private JButton submitbutton;
     private JButton fetchstudentbutton;
@@ -80,17 +76,17 @@ public class MarkAttandancePanel extends JPanel implements ActionListener {
         this();
     }
 
-    public MarkAttandancePanel(FacultyMain fm) {
+    public MarkAttandancePanel(TeacherMain fm) {
         this();
-        courcenamecombo.setSelectedItem(new CourceData().getcourcename(fm.f.getCourceCode()));
-        semoryearcombo.setModel(new DefaultComboBoxModel<String>(new CourceData().getSemorYear(courcenamecombo.getSelectedItem() + "")));
-        String[] totalsub = new SubjectData().getSubjectinCource(fm.f.getCourceCode(), fm.f.getSemorYear());
-        subjectnamecombo.setModel(new DefaultComboBoxModel<String>(totalsub));
-        semoryearcombo.setSelectedIndex(fm.f.getSemorYear());
-        subjectnamecombo.setSelectedItem(fm.f.getSubject());
-        courcenamecombo.setVisible(false);
+        deptnamecombo.setSelectedItem(new DepartmentData().getdeptname(fm.t.getDeptCode()));
+        semoryearcombo.setModel(new DefaultComboBoxModel<String>(new DepartmentData().getSemorYear(deptnamecombo.getSelectedItem() + "")));
+        String[] totalsub = new CourseData().getCourseDept(fm.t.getDeptCode(), fm.t.getSemorYear());
+        coursenamecombo.setModel(new DefaultComboBoxModel<String>(totalsub));
+        semoryearcombo.setSelectedIndex(fm.t.getSemorYear());
+        coursenamecombo.setSelectedItem(fm.t.getCourse());
+        deptnamecombo.setVisible(false);
         semoryearcombo.setVisible(false);
-        subjectnamecombo.setVisible(false);
+        coursenamecombo.setVisible(false);
         scrollPane.setLocation(scrollPane.getX(), semoryearcombo.getY());
         label1.setVisible(false);
         label2.setVisible(false);
@@ -126,7 +122,7 @@ public class MarkAttandancePanel extends JPanel implements ActionListener {
         label.setBounds(39, 90, 153, 40);
         add(label);
 
-        label1 = new JLabel("Cource Name   :");
+        label1 = new JLabel("Dept. Name   :");
         label1.setHorizontalAlignment(SwingConstants.RIGHT);
         label1.setForeground(Color.DARK_GRAY);
         label1.setFont(new Font("Segoe UI", Font.PLAIN, 18));
@@ -140,7 +136,7 @@ public class MarkAttandancePanel extends JPanel implements ActionListener {
         label2.setBounds(23, 222, 169, 40);
         add(label2);
 
-        label3 = new JLabel("Select Subject  :");
+        label3 = new JLabel("Select Course  :");
         label3.setHorizontalAlignment(SwingConstants.RIGHT);
         label3.setForeground(Color.DARK_GRAY);
         label3.setFont(new Font("Segoe UI", Font.PLAIN, 18));
@@ -192,13 +188,13 @@ public class MarkAttandancePanel extends JPanel implements ActionListener {
         submitbutton.addActionListener(this);
         add(submitbutton);
 
-        courcenamecombo = new JComboBox<String>(new CourceData().getCourceName());
-        courcenamecombo.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        courcenamecombo.addActionListener(this);
-        courcenamecombo.setFocusable(false);
-        courcenamecombo.setBackground(new Color(255, 255, 255));
-        courcenamecombo.setBounds(204, 156, 867, 40);
-        add(courcenamecombo);
+        deptnamecombo = new JComboBox<String>(new DepartmentData().getDeptName());
+        deptnamecombo.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        deptnamecombo.addActionListener(this);
+        deptnamecombo.setFocusable(false);
+        deptnamecombo.setBackground(new Color(255, 255, 255));
+        deptnamecombo.setBounds(204, 156, 867, 40);
+        add(deptnamecombo);
 
         semoryearcombo = new JComboBox<String>();
         semoryearcombo.setFont(new Font("Segoe UI", Font.PLAIN, 18));
@@ -208,13 +204,13 @@ public class MarkAttandancePanel extends JPanel implements ActionListener {
         semoryearcombo.setFocusable(false);
 
         add(semoryearcombo);
-        subjectnamecombo = new JComboBox<String>();
-        subjectnamecombo.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        subjectnamecombo.setFocusable(false);
-        subjectnamecombo.addActionListener(this);
-        subjectnamecombo.setBackground(Color.WHITE);
-        subjectnamecombo.setBounds(205, 289, 867, 40);
-        add(subjectnamecombo);
+        coursenamecombo = new JComboBox<String>();
+        coursenamecombo.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        coursenamecombo.setFocusable(false);
+        coursenamecombo.addActionListener(this);
+        coursenamecombo.setBackground(Color.WHITE);
+        coursenamecombo.setBounds(205, 289, 867, 40);
+        add(coursenamecombo);
 
         datespinner = new JSpinner();
         datespinner.setFont(new Font("Segoe UI", Font.PLAIN, 18));
@@ -261,39 +257,39 @@ public class MarkAttandancePanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         lblError.setVisible(false);
-        if (e.getSource() == courcenamecombo) {
-            courcenamecombo.setFocusable(false);
-            subjectnamecombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
-            if (courcenamecombo.getSelectedIndex() == 0) {
+        if (e.getSource() == deptnamecombo) {
+            deptnamecombo.setFocusable(false);
+            coursenamecombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
+            if (deptnamecombo.getSelectedIndex() == 0) {
                 semoryearcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
             } else {
-                String cource = (String) courcenamecombo.getSelectedItem();
-                semoryearcombo.setModel(new DefaultComboBoxModel<String>(new CourceData().getSemorYear(cource)));
+                String dept = (String) deptnamecombo.getSelectedItem();
+                semoryearcombo.setModel(new DefaultComboBoxModel<String>(new DepartmentData().getSemorYear(dept)));
             }
         }
         if (e.getSource() == semoryearcombo && semoryearcombo.getSelectedIndex() > 0) {
-            String cource = (String) courcenamecombo.getSelectedItem();
-            String[] totalsub = new SubjectData().getSubjectinCource(new CourceData().getCourcecode(cource), semoryearcombo.getSelectedIndex());
+            String dept = (String) deptnamecombo.getSelectedItem();
+            String[] totalsub = new CourseData().getCourseDept(new DepartmentData().getDeptcode(dept), semoryearcombo.getSelectedIndex());
             if (totalsub != null) {
-                subjectnamecombo.setModel(new DefaultComboBoxModel<String>(totalsub));
+                coursenamecombo.setModel(new DefaultComboBoxModel<String>(totalsub));
             } else {
-                subjectnamecombo.setModel(new DefaultComboBoxModel<String>(new String[]{"No Subject Found"}));
+                coursenamecombo.setModel(new DefaultComboBoxModel<String>(new String[]{"No Course Found"}));
             }
         } else if (e.getSource() == semoryearcombo) {
-            subjectnamecombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
+            coursenamecombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
         }
         if (e.getSource() == fetchstudentbutton) {
-            if (courcenamecombo.getSelectedIndex() == 0) {
-                showerror(courcenamecombo);
+            if (deptnamecombo.getSelectedIndex() == 0) {
+                showerror(deptnamecombo);
             } else if (semoryearcombo.getSelectedIndex() == 0) {
                 showerror(semoryearcombo);
-            } else if (subjectnamecombo.getSelectedItem().equals("No Subject Found")) {
-                Component tf = subjectnamecombo;
+            } else if (coursenamecombo.getSelectedItem().equals("No Course Found")) {
+                Component tf = coursenamecombo;
                 lblError.setVisible(true);
-                lblError.setText("No Subject Found !");
+                lblError.setText("No Course Found !");
                 lblError.setBounds(tf.getX(), tf.getY() + tf.getHeight() - 5, 400, 26);
-            } else if (subjectnamecombo.getSelectedIndex() == 0) {
-                showerror(subjectnamecombo);
+            } else if (coursenamecombo.getSelectedIndex() == 0) {
+                showerror(coursenamecombo);
             } else {
                 createtablemodel();
             }
@@ -331,13 +327,13 @@ public class MarkAttandancePanel extends JPanel implements ActionListener {
     public void createtablemodel() {
         nodatafoundlabel.setVisible(false);
         Attandance a = new Attandance();
-        a.setCourceCode(new CourceData().getCourcecode(courcenamecombo.getSelectedItem() + ""));
+        a.setDeptCode(new DepartmentData().getDeptcode(deptnamecombo.getSelectedItem() + ""));
         Date date = (Date) datespinner.getValue();
         a.setAttandanceDate(new SimpleDateFormat("dd-MM-yyyy").format(date));
         a.setSemorYear(semoryearcombo.getSelectedIndex());
-        a.setSubjectName(subjectnamecombo.getSelectedItem() + "");
-        a.setSubjectCode(new SubjectData().getSubjectCode(a.getCourceCode(), a.getSemorYear(), a.getSubjectName()));
-        if (new StudentData().isSubmitted(a.getSubjectCode(), a.getAttandanceDate())) {
+        a.setCourseName(coursenamecombo.getSelectedItem() + "");
+        a.setCourseCode(new CourseData().getCourseCode(a.getDeptCode(), a.getSemorYear(), a.getCourseName()));
+        if (new StudentData().isSubmitted(a.getCourseCode(), a.getAttandanceDate())) {
             scrollPane.setVisible(false);
             submitbutton.setVisible(false);
             JOptionPane.showMessageDialog(null, "Attandance Already Submitted", "Error", JOptionPane.INFORMATION_MESSAGE);
@@ -370,10 +366,9 @@ public class MarkAttandancePanel extends JPanel implements ActionListener {
     }
 
     public DefaultTableModel createModel(Attandance a) {
-        String Column[] = {"Roll Number", "Student Name", "Subject Code", "Cource", "Sem/Year", "Attandance Date", ""};
+        String Column[] = {"Roll Number", "Student Name", "Course Code", "Dept.", "Sem/Year", "Attandance Date", ""};
         DefaultTableModel model = new DefaultTableModel(Column, 0) {
             boolean canEdit[] = {false, false, false, false, false, false, true};
-
             public Class<?> getColumnClass(int column) {
                 switch (column) {
                     case 0:
@@ -406,8 +401,8 @@ public class MarkAttandancePanel extends JPanel implements ActionListener {
             model.addRow(new Object[0]);
             model.setValueAt(list.get(i).getRollNumber(), i, 0);
             model.setValueAt(list.get(i).getStudentName(), i, 1);
-            model.setValueAt(a.getSubjectCode(), i, 2);
-            model.setValueAt(a.getCourceCode(), i, 3);
+            model.setValueAt(a.getCourseCode(), i, 2);
+            model.setValueAt(a.getDeptCode(), i, 3);
             model.setValueAt(a.getAttandanceDate(), i, 5);
             model.setValueAt(a.getSemorYear(), i, 4);
             model.setValueAt(list.get(i).getPresentStatus(), i, 6);
@@ -425,23 +420,14 @@ public class MarkAttandancePanel extends JPanel implements ActionListener {
         for (int i = 0; i < table.getRowCount(); i++) {
 
             a.setRollNumber((long) table.getValueAt(i, 0));
-            a.setSubjectCode((String) table.getValueAt(i, 2));
+            a.setCourseCode((String) table.getValueAt(i, 2));
             a.setAttandanceDate((String) table.getValueAt(i, 5));
-            a.setCourceCode(table.getValueAt(i, 3) + "");
+            a.setDeptCode(table.getValueAt(i, 3) + "");
             a.setSemorYear(Integer.parseInt(table.getValueAt(i, 4) + ""));
             a.setPresentStatus(Boolean.valueOf(table.getValueAt(i, 6) + ""));
             result = new StudentData().addStudentAttandance(a);
         }
         if (result == 1) {
-            Notification n = new Notification();
-            n.setUserProfile("Student");
-            n.setUserId("Admin");
-            n.setCourceCode(a.getCourceCode());
-            n.setSemorYear(a.getSemorYear());
-            n.setTitle("Attandance");
-            n.setMessage("Your " + new SubjectData().getSubjectName(a.getSubjectCode()) + " subject attandance on " + a.getAttandanceDate() + " is updated.");
-            n.setTime(TimeUtil.getCurrentTime());
-            new NotificationData().addNotification(n);
             JOptionPane.showMessageDialog(null, "Attandance Submitted");
             scrollPane.setVisible(false);
             submitbutton.setVisible(false);

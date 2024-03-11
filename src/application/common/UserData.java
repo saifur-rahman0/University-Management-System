@@ -6,15 +6,13 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-import application.faculty.Faculty;
+import application.teacher.Teacher;
 import application.student.Student;
 
 
 /*
  * Title : UserData.java
- * Created by : Ajaysinh Rathod
  * Purpose : For getting all the data related to user login activity
- * Mail : ajaysinhrathod1290@gmail.com
  */
 public class UserData {
 
@@ -26,7 +24,7 @@ public class UserData {
             String query = "insert into users values(?,?,?,?,?,?)";
             PreparedStatement pr = con.prepareStatement(query);
             pr.setInt(1, 0);
-            pr.setString(2, s.getCourceCode());
+            pr.setString(2, s.getDeptCode());
             pr.setInt(3, s.getSemorYear());
             pr.setString(4, s.getUserId());
             pr.setString(5, TimeUtil.getCurrentTime());
@@ -39,17 +37,17 @@ public class UserData {
         return result;
     }
 
-    public int addFacultyLoginTime(Faculty s) {
+    public int addTeacherLoginTime(Teacher s) {
         int result = 0;
         try {
             String query = "insert into users values(?,?,?,?,?,?)";
             PreparedStatement pr = con.prepareStatement(query);
             pr.setInt(1, 0);
-            pr.setString(2, s.getCourceCode());
+            pr.setString(2, s.getDeptCode());
             pr.setInt(3, s.getSemorYear());
-            pr.setString(4, s.getFacultyId() + "");
+            pr.setString(4, s.getTeacherId() + "");
             pr.setString(5, TimeUtil.getCurrentTime());
-            pr.setString(6, "Faculty");
+            pr.setString(6, "Teacher");
             result = pr.executeUpdate();
 
         } catch (Exception exp) {
@@ -61,20 +59,18 @@ public class UserData {
     public ArrayList<User> getUserInfo(String condition) {
         ArrayList<User> list = new ArrayList<User>();
         try {
-            String query = "select courcecode as 'Cource',semoryear as 'Sem/Year',userid as 'Userid',logintime as 'Login Time',userprofile as 'User Profile' from users " + condition + " order by sr_no desc";
+            String query = "select Departmentcode as 'Cource',semoryear as 'Sem/Year',userid as 'Userid',logintime as 'Login Time',userprofile as 'User Profile' from users " + condition + " order by sr_no desc";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
                 User user = new User();
-                user.setCourceCode(rs.getString(1));
+                user.setDeptCode(rs.getString(1));
                 user.setSemorYear(rs.getInt(2));
                 user.setUserId(rs.getString(3));
                 user.setLoginTime(rs.getString(4));
                 user.setUserProfile(rs.getString(5));
                 list.add(user);
-
             }
-
         } catch (Exception exp) {
             exp.printStackTrace();
         }

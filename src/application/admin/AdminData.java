@@ -51,7 +51,7 @@ public class AdminData {
     public int updateAdminDetails(Admin a) {
         int result = 0;
         try {
-            String query = "update admin set collagename=?,address=?,emailid=?,contactnumber=?,website=?,lastlogin=?,password=?,logo=?,activestatus=?";
+            String query = "update admin set collagename=?,address=?,emailid=?,contactnumber=?,website=?,lastlogin=?,password=?,logo=?";
             PreparedStatement pr = con.prepareStatement(query);
             pr.setString(1, a.getCollageName());
             pr.setString(2, a.getAddress());
@@ -61,26 +61,11 @@ public class AdminData {
             pr.setString(6, TimeUtil.getCurrentTime());
             pr.setString(7, a.getPassword());
             pr.setBytes(8, a.getProfilePicInBytes());
-            pr.setBoolean(9, a.getActiveStatus());
-
             result = pr.executeUpdate();
         } catch (Exception exp) {
             exp.printStackTrace();
         }
         return result;
-    }
-
-    public boolean isActive() {
-        try {
-            String query = "select activestatus from admin";
-            java.sql.Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            rs.next();
-            return rs.getBoolean(1);
-        } catch (Exception exp) {
-            exp.printStackTrace();
-        }
-        return false;
     }
 
     public Admin getAdminData() {
@@ -102,7 +87,6 @@ public class AdminData {
             a.setTwitterLink(rs.getString(10));
             a.setLinkedinLink(rs.getString(11));
             a.setProfilePic(rs.getBytes(12));
-            a.setActiveStatus(rs.getBoolean(13));
         } catch (Exception exp) {
             exp.printStackTrace();
         }
@@ -120,19 +104,6 @@ public class AdminData {
         return false;
     }
 
-    public int setActiveStatus(boolean status) {
-        int result = 0;
-        try {
-            String query = "update admin set activestatus=" + status;
-            PreparedStatement pr = con.prepareStatement(query);
-            result = pr.executeUpdate();
-            pr.close();
-        } catch (Exception exp) {
-            exp.printStackTrace();
-        }
-        return result;
-
-    }
 
     public Image getProfilePic() {
         try {

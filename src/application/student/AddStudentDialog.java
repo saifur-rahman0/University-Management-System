@@ -36,15 +36,13 @@ import javax.swing.border.MatteBorder;
 
 import application.admin.AdminMain;
 import application.common.HintTextField;
-import application.cource.CourceData;
-import application.cource.RollNumberData;
-import application.subject.SubjectData;
+import application.department.DepartmentData;
+import application.department.RollNumberData;
+import application.course.CourseData;
 
 /*
  * Title : AddStudentDialog.java
- * Created by : Ajaysinh Rathod
  * Purpose : For adding new student or edit student details
- * Mail : ajaysinhrathod1290@gmail.com
  */
 @SuppressWarnings("serial")
 public class AddStudentDialog extends JDialog implements ActionListener {
@@ -55,15 +53,14 @@ public class AddStudentDialog extends JDialog implements ActionListener {
     private JTextField lastnamefield;
     private JTextField emailidfield;
     private JTextField contactnumberfield;
-    private JTextField statefield;
-    private JTextField cityfield;
+    private JTextField addressfield;
     private JTextField fathernamefield;
     private JTextField fatheroccupationfield;
     private JTextField mothernamefield;
     private JTextField motheroccupationfield;
     private JLabel lblPhoto;
     private JLabel filename;
-    private JComboBox<String> courcenamecombo, semoryearcombo, optionalsubjectcombo, gendercombo;
+    private JComboBox<String> deptnamecombo, semoryearcombo, optionalcoursecombo, gendercombo;
     private JSpinner birthdatespinner;
     private JButton choosefilebutton, addstudentbutton;
     private File file;
@@ -99,7 +96,6 @@ public class AddStudentDialog extends JDialog implements ActionListener {
      *
      */
     public AddStudentDialog() {
-
         super(new JFrame(), true);
         this.setResizable(false);
         this.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -115,21 +111,21 @@ public class AddStudentDialog extends JDialog implements ActionListener {
         headerlabel.setBounds(0, 0, 834, 40);
         getContentPane().add(headerlabel);
 
-        headerlabel.setBackground(new Color(32, 178, 170));
+        headerlabel.setBackground(new Color(125, 104, 196));
         headerlabel.setOpaque(true);
         headerlabel.setForeground(new Color(255, 255, 255));
         headerlabel.setFont(new Font("Arial", Font.BOLD, 23));
         headerlabel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) Color.LIGHT_GRAY));
 
-        courcenamecombo = new JComboBox<String>(new CourceData().getCourceName());
-        courcenamecombo.setForeground(Color.DARK_GRAY);
-        courcenamecombo.setToolTipText("Cource");
-        courcenamecombo.setFont(new Font("Segoe UI Historic", Font.PLAIN, 18));
-        courcenamecombo.addActionListener(this);
-        courcenamecombo.setBackground(new Color(255, 255, 255));
-        courcenamecombo.setBounds(10, 51, 400, 40);
-        courcenamecombo.setFocusable(false);
-        getContentPane().add(courcenamecombo);
+        deptnamecombo = new JComboBox<String>(new DepartmentData().getDeptName());
+        deptnamecombo.setForeground(Color.DARK_GRAY);
+        deptnamecombo.setToolTipText("Department");
+        deptnamecombo.setFont(new Font("Segoe UI Historic", Font.PLAIN, 18));
+        deptnamecombo.addActionListener(this);
+        deptnamecombo.setBackground(new Color(255, 255, 255));
+        deptnamecombo.setBounds(10, 51, 400, 40);
+        deptnamecombo.setFocusable(false);
+        getContentPane().add(deptnamecombo);
 
         semoryearcombo = new JComboBox<String>();
         semoryearcombo.setPrototypeDisplayValue("--select prototype--");
@@ -157,23 +153,23 @@ public class AddStudentDialog extends JDialog implements ActionListener {
         lblRollNo.setBounds(20, 116, 106, 40);
         getContentPane().add(lblRollNo);
 
-        optionalsubjectcombo = new JComboBox<String>();
-        optionalsubjectcombo.setToolTipText("Optional Subject");
-        optionalsubjectcombo.setFocusable(false);
-        optionalsubjectcombo.addKeyListener(new KeyAdapter() {
+        optionalcoursecombo = new JComboBox<String>();
+        optionalcoursecombo.setToolTipText("Optional Course");
+        optionalcoursecombo.setFocusable(false);
+        optionalcoursecombo.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-                    optionalsubjectcombo.setFocusable(false);
+                    optionalcoursecombo.setFocusable(false);
                     firstnamefield.setFocusable(true);
                 }
             }
         });
-        optionalsubjectcombo.setFont(new Font("Segoe UI Historic", Font.PLAIN, 16));
-        optionalsubjectcombo.setBackground(Color.WHITE);
-        optionalsubjectcombo.setBounds(424, 116, 400, 40);
-        optionalsubjectcombo.addActionListener(this);
-        getContentPane().add(optionalsubjectcombo);
+        optionalcoursecombo.setFont(new Font("Segoe UI Historic", Font.PLAIN, 16));
+        optionalcoursecombo.setBackground(Color.WHITE);
+        optionalcoursecombo.setBounds(424, 116, 400, 40);
+        optionalcoursecombo.addActionListener(this);
+        getContentPane().add(optionalcoursecombo);
 
         firstnamefield = new HintTextField("First Name");
         firstnamefield.setToolTipText("First Name");
@@ -241,21 +237,13 @@ public class AddStudentDialog extends JDialog implements ActionListener {
         gendercombo.setFocusable(false);
         getContentPane().add(gendercombo);
 
-        statefield = new HintTextField("State");
-        statefield.setToolTipText("State");
-        statefield.setForeground(Color.DARK_GRAY);
-        statefield.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 18));
-        statefield.setColumns(10);
-        statefield.setBounds(10, 363, 400, 40);
-        getContentPane().add(statefield);
-
-        cityfield = new HintTextField(" City");
-        cityfield.setToolTipText("City");
-        cityfield.setForeground(Color.DARK_GRAY);
-        cityfield.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 18));
-        cityfield.setColumns(10);
-        cityfield.setBounds(424, 363, 400, 40);
-        getContentPane().add(cityfield);
+        addressfield = new HintTextField("Address");
+        addressfield.setToolTipText("Address");
+        addressfield.setForeground(Color.DARK_GRAY);
+        addressfield.setFont(new Font("Segoe UI Emoji", Font.PLAIN, 18));
+        addressfield.setColumns(10);
+        addressfield.setBounds(10, 363, 815, 40);
+        getContentPane().add(addressfield);
 
         fathernamefield = new HintTextField(" Father Name");
         fathernamefield.setToolTipText("Father Name");
@@ -312,7 +300,9 @@ public class AddStudentDialog extends JDialog implements ActionListener {
         choosefilebutton.addActionListener(this);
         choosefilebutton.setFocusable(false);
         choosefilebutton.setBackground(new Color(245, 245, 245));
-        choosefilebutton.setFont(new Font("Tahoma", Font.PLAIN, 14));
+        choosefilebutton.setFont(new Font("Tahoma", Font.ITALIC, 14));
+        choosefilebutton.setForeground(new Color(61, 0, 169));
+        choosefilebutton.setBorder(new LineBorder(new Color(92, 9, 134)));
         choosefilebutton.setBounds(134, 582, 114, 32);
         choosefilebutton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         getContentPane().add(choosefilebutton);
@@ -331,7 +321,7 @@ public class AddStudentDialog extends JDialog implements ActionListener {
         addstudentbutton = new JButton("Add Student");
         addstudentbutton.setBorder(new EmptyBorder(0, 0, 0, 0));
         addstudentbutton.setForeground(new Color(255, 255, 255));
-        addstudentbutton.setBackground(new Color(32, 178, 170));
+        addstudentbutton.setBackground(new Color(155, 72, 169, 255));
         addstudentbutton.setFont(new Font("Segoe UI", Font.BOLD, 15));
         addstudentbutton.addActionListener(this);
         addstudentbutton.setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -354,20 +344,18 @@ public class AddStudentDialog extends JDialog implements ActionListener {
         this();
         this.am = am;
         this.student = s;
-        courcenamecombo.setSelectedItem(s.getCourceName());
+        deptnamecombo.setSelectedItem(s.getDeptName());
         semoryearcombo.setSelectedIndex(s.getSemorYear());
         rollnumberfield.setText(s.getRollNumber() + "");
         rollnumberfield.setEditable(false);
-        optionalsubjectcombo.setSelectedItem(s.getOptionalSubject());
+        optionalcoursecombo.setSelectedItem(s.getOptionalCourse());
         firstnamefield.setText(s.getFirstName());
         lastnamefield.setText(s.getLastName());
         emailidfield.setText(s.getEmailId());
         contactnumberfield.setText(s.getContactNumber());
         birthdatespinner.setValue(s.getBirthDateInDateFormat());
-
         gendercombo.setSelectedItem(s.getGender() + "");
-        statefield.setText(s.getState());
-        cityfield.setText(s.getCity());
+        addressfield.setText(s.getAddress());
         fathernamefield.setText(s.getFatherName());
         fatheroccupationfield.setText(s.getFatherOccupation());
         mothernamefield.setText(s.getMotherName());
@@ -375,11 +363,10 @@ public class AddStudentDialog extends JDialog implements ActionListener {
         profilepiclabel.setIcon(new ImageIcon(s.getProfilePic(100, 120)));
         headerlabel.setText("Edit Student Details");
         addstudentbutton.setText("Update Student");
-        courcenamecombo.setEnabled(false);
+        deptnamecombo.setEnabled(false);
         semoryearcombo.setEnabled(false);
         rollnumberfield.setEditable(false);
-//		optionalsubjectcombo.setEnabled(false);
-        courcenamecombo.setRenderer(new DefaultListCellRenderer() {
+        deptnamecombo.setRenderer(new DefaultListCellRenderer() {
             @Override
             public void paint(Graphics g) {
                 setForeground(Color.BLACK);
@@ -395,7 +382,6 @@ public class AddStudentDialog extends JDialog implements ActionListener {
                 super.paint(g);
             }
         });
-
     }
 
     public AddStudentDialog(JTable table, StudentPanel studentpanel) {
@@ -416,12 +402,10 @@ public class AddStudentDialog extends JDialog implements ActionListener {
             fd.setVisible(true);
             String strfilename = fd.getFile();
             imagepath = fd.getDirectory() + strfilename;
-
             if (fd.getFile() != null) {
                 file = new File(imagepath);
                 long bytes = file.length();
                 if (bytes < 1048576) {
-
                     try {
                         filesize.setText(bytes / 1024 + " KB");
                         filesizenote.setForeground(new Color(46, 139, 27));
@@ -429,10 +413,8 @@ public class AddStudentDialog extends JDialog implements ActionListener {
                         Image image = ImageIO.read(file).getScaledInstance(100, 120, Image.SCALE_SMOOTH);
                         profilepiclabel.setIcon(new ImageIcon(image));
                         filename.setText(file.getName());
-
                     } catch (IOException ex) {
                         file = null;
-                        // TODO Auto-generated catch block
                         filename.setText("No file Choosen");
                         filesize.setText("");
                         filesizenote.setForeground(Color.red);
@@ -446,34 +428,32 @@ public class AddStudentDialog extends JDialog implements ActionListener {
                     filesizenote.setForeground(Color.red);
                     filesizenote.setText("Image size is greater than 1 MB");
                 }
-
             }
         }
 
-        if (e.getSource() == courcenamecombo) {
-            courcenamecombo.setFocusable(false);
+        if (e.getSource() == deptnamecombo) {
+            deptnamecombo.setFocusable(false);
             rollnumberfield.setText("");
             rollnumberfield.setEditable(true);
-            optionalsubjectcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
+            optionalcoursecombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
             rollnumberfield.setText("");
-            if (courcenamecombo.getSelectedIndex() == 0) {
+            if (deptnamecombo.getSelectedIndex() == 0) {
                 semoryearcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
 
             } else {
-                String cource = (String) courcenamecombo.getSelectedItem();
-                semoryearcombo.setModel(new DefaultComboBoxModel<String>(new CourceData().getSemorYear(cource)));
+                String dept = (String) deptnamecombo.getSelectedItem();
+                semoryearcombo.setModel(new DefaultComboBoxModel<String>(new DepartmentData().getSemorYear(dept)));
             }
-
         }
         if (e.getSource() == semoryearcombo && semoryearcombo.getSelectedIndex() > 0) {
-            String courcecode = new CourceData().getCourcecode(courcenamecombo.getSelectedItem() + "");
+            String deptcode = new DepartmentData().getDeptcode(deptnamecombo.getSelectedItem() + "");
             int sem = semoryearcombo.getSelectedIndex();
             long rollnumber = 0;
-            if (student != null && courcecode.equals(student.getCourceCode()) && sem == student.getSemorYear()) {
+            if (student != null && deptcode.equals(student.getDeptCode()) && sem == student.getSemorYear()) {
                 rollnumber = student.getRollNumber();
 
             } else {
-                rollnumber = new RollNumberData().getRollNumber(courcecode, sem);
+                rollnumber = new RollNumberData().getRollNumber(deptcode, sem);
             }
             if (rollnumber == 0) {
                 rollnumberfield.setText("");
@@ -484,20 +464,19 @@ public class AddStudentDialog extends JDialog implements ActionListener {
                 rollnumberfield.setEditable(false);
 
             }
-            String[] totalopsub = new SubjectData().getOptionalSubject(courcecode, sem);
+            String[] totalopsub = new CourseData().getOptionalCourse(deptcode, sem);
             if (totalopsub != null) {
-                optionalsubjectcombo.setModel(new DefaultComboBoxModel<String>(totalopsub));
+                optionalcoursecombo.setModel(new DefaultComboBoxModel<String>(totalopsub));
             } else {
-                optionalsubjectcombo.setModel(new DefaultComboBoxModel<String>(new String[]{"No Optional Subject"}));
-
+                optionalcoursecombo.setModel(new DefaultComboBoxModel<String>(new String[]{"No Optional Course"}));
             }
         }
 
         if (e.getSource() == addstudentbutton) {
 
-            if (courcenamecombo.getSelectedIndex() == 0) {
+            if (deptnamecombo.getSelectedIndex() == 0) {
                 Errorlabel.setVisible(true);
-                Errorlabel.setBounds(courcenamecombo.getX(), courcenamecombo.getY() + courcenamecombo.getHeight(), 400,
+                Errorlabel.setBounds(deptnamecombo.getX(), deptnamecombo.getY() + deptnamecombo.getHeight(), 400,
                         26);
             } else if (semoryearcombo.getSelectedIndex() == 0) {
                 Errorlabel.setVisible(true);
@@ -507,11 +486,11 @@ public class AddStudentDialog extends JDialog implements ActionListener {
                 Errorlabel.setVisible(true);
                 Errorlabel.setBounds(rollnumberfield.getX(), rollnumberfield.getY() + rollnumberfield.getHeight(), 400,
                         26);
-            } else if (optionalsubjectcombo.getSelectedIndex() == 0
-                    && !optionalsubjectcombo.getSelectedItem().toString().equals("No Optional Subject")) {
+            } else if (optionalcoursecombo.getSelectedIndex() == 0
+                    && !optionalcoursecombo.getSelectedItem().toString().equals("No Optional Course")) {
                 Errorlabel.setVisible(true);
-                Errorlabel.setBounds(optionalsubjectcombo.getX(),
-                        optionalsubjectcombo.getY() + optionalsubjectcombo.getHeight(), 400, 26);
+                Errorlabel.setBounds(optionalcoursecombo.getX(),
+                        optionalcoursecombo.getY() + optionalcoursecombo.getHeight(), 400, 26);
             } else if (firstnamefield.getText().isEmpty()) {
                 Errorlabel.setVisible(true);
                 Errorlabel.setBounds(firstnamefield.getX(), firstnamefield.getY() + firstnamefield.getHeight(), 400,
@@ -528,13 +507,10 @@ public class AddStudentDialog extends JDialog implements ActionListener {
             } else if (gendercombo.getSelectedIndex() == 0) {
                 Errorlabel.setVisible(true);
                 Errorlabel.setBounds(gendercombo.getX(), gendercombo.getY() + gendercombo.getHeight(), 400, 26);
-            } else if (statefield.getText().isEmpty()) {
+            } else if (addressfield.getText().isEmpty()) {
                 Errorlabel.setVisible(true);
-                Errorlabel.setBounds(statefield.getX(), statefield.getY() + statefield.getHeight(), 400, 26);
-            } else if (cityfield.getText().isEmpty()) {
-                Errorlabel.setVisible(true);
-                Errorlabel.setBounds(cityfield.getX(), cityfield.getY() + cityfield.getHeight(), 400, 26);
-            } else if (fathernamefield.getText().isEmpty()) {
+                Errorlabel.setBounds(addressfield.getX(), addressfield.getY() + addressfield.getHeight(), 400, 26);
+            }  else if (fathernamefield.getText().isEmpty()) {
                 Errorlabel.setVisible(true);
                 Errorlabel.setBounds(fathernamefield.getX(), fathernamefield.getY() + fathernamefield.getHeight(), 400, 26);
             } else if (fatheroccupationfield.getText().isEmpty()) {
@@ -550,17 +526,17 @@ public class AddStudentDialog extends JDialog implements ActionListener {
                 try {
                     Student s = new Student();
 
-                    s.setCourceCode(new CourceData().getCourcecode(courcenamecombo.getSelectedItem() + ""));
+                    s.setDeptCode(new DepartmentData().getDeptcode(deptnamecombo.getSelectedItem() + ""));
                     s.setSemorYear(semoryearcombo.getSelectedIndex());
                     s.setRollNumber(Long.parseLong(rollnumberfield.getText()));
-                    int rollnumberexist = new RollNumberData().isExist(s.getCourceCode(), s.getSemorYear(), s.getRollNumber());
+                    int rollnumberexist = new RollNumberData().isExist(s.getDeptCode(), s.getSemorYear(), s.getRollNumber());
                     if (rollnumberexist > 0) {
                         if (!(student != null && student.getRollNumber() == s.getRollNumber())) {
                             throw new RollNumberAvailableException();
                         }
 
                     }
-                    s.setOptionalSubject(optionalsubjectcombo.getSelectedItem().toString());
+                    s.setOptionalCourse(optionalcoursecombo.getSelectedItem().toString());
                     s.setFirstName(firstnamefield.getText());
                     s.setLastName(lastnamefield.getText());
                     s.setEmailId(emailidfield.getText());
@@ -569,8 +545,7 @@ public class AddStudentDialog extends JDialog implements ActionListener {
                     s.setGender(gendercombo.getSelectedItem() + "");
                     Date date = (Date) birthdatespinner.getValue();
                     s.setBirthDate(new SimpleDateFormat("dd-MM-yyyy").format(date));
-                    s.setState(statefield.getText());
-                    s.setCity(cityfield.getText());
+                    s.setAddress(addressfield.getText());
                     s.setFatherName(fathernamefield.getText());
                     s.setMotherName(mothernamefield.getText());
                     s.setFatherOccupation(fatheroccupationfield.getText());
@@ -597,7 +572,6 @@ public class AddStudentDialog extends JDialog implements ActionListener {
                         result = new StudentData().updateStudentData(student, s);
                     }
                     if (result > 0) {
-
                         if (sp != null) {
                             if (sp.photoviewscrollpane != null && sp.photoviewscrollpane.isVisible()) {
                                 sp.createtablemodel();
@@ -605,15 +579,12 @@ public class AddStudentDialog extends JDialog implements ActionListener {
                             } else {
                                 sp.createtablemodel();
                             }
-
                         } else if (am != null && student != null) {
-
                             am.viewstudentpanel.setVisible(false);
                             am.viewstudentpanel = new ViewStudentPanel(s, am, am.viewstudentpanel.lastpanel);
                             am.viewstudentpanel.setVisible(true);
                             am.viewstudentpanel.setLocation(am.panelx, am.panely);
                             am.getContentPane().add(am.viewstudentpanel);
-
                         }
                         this.dispose();
                     }
@@ -631,15 +602,11 @@ public class AddStudentDialog extends JDialog implements ActionListener {
                     exp.printStackTrace();
 
                 } catch (Exception e1) {
-
-                    // TODO Auto-generated catch block
                     e1.printStackTrace();
                 }
             }
         }
-
     }
-
 }
 
 @SuppressWarnings("serial")

@@ -5,14 +5,10 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.EventQueue;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,16 +23,14 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.ColorUIResource;
-import application.chat.ChatData;
-import application.chat.ChatMainPanel;
 import application.common.DataBaseConnection;
 import application.common.HomePanel;
 import application.common.SearchPanel;
 import application.common.TimeUtil;
 import application.common.UsersPanel;
-import application.cource.CourcePanel;
-import application.faculty.FacultyPanel;
-import application.faculty.ViewFacultyPanel;
+import application.department.DepartmentPanel;
+import application.teacher.TeacherPanel;
+import application.teacher.ViewTeacherPanel;
 import application.login.LoginPageFrame;
 import application.student.AttandanceReportPanel;
 import application.student.EnterMarksPanel;
@@ -45,8 +39,8 @@ import application.student.MarkSheetPanel;
 import application.student.MarkSheetReportPanel;
 import application.student.StudentPanel;
 import application.student.ViewStudentPanel;
-import application.subject.AssignSubjectPanel;
-import application.subject.SubjectPanel;
+import application.course.AssignCoursePanel;
+import application.course.CoursePanel;
 
 public class AdminMain extends JFrame implements ActionListener {
 
@@ -57,11 +51,11 @@ public class AdminMain extends JFrame implements ActionListener {
     private JButton homebutton;
     private JButton courcebutton;
     private JButton studentsbutton;
-    private JButton subjectbutton;
-    private JButton faculitiesbutton;
+    private JButton coursebutton;
+    private JButton deptbutton;
     private JButton usersbutton;
     private JButton entermarksbutton;
-    private JButton assignsubjectbutton;
+    private JButton assigncoursebutton;
     private JButton markattandancebutton;
     private JButton attandancereportbutton;
     private JButton searchbutton;
@@ -72,16 +66,16 @@ public class AdminMain extends JFrame implements ActionListener {
     private Color buttonbcolor = new Color(155, 72, 169, 255);
     private Color buttonfcolor = Color.DARK_GRAY;
     private Font buttonfont = new Font("Tw Cen MT", Font.PLAIN, 20);
-    private CourcePanel courcepanel;
-    private SubjectPanel subjectpanel;
+    private DepartmentPanel courcepanel;
+    private CoursePanel coursepanel;
     private HomePanel homepanel;
 
     public StudentPanel studentpanel;
     public ViewStudentPanel viewstudentpanel;
     public MarkSheetPanel marksheetpanel;
     public JScrollPane marksheetpanelscroll;
-    public ViewFacultyPanel viewfacultypanel;
-    public AssignSubjectPanel assignsubjectpanel;
+    public ViewTeacherPanel viewteacherpanel;
+    public AssignCoursePanel assignCoursepanel;
     public EnterMarksPanel entermarkspanel;
     public JScrollPane entermarkspanelscroll;
     private MarkAttandancePanel markattandancepanel;
@@ -90,40 +84,20 @@ public class AdminMain extends JFrame implements ActionListener {
     public JScrollPane attandancereportpanelscroll;
     public MarkSheetReportPanel marksheetreportpanel;
     public JScrollPane marksheetreportpanelscroll;
-    public FacultyPanel facultypanel;
+    public TeacherPanel teacherpanel;
     public AdminProfilePanel adminprofilepanel;
     public SearchPanel searchpanel;
-//    public ChatMainPanel chatmainpanel;
     public UsersPanel userspanel;
 
     public int panely = 0, panelx = 250;
 
     private Admin a;
     private String lastlogin;
-    private JButton chatbutton;
     private int row = 0;
     private JButton logoutbutton;
-    ActionListener setActive = new ActionListener() {
-        public void actionPerformed(ActionEvent arg0) {
-            int result = new AdminData().setActiveStatus(a.getActiveStatus());
 
-//                if (result > 0) {
-//                    chat = new ChatData().getUndreadMessageCountAdmin();
-//                    if (chat > 0) {
-//                        totalnewchatmessage.setText(chat > 999 ? "999+" : chat + "");
-//                        totalnewchatmessage.setVisible(true);
-//                        totalnewchatmessage.setIcon(new ImageIcon(messagecount.getScaledInstance(26 + totalnewchatmessage.getText().length(), 26, Image.SCALE_SMOOTH)));
-//                    } else {
-//                        totalnewchatmessage.setVisible(false);
-//                    }
-//                }
-        }
-    };
-    private Timer timer = new Timer(2000, setActive);
+    private Timer timer = new Timer(2000, this);
     private JButton marksheetreportbutton;
-    private JLabel totalnewchatmessage;
-    private Image messagecount;
-    private int chat;
 
     /**
      * Launch the application.
@@ -165,13 +139,9 @@ public class AdminMain extends JFrame implements ActionListener {
         UIManager.put("ComboBox.selectionForeground", new ColorUIResource(frColor));
         UIManager.put("ScrollBarUI", "com.sun.java.swing.plaf.windows.WindowsScrollBarUI");
 
-//        try {
-//            messagecount = ImageIO.read(new File("./assets/messagecount.png"));
-//        } catch (IOException exp) {
-//            exp.printStackTrace();
-//        }
         this.setResizable(false);
         setTitle("University Data Management");
+        setIconImage(new AdminData().getProfilePic());
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         contentPane = new JPanel();
@@ -223,20 +193,20 @@ public class AdminMain extends JFrame implements ActionListener {
         sidebarpanel.add(homebutton);
         btn = homebutton;
 
-        courcebutton = createButton("Cources");
+        courcebutton = createButton("Departments");
         sidebarpanel.add(courcebutton);
 
         studentsbutton = createButton("Students");
         sidebarpanel.add(studentsbutton);
 
-        subjectbutton = createButton("Subjects");
-        sidebarpanel.add(subjectbutton);
+        coursebutton = createButton("Courses");
+        sidebarpanel.add(coursebutton);
 
-        faculitiesbutton = createButton("Faculities");
-        sidebarpanel.add(faculitiesbutton);
+        deptbutton = createButton("Teachers");
+        sidebarpanel.add(deptbutton);
 
-        assignsubjectbutton = createButton("Assign Subject");
-        sidebarpanel.add(assignsubjectbutton);
+        assigncoursebutton = createButton("Assign Course");
+        sidebarpanel.add(assigncoursebutton);
 
         entermarksbutton = createButton("Enter Marks");
         sidebarpanel.add(entermarksbutton);
@@ -250,31 +220,6 @@ public class AdminMain extends JFrame implements ActionListener {
         attandancereportbutton = createButton("Attandance Report");
         sidebarpanel.add(attandancereportbutton);
 
-        /*
-        chatbutton = createButton("Chat");
-        chatbutton.setLayout(new BorderLayout());
-        sidebarpanel.add(chatbutton);
-        chat = new ChatData().getUndreadMessageCountAdmin();
-        totalnewchatmessage = new JLabel();
-        totalnewchatmessage.setSize(60, 30);
-        totalnewchatmessage.setFont(new Font("Arial", Font.BOLD, 12));
-        totalnewchatmessage.setForeground(Color.white);
-        totalnewchatmessage.setHorizontalTextPosition(JLabel.CENTER);
-        totalnewchatmessage.setVerticalTextPosition(JLabel.CENTER);
-        chatbutton.add(totalnewchatmessage, BorderLayout.LINE_END);
-        if (chat > 0) {
-            totalnewchatmessage.setText(chat > 999 ? "999+" : chat + "");
-            totalnewchatmessage.setVisible(true);
-            totalnewchatmessage.setIcon(new ImageIcon(messagecount.getScaledInstance(26 + totalnewchatmessage.getText().length(), 26, Image.SCALE_SMOOTH)));
-        }
-         */
-//		ActionListener refreshchat=e->
-//		{
-//		
-//		};
-//		Timer activechattimer=new Timer(2000,refreshchat);
-//		activechattimer.start();
-//		
         searchbutton = createButton("Search");
         sidebarpanel.add(searchbutton);
 
@@ -297,7 +242,6 @@ public class AdminMain extends JFrame implements ActionListener {
         lastlogin = a.getLastLogin();
         homepanel.setLastLogin(lastlogin);
         a.setLastLogin(TimeUtil.getCurrentTime());
-//        a.setActiveStatus(true);
         new AdminData().updateAdminDetails(a);
 
         this.addWindowListener(new WindowAdapter() {
@@ -322,20 +266,20 @@ public class AdminMain extends JFrame implements ActionListener {
         btn.setForeground(buttonfcolor);
         btn.setFont(buttonfont);
         btn.setDisabledIcon(new ImageIcon(""));
-        btn.setIcon(new ImageIcon("./assets/" + btn.getName() + "dac.png"));
+        btn.setIcon(new ImageIcon("./assets/sidebar/" + btn.getName() + "dac.png"));
         btn = button;
         btn.setForeground(Color.white);
         btn.setContentAreaFilled(true);
         btn.setBackground(buttonbcolor);
         btn.setFont(new Font("Tw Cen MT", Font.BOLD, 24));
-        btn.setIcon(new ImageIcon("./assets/" + btn.getName() + "ac.png"));
+        btn.setIcon(new ImageIcon("./assets/sidebar/" + btn.getName() + "ac.png"));
         disablepanel();
     }
 
     public JButton createButton(String text, String name) {
         JButton button = createButton(text);
         button.setName(name);
-        button.setIcon(new ImageIcon("./assets/" + button.getName() + "dac.png"));
+        button.setIcon(new ImageIcon("./assets/sidebar/" + button.getName() + "dac.png"));
         return button;
     }
 
@@ -351,7 +295,7 @@ public class AdminMain extends JFrame implements ActionListener {
         button.setBorder(new EmptyBorder(0, 4, 0, 0));
         button.setText(text);
         button.setName(text);
-        button.setIcon(new ImageIcon("./assets/" + button.getName() + "dac.png"));
+        button.setIcon(new ImageIcon("./assets/sidebar/" + button.getName() + "dac.png"));
         button.addActionListener(this);
         button.setIconTextGap(13);
         button.setLocation(0, row);
@@ -365,18 +309,18 @@ public class AdminMain extends JFrame implements ActionListener {
             homepanel.setVisible(false);
         } else if (courcepanel != null && courcepanel.isVisible()) {
             courcepanel.setVisible(false);
-        } else if (subjectpanel != null && subjectpanel.isVisible()) {
-            subjectpanel.setVisible(false);
+        } else if (coursepanel != null && coursepanel.isVisible()) {
+            coursepanel.setVisible(false);
         } else if (studentpanel != null && studentpanel.isVisible()) {
             studentpanel.setVisible(false);
         } else if (viewstudentpanel != null && viewstudentpanel.isVisible()) {
             viewstudentpanel.setVisible(false);
-        } else if (facultypanel != null && facultypanel.isVisible()) {
-            facultypanel.setVisible(false);
-        } else if (viewfacultypanel != null && viewfacultypanel.isVisible()) {
-            viewfacultypanel.setVisible(false);
-        } else if (assignsubjectpanel != null && assignsubjectpanel.isVisible()) {
-            assignsubjectpanel.setVisible(false);
+        } else if (teacherpanel != null && teacherpanel.isVisible()) {
+            teacherpanel.setVisible(false);
+        } else if (viewteacherpanel != null && viewteacherpanel.isVisible()) {
+            viewteacherpanel.setVisible(false);
+        } else if (assignCoursepanel != null && assignCoursepanel.isVisible()) {
+            assignCoursepanel.setVisible(false);
         } else if (entermarkspanelscroll != null && entermarkspanelscroll.isVisible()) {
             entermarkspanelscroll.setVisible(false);
         } else if (marksheetpanelscroll != null && marksheetpanelscroll.isVisible()) {
@@ -391,23 +335,9 @@ public class AdminMain extends JFrame implements ActionListener {
             adminprofilepanel.setVisible(false);
         } else if (searchpanel != null && searchpanel.isVisible()) {
             searchpanel.setVisible(false);
-        } //else if (chatmainpanel != null && chatmainpanel.isVisible()) {
-        //
-        //            try {
-        //
-        //                if (chatmainpanel.chatpanel.subchatpanel != null && chatmainpanel.chatpanel.subchatpanel.socket != null && !chatmainpanel.chatpanel.subchatpanel.socket.isClosed()) {
-        //                    chatmainpanel.chatpanel.subchatpanel.socket.close();
-        //                }
-        //            } catch (IOException e) {
-        //                // TODO Auto-generated catch block
-        //                e.printStackTrace();
-        //            }
-        //            chatmainpanel.setVisible(false);
-        //        }
-        else if (userspanel != null && userspanel.isVisible()) {
+        } else if (userspanel != null && userspanel.isVisible()) {
             userspanel.setVisible(false);
         }
-
     }
 
     @Override
@@ -426,19 +356,19 @@ public class AdminMain extends JFrame implements ActionListener {
             homepanel.setLastLogin(lastlogin);
         } else if (source == courcebutton) {
             activeButton(courcebutton);
-            courcepanel = new CourcePanel();
+            courcepanel = new DepartmentPanel();
             courcepanel.setLocation(panelx, panely);
             courcepanel.setFocusable(true);
             contentPane.add(courcepanel);
             courcepanel.setVisible(true);
 
-        } else if (source == subjectbutton) {
-            activeButton(subjectbutton);
-            subjectpanel = new SubjectPanel(this);
-            subjectpanel.setLocation(panelx, panely);
-            subjectpanel.setFocusable(true);
-            contentPane.add(subjectpanel);
-            subjectpanel.setVisible(true);
+        } else if (source == coursebutton) {
+            activeButton(coursebutton);
+            coursepanel = new CoursePanel(this);
+            coursepanel.setLocation(panelx, panely);
+            coursepanel.setFocusable(true);
+            contentPane.add(coursepanel);
+            coursepanel.setVisible(true);
 
         } else if (source == studentsbutton) {
             activeButton(studentsbutton);
@@ -448,21 +378,20 @@ public class AdminMain extends JFrame implements ActionListener {
             studentpanel.setFocusable(true);
             contentPane.add(studentpanel);
 
-        } else if (source == faculitiesbutton) {
-            activeButton(faculitiesbutton);
-            facultypanel = new FacultyPanel(this);
-            facultypanel.setLocation(panelx, panely);
-            facultypanel.setVisible(true);
-            facultypanel.setFocusable(true);
-            contentPane.add(facultypanel);
-
-        } else if (source == assignsubjectbutton) {
-            activeButton(assignsubjectbutton);
-            assignsubjectpanel = new AssignSubjectPanel(this);
-            assignsubjectpanel.setLocation(panelx, panely);
-            assignsubjectpanel.setVisible(true);
-            assignsubjectpanel.setFocusable(true);
-            contentPane.add(assignsubjectpanel);
+        } else if (source == deptbutton) {
+            activeButton(deptbutton);
+            teacherpanel = new TeacherPanel(this);
+            teacherpanel.setLocation(panelx, panely);
+            teacherpanel.setVisible(true);
+            teacherpanel.setFocusable(true);
+            contentPane.add(teacherpanel);
+        } else if (source == assigncoursebutton) {
+            activeButton(assigncoursebutton);
+            assignCoursepanel = new AssignCoursePanel(this);
+            assignCoursepanel.setLocation(panelx, panely);
+            assignCoursepanel.setVisible(true);
+            assignCoursepanel.setFocusable(true);
+            contentPane.add(assignCoursepanel);
 
         } else if (source == entermarksbutton) {
             activeButton(entermarksbutton);
@@ -520,16 +449,7 @@ public class AdminMain extends JFrame implements ActionListener {
             userspanel.setVisible(true);
             userspanel.setLocation(this.panelx, this.panely);
             contentPane.add(userspanel);
-        } //        else if (source == chatbutton) {
-        //
-        //            activeButton(chatbutton);
-        //            chatmainpanel = new ChatMainPanel(this);
-        //            chatmainpanel.setLocation(this.panelx, this.panely);
-        //            chatmainpanel.setVisible(true);
-        //            contentPane.add(chatmainpanel);
-        //
-        //        }
-        else if (source == searchbutton) {
+        } else if (source == searchbutton) {
             activeButton(searchbutton);
             searchpanel = new SearchPanel(this);
             searchpanel.setLocation(this.panelx, this.panely);
@@ -546,9 +466,7 @@ public class AdminMain extends JFrame implements ActionListener {
         } else if (source == exitbutton) {
             int result = JOptionPane.showConfirmDialog(null, "Do you want to exit this application ?", "Exit", JOptionPane.INFORMATION_MESSAGE);
             if (result == JOptionPane.YES_OPTION) {
-//                a.setActiveStatus(false);
                 timer.stop();
-//                new AdminData().setActiveStatus(false);
                 this.disablepanel();
                 DataBaseConnection.closeConnection();
                 System.exit(0);
@@ -556,9 +474,7 @@ public class AdminMain extends JFrame implements ActionListener {
         } else if (source == logoutbutton) {
             int result = JOptionPane.showConfirmDialog(null, "Do you want to logout this application ?", "Logout", JOptionPane.INFORMATION_MESSAGE);
             if (result == JOptionPane.YES_OPTION) {
-//                a.setActiveStatus(false);
                 timer.stop();
-//                new AdminData().setActiveStatus(false);
                 LoginPageFrame loginpageframe = new LoginPageFrame();
                 loginpageframe.setVisible(true);
                 loginpageframe.setLocationRelativeTo(null);

@@ -13,11 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import application.cource.CourceData;
-import application.faculty.Faculty;
-import application.faculty.FacultyData;
-import application.faculty.FacultyPanel;
-import application.faculty.ViewFacultyPanel;
+import application.department.DepartmentData;
+import application.teacher.Teacher;
+import application.teacher.TeacherData;
+import application.teacher.TeacherPanel;
+import application.teacher.ViewTeacherPanel;
 import application.student.Student;
 import application.student.StudentData;
 import application.student.StudentPanel;
@@ -41,7 +41,7 @@ public class PhotoViewPanel extends JPanel {
     int maxphotosinrow = 3;
     int incrementx = 0;
     int incrementy = 0;
-    FacultyPanel fp;
+    TeacherPanel fp;
     StudentPanel sp;
 
     /**
@@ -66,11 +66,11 @@ public class PhotoViewPanel extends JPanel {
         return new Dimension(1116, row * (incrementy));
     }
 
-    public PhotoViewPanel(FacultyPanel facultyPanel, int maxphoto) {
+    public PhotoViewPanel(TeacherPanel teacherPanel, int maxphoto) {
 
         this.maxphotosinrow = maxphoto;
         this.setFocusable(true);
-        this.fp = facultyPanel;
+        this.fp = teacherPanel;
         xpos = new int[maxphotosinrow];
         incrementx = (4 * 270) / maxphotosinrow;
         int start = 20;
@@ -103,46 +103,46 @@ public class PhotoViewPanel extends JPanel {
             }
             for (int j = 0; j < totalcolumn; j++) {
                 int fid = Integer.parseInt(fp.table.getValueAt(index - 1, 0) + "");
-                Faculty f = new FacultyData().getFacultyInfobyId(fid);
+                Teacher f = new TeacherData().getTeacherInfobyId(fid);
                 panel[i][j] = new JPanel();
                 panel[i][j].setBackground(Color.WHITE);
                 panel[i][j].setBounds(xpos[j], column, incrementx - 20, incrementy - 10);
                 panel[i][j].setVisible(true);
-                panel[i][j].setToolTipText(f.getFacultyName());
+                panel[i][j].setToolTipText(f.getTeacherName());
                 add(panel[i][j]);
                 panel[i][j].setLayout(null);
-                panel[i][j].setName(f.getFacultyId() + "");
+                panel[i][j].setName(f.getTeacherId() + "");
                 panel[i][j].setCursor(new Cursor(Cursor.HAND_CURSOR));
                 panel[i][j].addMouseListener(new MouseAdapter() {
                     @Override
                     public void mousePressed(MouseEvent e) {
                         if (e.getButton() == MouseEvent.BUTTON1) {
 
-                            Faculty f = new FacultyData().getFacultyInfobyId(Integer.parseInt(e.getComponent().getName()));
+                            Teacher f = new TeacherData().getTeacherInfobyId(Integer.parseInt(e.getComponent().getName()));
                             if (fp.am != null) {
-                                fp.am.viewfacultypanel = new ViewFacultyPanel(f, fp.am, fp);
-                                fp.am.viewfacultypanel.setVisible(true);
-                                fp.am.facultypanel.setVisible(false);
-                                fp.am.viewfacultypanel.setLocation(fp.am.panelx, fp.am.panely);
-                                fp.am.viewfacultypanel.setVisible(true);
-                                fp.am.viewfacultypanel.setFocusable(true);
-                                fp.am.contentPane.add(fp.am.viewfacultypanel);
+                                fp.am.viewteacherpanel = new ViewTeacherPanel(f, fp.am, fp);
+                                fp.am.viewteacherpanel.setVisible(true);
+                                fp.am.teacherpanel.setVisible(false);
+                                fp.am.viewteacherpanel.setLocation(fp.am.panelx, fp.am.panely);
+                                fp.am.viewteacherpanel.setVisible(true);
+                                fp.am.viewteacherpanel.setFocusable(true);
+                                fp.am.contentPane.add(fp.am.viewteacherpanel);
                             } else if (fp.fm != null) {
-                                fp.fm.viewfacultypanel = new ViewFacultyPanel(f, fp.fm, fp);
-                                fp.fm.viewfacultypanel.setVisible(true);
-                                fp.fm.facultypanel.setVisible(false);
-                                fp.fm.viewfacultypanel.setLocation(fp.fm.panelx, fp.fm.panely);
-                                fp.fm.viewfacultypanel.setVisible(true);
-                                fp.fm.viewfacultypanel.setFocusable(true);
-                                fp.fm.contentPane.add(fp.fm.viewfacultypanel);
+                                fp.fm.viewteacherpanel = new ViewTeacherPanel(f, fp.fm, fp);
+                                fp.fm.viewteacherpanel.setVisible(true);
+                                fp.fm.teacherpanel.setVisible(false);
+                                fp.fm.viewteacherpanel.setLocation(fp.fm.panelx, fp.fm.panely);
+                                fp.fm.viewteacherpanel.setVisible(true);
+                                fp.fm.viewteacherpanel.setFocusable(true);
+                                fp.fm.contentPane.add(fp.fm.viewteacherpanel);
                             } else if (fp.sm != null) {
-                                fp.sm.viewfacultypanel = new ViewFacultyPanel(f, fp.sm, fp);
-                                fp.sm.viewfacultypanel.setVisible(true);
-                                fp.sm.facultypanel.setVisible(false);
-                                fp.sm.viewfacultypanel.setLocation(fp.sm.panelx, fp.sm.panely);
-                                fp.sm.viewfacultypanel.setVisible(true);
-                                fp.sm.viewfacultypanel.setFocusable(true);
-                                fp.sm.contentPane.add(fp.sm.viewfacultypanel);
+                                fp.sm.viewteacherpanel = new ViewTeacherPanel(f, fp.sm, fp);
+                                fp.sm.viewteacherpanel.setVisible(true);
+                                fp.sm.teacherpanel.setVisible(false);
+                                fp.sm.viewteacherpanel.setLocation(fp.sm.panelx, fp.sm.panely);
+                                fp.sm.viewteacherpanel.setVisible(true);
+                                fp.sm.viewteacherpanel.setFocusable(true);
+                                fp.sm.contentPane.add(fp.sm.viewteacherpanel);
                             }
                         }
                     }
@@ -160,7 +160,7 @@ public class PhotoViewPanel extends JPanel {
 
                 namelabel[i][j] = new JLabel();
                 namelabel[i][j].setHorizontalAlignment(SwingConstants.CENTER);
-                namelabel[i][j].setText(f.getFacultyName());
+                namelabel[i][j].setText(f.getTeacherName());
                 namelabel[i][j].setFont(new Font("Tahoma", Font.BOLD, changeNameFont()));
                 namelabel[i][j].setBounds(0, profilepiclabel[i][j].getHeight() + 5, panel[i][j].getWidth(), 22);
                 panel[i][j].add(namelabel[i][j]);
@@ -219,12 +219,12 @@ public class PhotoViewPanel extends JPanel {
                 totalcolumn = lastcolumn;
             }
             for (int j = 0; j < totalcolumn; j++) {
-                String courcecode = sp.table.getValueAt(index - 1, 0) + "";
+                String deptcode = sp.table.getValueAt(index - 1, 0) + "";
                 String strsem = sp.table.getValueAt(index - 1, 4) + "";
                 int sem = Integer.parseInt(strsem.substring(strsem.indexOf('-') + 1));
                 String strroll = sp.table.getValueAt(index - 1, 1) + "";
                 long rollnumber = Long.parseLong(strroll);
-                Student s = new StudentData().getStudentDetails(courcecode, sem, rollnumber);
+                Student s = new StudentData().getStudentDetails(deptcode, sem, rollnumber);
                 panel[i][j] = new JPanel();
                 panel[i][j].setBackground(Color.WHITE);
                 panel[i][j].setBounds(xpos[j], column, incrementx - 20, incrementy - 10);
@@ -289,7 +289,7 @@ public class PhotoViewPanel extends JPanel {
                 panel[i][j].add(namelabel[i][j]);
                 degreelabel[i][j] = new JLabel();
                 degreelabel[i][j].setVerticalAlignment(SwingConstants.TOP);
-                degreelabel[i][j].setText(new CourceData().getsemoryear(s.getCourceCode()) + "-" + s.getSemorYear() + " " + " (" + s.getCourceCode() + ")");
+                degreelabel[i][j].setText(new DepartmentData().getsemoryear(s.getDeptCode()) + "-" + s.getSemorYear() + " " + " (" + s.getDeptCode() + ")");
                 degreelabel[i][j].setHorizontalAlignment(SwingConstants.CENTER);
                 degreelabel[i][j].setFont(new Font("Tahoma", Font.PLAIN, changeDegreeFont()));
                 degreelabel[i][j].setBounds(0, profilepiclabel[i][j].getHeight() + 25, panel[i][j].getWidth(), 22);

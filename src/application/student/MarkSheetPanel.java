@@ -28,28 +28,27 @@ import javax.swing.table.DefaultTableModel;
 
 import application.admin.AdminMain;
 import application.common.PrintMarksheetDialog;
-import application.cource.CourceData;
-import application.faculty.FacultyMain;
+import application.course.CourseData;
+import application.department.DepartmentData;
+import application.teacher.TeacherMain;
 
 /*
- * Created by : Ajaysinh Rathod
  * Purpose : For displaying student marksheet
  */
 @SuppressWarnings("serial")
 public class MarkSheetPanel extends JPanel {
-
     private JTable table;
-    private int totalsubject = 0;
+    private int totalcourse = 0;
     private Student s;
     private JLabel rollnumberlabel;
     private JLabel studentnamelabel;
     private JLabel profilepiclabel;
-    private JLabel courcenamelabel;
+    private JLabel deptnamelabel;
     private JScrollPane tableviewpanel;
     private int rowsize = 50;
     public JButton downloadbutton;
     private JButton backbutton;
-    public String defaultDownloadPath = "C:\\Users\\Sohansinh Rathod\\Downloads\\";
+    public String defaultDownloadPath = "C:\\Users\\Saifur Rahman\\Downloads\\";
     private JLabel notdeclaredlabel;
     private JPanel studentdetailspanel;
     private JPanel headerpanel;
@@ -60,7 +59,7 @@ public class MarkSheetPanel extends JPanel {
      */
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(1096, 460 + (totalsubject * rowsize));
+        return new Dimension(1096, 460 + (totalcourse * rowsize));
 
     }
 
@@ -75,8 +74,6 @@ public class MarkSheetPanel extends JPanel {
         downloadbutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-
-                // TODO Auto-generated method stub
                 PrintMarksheetDialog ppd = new PrintMarksheetDialog(am, s);
                 ppd.setLocationRelativeTo(null);
                 ppd.setVisible(true);
@@ -85,25 +82,20 @@ public class MarkSheetPanel extends JPanel {
         );
     }
 
-    public MarkSheetPanel(FacultyMain fm, Student s) {
+    public MarkSheetPanel(TeacherMain tm, Student s) {
         this(s);
         backbutton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                fm.marksheetpanelscroll.setVisible(false);
-                fm.viewstudentpanel.setVisible(true);
-
+                tm.marksheetpanelscroll.setVisible(false);
+                tm.viewstudentpanel.setVisible(true);
             }
         });
         downloadbutton.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent arg0) {
-
-                // TODO Auto-generated method stub
-                PrintMarksheetDialog ppd = new PrintMarksheetDialog(fm, s);
+                PrintMarksheetDialog ppd = new PrintMarksheetDialog(tm, s);
                 ppd.setLocationRelativeTo(null);
                 ppd.setVisible(true);
-
             }
         }
         );
@@ -115,7 +107,6 @@ public class MarkSheetPanel extends JPanel {
         downloadbutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                // TODO Auto-generated method stub
                 PrintMarksheetDialog ppd = new PrintMarksheetDialog(sm, s);
                 ppd.setLocationRelativeTo(null);
                 ppd.setVisible(true);
@@ -195,11 +186,11 @@ public class MarkSheetPanel extends JPanel {
         lblMarksheet.setFont(new Font("Segoe UI", Font.BOLD, 30));
 
         backbutton = new JButton("Back");
-        backbutton.setContentAreaFilled(false);
+        //backbutton.setContentAreaFilled(false);
         backbutton.setBorder(new LineBorder(new Color(92, 9, 134)));
         backbutton.setIcon(new ImageIcon(".\\assets\\back.png"));
         backbutton.setFocusable(false);
-        backbutton.setForeground(Color.WHITE);
+        backbutton.setForeground(new Color(61, 0, 169));
         backbutton.setFont(new Font("Segoe UI", Font.BOLD, 16));
         backbutton.setBackground(new Color(255, 255, 255, 255));
         backbutton.setBounds(10, 47, 88, 36);
@@ -262,12 +253,12 @@ public class MarkSheetPanel extends JPanel {
         profilepiclabel.setHorizontalAlignment(SwingConstants.CENTER);
         profilepiclabel.setFont(new Font("Tahoma", Font.PLAIN, 11));
 
-        JLabel courcelbl = new JLabel("Cource   :");
-        courcelbl.setBounds(10, 68, 176, 46);
-        studentdetailspanel.add(courcelbl);
-        courcelbl.setHorizontalAlignment(SwingConstants.RIGHT);
-        courcelbl.setForeground(Color.BLACK);
-        courcelbl.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+        JLabel deptlbl = new JLabel("Departemnt   :");
+        deptlbl.setBounds(10, 68, 176, 46);
+        studentdetailspanel.add(deptlbl);
+        deptlbl.setHorizontalAlignment(SwingConstants.RIGHT);
+        deptlbl.setForeground(Color.BLACK);
+        deptlbl.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 
         JLabel lblSemesteryear = new JLabel("Semester/Year  :");
         lblSemesteryear.setBounds(462, 68, 152, 46);
@@ -276,13 +267,13 @@ public class MarkSheetPanel extends JPanel {
         lblSemesteryear.setForeground(Color.BLACK);
         lblSemesteryear.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 
-        courcenamelabel = new JLabel(s.getCourceName());
-        courcenamelabel.setBounds(203, 68, 263, 46);
-        studentdetailspanel.add(courcenamelabel);
-        courcenamelabel.setHorizontalAlignment(SwingConstants.LEFT);
-        courcenamelabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
+        deptnamelabel = new JLabel(s.getDeptName());
+        deptnamelabel.setBounds(203, 68, 263, 46);
+        studentdetailspanel.add(deptnamelabel);
+        deptnamelabel.setHorizontalAlignment(SwingConstants.LEFT);
+        deptnamelabel.setFont(new Font("Segoe UI", Font.BOLD, 20));
 
-        JLabel semoryearlabel = new JLabel(new CourceData().getsemoryear(s.getCourceCode()) + "-" + s.getSemorYear() + " (" + s.getCourceCode() + ")");
+        JLabel semoryearlabel = new JLabel(new DepartmentData().getsemoryear(s.getDeptCode()) + "-" + s.getSemorYear() + " (" + s.getDeptCode() + ")");
         semoryearlabel.setBounds(623, 68, 252, 46);
         studentdetailspanel.add(semoryearlabel);
         semoryearlabel.setHorizontalAlignment(SwingConstants.LEFT);
@@ -342,66 +333,109 @@ public class MarkSheetPanel extends JPanel {
         cellrenderer.setHorizontalAlignment(JLabel.CENTER);
         table.getColumnModel().getColumn(0).setCellRenderer(cellrenderer);
 
-        if ((totalsubject - 1) == 0) {
+        if ((totalcourse - 1) == 0) {
             table.setSelectionBackground(Color.white);
             table.setSelectionForeground(Color.DARK_GRAY);
         }
-        table.addRowSelectionInterval(totalsubject - 1, totalsubject - 1);
+        table.addRowSelectionInterval(totalcourse - 1, totalcourse - 1);
         table.getColumnModel().getColumn(0).setCellRenderer(new CellRenderer());
         table.getColumnModel().getColumn(1).setCellRenderer(new CellRenderer());
         table.getColumnModel().getColumn(2).setCellRenderer(new CellRenderer());
         table.getColumnModel().getColumn(3).setCellRenderer(new CellRenderer());
-        table.getColumnModel().getColumn(4).setCellRenderer(new CellRenderer());
-        table.getColumnModel().getColumn(5).setCellRenderer(new CellRenderer());
-
     }
 
     private void createtablemodel() {
-
-        ArrayList<Marks> list = new StudentData().getMarkssheetOfStudent(s.getCourceCode(), s.getSemorYear(), s.getRollNumber());
-        totalsubject = list.size();
-        String ColumnName[] = {"Subject Code", "Subject Name", "Theory Marks", "Practical Marks", "Total Max. Marks", "Total"};
+        ArrayList<Marks> list = new StudentData().getMarkssheetOfStudent(s.getDeptCode(), s.getSemorYear(), s.getRollNumber());
+        totalcourse = list.size();
+        Marks m = new Marks();
+        String ColumnName[] = {"Course Code", "Course Name", "Latter Grade", "GPA"};
         DefaultTableModel model = new DefaultTableModel(ColumnName, 0);
-        int totaltheorymarks = 0;
-        int maxtotaltheorymarks = 0;
-        int totalpracticalmarks = 0;
-        int maxtotalpracticalmarks = 0;
+        int totalGPA = 0;
+        String lGrade;
+        float gpa;
         for (int i = 0; i < list.size(); i++) {
-//			Object data[]= {list.get(i).sr_no,list.get(i).subjectname,list.get(i).maxtheorymarks,list.get(i).theorymarks,list.get(i).maxpracticalmarks,list.get(i).practicalmarks,list.get(i).theorymarks+list.get(i).practicalmarks};
-            maxtotaltheorymarks += list.get(i).getMaxTheoryMarks();
-            totaltheorymarks += list.get(i).getTheoryMarks();
-            maxtotalpracticalmarks += list.get(i).getMaxPracticalMarks();
-            totalpracticalmarks += list.get(i).getPracticalMarks();
-            Object data[] = {" " + list.get(i).getSubjectCode(), list.get(i).getSubjectName(), list.get(i).getTheoryMarks(), list.get(i).getPracticalMarks(), list.get(i).getMaxPracticalMarks() + list.get(i).getMaxTheoryMarks(), list.get(i).getTheoryMarks() + list.get(i).getPracticalMarks()};
+            lGrade = numtolattergrade(list.get(i).getTheoryMarks());
+            gpa = numtogpa(list.get(i).getTheoryMarks());
+            totalGPA+=gpa;
+            Object data[] = {" " + list.get(i).getCourseCode(), list.get(i).getCourseName(), lGrade, gpa};
             model.addRow(data);
         }
-        if (totalsubject > 0) {
-            Object result[] = {"", "Total Marks", totaltheorymarks, totalpracticalmarks, maxtotaltheorymarks + maxtotalpracticalmarks, (totaltheorymarks + totalpracticalmarks)};
+        float avgGPA = (totalGPA/totalcourse);
+        String letterGrade = (avgGPA >= 4) ? "A+" :
+                (avgGPA >= 3.75) ? "A" : (avgGPA >= 3.50) ? "A-" : (avgGPA >= 3.25) ? "B+" : (avgGPA >= 3.00) ? "B" : (avgGPA >= 2.75) ? "B-" : (avgGPA >= 2.50) ? "C+" : (avgGPA >= 2.25) ? "C" : (avgGPA >= 2.00) ? "D" : "F";
+
+        if (totalcourse > 0) {
+            Object result[] = {"", "Average GPA", letterGrade, avgGPA};
             model.addRow(result);
         } else {
-            Object result[] = {"-", "No Subject Found", "-", "-", "-", "-"};
+            Object result[] = {"-", "No Course Found", "-", "-", "-", "-"};
             model.addRow(result);
         }
-
-        totalsubject++;
+        totalcourse++;
         table.setModel(model);
 
         table.getColumnModel().getColumn(0).setMaxWidth(200);
-        table.getColumnModel().getColumn(1).setMaxWidth(250);
+        table.getColumnModel().getColumn(1).setMaxWidth(600);
         table.getColumnModel().getColumn(2).setMaxWidth(175);
         table.getColumnModel().getColumn(3).setMaxWidth(175);
-        table.getColumnModel().getColumn(4).setMaxWidth(175);
-        table.getColumnModel().getColumn(5).setMaxWidth(175);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
         table.setFocusable(false);
 
-        tableviewpanel.setSize(1075, rowsize + (totalsubject * rowsize));
+        tableviewpanel.setSize(975, rowsize + (totalcourse * rowsize));
         table.setEnabled(false);
-        this.setSize(1096, 460 + (totalsubject * rowsize));
-        System.out.println("Marksheet :" + new CourceData().isDeclared(s.getCourceCode(), s.getSemorYear()));
-        if (!new CourceData().isDeclared(s.getCourceCode(), s.getSemorYear())) {
+        this.setSize(1096, 460 + (totalcourse * rowsize));
+        System.out.println("Marksheet :" + new DepartmentData().isDeclared(s.getDeptCode(), s.getSemorYear()));
+        if (!new DepartmentData().isDeclared(s.getDeptCode(), s.getSemorYear())) {
             notDeclared();
         }
+    }
+    public String numtolattergrade(int num){
+        String lattergrade= " ";
+        if(num >= 80)
+            lattergrade = "A+";
+        else if(num >= 75)
+            lattergrade = "A";
+        else if (num >= 70)
+            lattergrade = "A-";
+        else if (num >= 65)
+            lattergrade = "B+";
+        else if (num >= 60)
+            lattergrade = "B";
+        else if (num >= 55)
+            lattergrade = "B-";
+        else if (num >= 50)
+            lattergrade = "C+";
+        else if (num >= 45)
+            lattergrade = "C";
+        else if (num >= 40)
+            lattergrade = "D";
+        else if (num < 40)
+            lattergrade = "F";
+        return lattergrade;
+    }
+    public float numtogpa(int num){
+        float gpa= 0;
+        if(num >= 80)
+            gpa= 4.00F;
+        else if(num >= 75)
+            gpa= 3.75F;
+        else if (num >= 70)
+            gpa= 3.50F;
+        else if (num >= 65)
+            gpa= 3.25F;
+        else if (num >= 60)
+            gpa= 3.00F;
+        else if (num >= 55)
+            gpa= 2.75F;
+        else if (num >= 50)
+            gpa= 2.50F;
+        else if (num >= 45)
+            gpa= 2.25F;
+        else if (num >= 40)
+            gpa= 2.0F;
+        else if (num < 40)
+            gpa= 0;
+        return gpa;
     }
 
     public void disablebutton() {
@@ -415,20 +449,17 @@ public class MarkSheetPanel extends JPanel {
     }
 
     private class CellRenderer extends DefaultTableCellRenderer {
-
         private static final long serialVersionUID = 1L;
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row,
                 int column) {
             super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-            if (row == (totalsubject - 1)) {
-
+            if (row == (totalcourse - 1)) {
                 this.setFont(this.getFont().deriveFont(Font.BOLD));
                 if (row == 0) {
                     this.setHorizontalAlignment(JLabel.CENTER);
                 }
-
             }
             return this;
         }

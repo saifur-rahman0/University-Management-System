@@ -2,12 +2,12 @@ package application.student;
 
 import application.common.Person;
 import application.common.TimeUtil;
-import application.cource.CourceData;
+import application.department.DepartmentData;
 
 public class Student extends Person {
 
     private long rollnumber;
-    private String optionalsubject;
+    private String optionalCourse;
     private String firstname;
     private String lastname;
     private String fathername;
@@ -25,8 +25,8 @@ public class Student extends Person {
         this.rollnumber = rollnumber;
     }
 
-    public void setOptionalSubject(String optionalsubject) {
-        this.optionalsubject = optionalsubject;
+    public void setOptionalCourse(String optionalCourse) {
+        this.optionalCourse = optionalCourse;
     }
 
     public void setFirstName(String firstname) {
@@ -57,8 +57,8 @@ public class Student extends Person {
         this.userid = userid;
     }
 
-    public String getCourceName() {
-        return new CourceData().getcourcename(this.getCourceCode());
+    public String getDeptName() {
+        return new DepartmentData().getdeptname(this.getDeptCode());
     }
 
     public String getFullName() {
@@ -77,8 +77,8 @@ public class Student extends Person {
         return rollnumber;
     }
 
-    public String getOptionalSubject() {
-        return optionalsubject;
+    public String getOptionalCourse() {
+        return optionalCourse;
     }
 
     public String getAdmissionDate() {
@@ -112,8 +112,7 @@ public class Student extends Person {
     }
 
     public String generateUserId() {
-        // TODO Auto-generated method stub
-        userid = getCourceCode() + "-" + getSemorYear() + "-" + rollnumber;
+        userid = getDeptCode() + "-" + getSemorYear() + "-" + rollnumber;
         return userid;
     }
 

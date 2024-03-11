@@ -17,8 +17,8 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.MatteBorder;
 
-import application.faculty.Faculty;
-import application.faculty.FacultyData;
+import application.teacher.Teacher;
+import application.teacher.TeacherData;
 import application.student.Student;
 import application.student.StudentData;
 
@@ -82,7 +82,7 @@ public class ChangePasswordDialog extends JDialog {
     }
 
     @SuppressWarnings("deprecation")
-    public ChangePasswordDialog(Faculty f) {
+    public ChangePasswordDialog(Teacher f) {
         this();
         changepasswordbutton.addActionListener(e
                 -> {
@@ -99,7 +99,7 @@ public class ChangePasswordDialog extends JDialog {
                 showerror(newpasswordfield2);
                 lblError.setText("password doesn't match");
             } else {
-                int result = new FacultyData().changePassword(f.getFacultyId() + "", newpasswordfield.getText());
+                int result = new TeacherData().changePassword(f.getTeacherId() + "", newpasswordfield.getText());
                 if (result > 0) {
                     JOptionPane.showMessageDialog(null, "Password updated", "Message", JOptionPane.INFORMATION_MESSAGE);
                     this.dispose();

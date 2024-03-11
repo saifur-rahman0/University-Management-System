@@ -32,9 +32,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import application.cource.CourceData;
-import application.faculty.FacultyMain;
-import application.subject.SubjectData;
+import application.department.DepartmentData;
+import application.teacher.TeacherMain;
+import application.course.CourseData;
 
 /*
  * Title : EnterMarksPanel.java
@@ -43,7 +43,7 @@ import application.subject.SubjectData;
 @SuppressWarnings("serial")
 public class EnterMarksPanel extends JPanel implements ActionListener {
 
-    private JComboBox<String> courcenamecombo, semoryearcombo, subjectnamecombo;
+    private JComboBox<String> deptnamecombo, semoryearcombo, coursenamecombo;
     private JLabel Errorlabel;
     private JScrollPane scrollPane;
     private JTable table;
@@ -56,7 +56,7 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
     private JLabel label3;
     private JLabel label2;
     private JLabel label1;
-    private JPanel selectcourcepanel;
+    private JPanel selectdeptpanel;
     private JLabel nodatafoundlabel;
 
     /**
@@ -64,27 +64,24 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
      */
     @Override
     public Dimension getPreferredSize() {
-
         return new Dimension(1116, this.getHeight());
     }
 
-    public EnterMarksPanel(FacultyMain fm) {
+    public EnterMarksPanel(TeacherMain fm) {
         this();
-        courcenamecombo.setSelectedItem(fm.f.getCourceName());
-        semoryearcombo.setModel(new DefaultComboBoxModel<String>(new CourceData().getSemorYear(courcenamecombo.getSelectedItem() + "")));
-        String[] totalsub = new SubjectData().getSubjectinCource(fm.f.getCourceCode(), fm.f.getSemorYear());
-        subjectnamecombo.setModel(new DefaultComboBoxModel<String>(totalsub));
-        semoryearcombo.setSelectedIndex(fm.f.getSemorYear());
-        subjectnamecombo.setSelectedItem(fm.f.getSubject());
-        selectcourcepanel.setVisible(false);
+        deptnamecombo.setSelectedItem(fm.t.getDeptName());
+        semoryearcombo.setModel(new DefaultComboBoxModel<String>(new DepartmentData().getSemorYear(deptnamecombo.getSelectedItem() + "")));
+        String[] totalsub = new CourseData().getCourseDept(fm.t.getDeptCode(), fm.t.getSemorYear());
+        coursenamecombo.setModel(new DefaultComboBoxModel<String>(totalsub));
+        semoryearcombo.setSelectedIndex(fm.t.getSemorYear());
+        coursenamecombo.setSelectedItem(fm.t.getCourse());
+        selectdeptpanel.setVisible(false);
         this.createtablemodel();
-        scrollPane.setLocation(scrollPane.getX(), selectcourcepanel.getY());
+        scrollPane.setLocation(scrollPane.getX(), selectdeptpanel.getY());
         submitbutton.setLocation(submitbutton.getX(), scrollPane.getY() + scrollPane.getHeight() + 40);
-
     }
 
     public EnterMarksPanel() {
-
         timer = new Timer(10000, this);
         timer.start();
         setBorder(null);
@@ -98,20 +95,19 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
         add(panel);
         panel.setLayout(null);
 
-        theorymarksbutton = new JButton("Theory Marks");
-        theorymarksbutton.setBorder(new LineBorder(new Color(255, 255, 255)));
-        theorymarksbutton.setForeground(new Color(61, 0, 169));
-        theorymarksbutton.setBackground(new Color(255, 255, 255));
-        theorymarksbutton.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        theorymarksbutton = new JButton("Marks");
+//        theorymarksbutton.setBorder(new LineBorder(new Color(255, 255, 255)));
+//        theorymarksbutton.setForeground(new Color(61, 0, 169));
+//        theorymarksbutton.setBackground(new Color(255, 255, 255));
+//        theorymarksbutton.setFont(new Font("Segoe UI", Font.BOLD, 15));
         theorymarksbutton.setName("Active");
-        theorymarksbutton.addActionListener(this);
-        theorymarksbutton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+//        theorymarksbutton.addActionListener(this);
+//        theorymarksbutton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+//        theorymarksbutton.setFocusable(false);
+//        theorymarksbutton.setBounds(727, 69, 148, 33);
+//        panel.add(theorymarksbutton);
 
-        theorymarksbutton.setFocusable(false);
-        theorymarksbutton.setBounds(727, 69, 148, 33);
-        panel.add(theorymarksbutton);
-
-        practicalmarksbutton = new JButton("Practical Marks");
+        /*racticalmarksbutton = new JButton("Practical Marks");
         practicalmarksbutton.setBorder(new LineBorder(new Color(255, 255, 255)));
         practicalmarksbutton.setForeground(new Color(61, 0, 169));
         practicalmarksbutton.setFont(new Font("Segoe UI", Font.BOLD, 15));
@@ -121,7 +117,7 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
         practicalmarksbutton.addActionListener(this);
         practicalmarksbutton.setName("Deactive");
         practicalmarksbutton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        panel.add(practicalmarksbutton);
+        panel.add(practicalmarksbutton);*/
 
         JLabel lblEnterStudentMarks = new JLabel("Enter Student Marks");
         lblEnterStudentMarks.setForeground(new Color(255, 255, 255));
@@ -130,20 +126,20 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
         lblEnterStudentMarks.setBounds(10, 65, 309, 33);
         panel.add(lblEnterStudentMarks);
 
-        selectcourcepanel = new JPanel();
-        selectcourcepanel.setBounds(10, 159, 1073, 222);
-        add(selectcourcepanel);
-        selectcourcepanel.setBorder(new EmptyBorder(0, 0, 0, 0));
-        selectcourcepanel.setBackground(Color.WHITE);
-        selectcourcepanel.setLayout(null);
+        selectdeptpanel = new JPanel();
+        selectdeptpanel.setBounds(10, 159, 1073, 222);
+        add(selectdeptpanel);
+        selectdeptpanel.setBorder(new EmptyBorder(0, 0, 0, 0));
+        selectdeptpanel.setBackground(Color.WHITE);
+        selectdeptpanel.setLayout(null);
 
-        courcenamecombo = new JComboBox<String>(new CourceData().getCourceName());
-        courcenamecombo.setFocusable(false);
-        courcenamecombo.setBackground(Color.WHITE);
-        courcenamecombo.addActionListener(this);
-        courcenamecombo.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-        courcenamecombo.setBounds(236, 0, 825, 40);
-        selectcourcepanel.add(courcenamecombo);
+        deptnamecombo = new JComboBox<String>(new DepartmentData().getDeptName());
+        deptnamecombo.setFocusable(false);
+        deptnamecombo.setBackground(Color.WHITE);
+        deptnamecombo.addActionListener(this);
+        deptnamecombo.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+        deptnamecombo.setBounds(236, 0, 825, 40);
+        selectdeptpanel.add(deptnamecombo);
 
         semoryearcombo = new JComboBox<String>();
         semoryearcombo.setFocusable(false);
@@ -151,40 +147,40 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
         semoryearcombo.setBounds(236, 73, 825, 40);
         semoryearcombo.addActionListener(this);
         semoryearcombo.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-        selectcourcepanel.add(semoryearcombo);
+        selectdeptpanel.add(semoryearcombo);
 
-        subjectnamecombo = new JComboBox<String>();
-        subjectnamecombo.setFocusable(false);
-        subjectnamecombo.setBackground(Color.WHITE);
-        subjectnamecombo.setBounds(236, 143, 825, 40);
-        subjectnamecombo.addActionListener(this);
-        subjectnamecombo.setFont(new Font("Segoe UI", Font.PLAIN, 17));
-        selectcourcepanel.add(subjectnamecombo);
+        coursenamecombo = new JComboBox<String>();
+        coursenamecombo.setFocusable(false);
+        coursenamecombo.setBackground(Color.WHITE);
+        coursenamecombo.setBounds(236, 143, 825, 40);
+        coursenamecombo.addActionListener(this);
+        coursenamecombo.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+        selectdeptpanel.add(coursenamecombo);
 
-        label1 = new JLabel("Select Cource   :");
+        label1 = new JLabel("Select Department   :");
         label1.setHorizontalAlignment(SwingConstants.RIGHT);
         label1.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         label1.setBounds(10, -1, 200, 40);
-        selectcourcepanel.add(label1);
+        selectdeptpanel.add(label1);
 
         label2 = new JLabel("Select Sem/Year  :");
         label2.setHorizontalAlignment(SwingConstants.RIGHT);
         label2.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         label2.setBounds(10, 72, 200, 40);
-        selectcourcepanel.add(label2);
+        selectdeptpanel.add(label2);
 
-        label3 = new JLabel("Select Subject   :");
+        label3 = new JLabel("Select Course   :");
         label3.setHorizontalAlignment(SwingConstants.RIGHT);
         label3.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         label3.setBounds(10, 142, 200, 40);
-        selectcourcepanel.add(label3);
+        selectdeptpanel.add(label3);
 
         Errorlabel = new JLabel("This is required question  !");
         Errorlabel.setVisible(false);
         Errorlabel.setForeground(Color.RED);
         Errorlabel.setFont(new Font("Arial", Font.PLAIN, 14));
         Errorlabel.setBounds(233, 45, 225, 17);
-        selectcourcepanel.add(Errorlabel);
+        selectdeptpanel.add(Errorlabel);
 
         scrollPane = new JScrollPane();
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
@@ -210,10 +206,8 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
         table.setSelectionBackground(new Color(218, 204, 231, 255));
         table.setSelectionForeground(Color.black);
         table.setGridColor(Color.LIGHT_GRAY);
-
         table.getTableHeader().setReorderingAllowed(false);
 
-//			table.setEnabled(false);
         scrollPane.setViewportView(table);
 
         submitbutton = new JButton("Submit Marks");
@@ -240,10 +234,8 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
         nodatafoundlabel = new JLabel("");
         nodatafoundlabel.setHorizontalAlignment(SwingConstants.CENTER);
         try {
-
             Image image = ImageIO.read(new File("./assets/notfound2.png"));
             nodatafoundlabel.setIcon(new ImageIcon(image.getScaledInstance(150, 150, Image.SCALE_SMOOTH)));
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -261,51 +253,46 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         Errorlabel.setVisible(false);
         TableErrorlabel.setVisible(false);
-        if (e.getSource() == courcenamecombo) {
-            courcenamecombo.setFocusable(false);
-
-            subjectnamecombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
-            if (courcenamecombo.getSelectedIndex() == 0) {
+        if (e.getSource() == deptnamecombo) {
+            deptnamecombo.setFocusable(false);
+            coursenamecombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
+            if (deptnamecombo.getSelectedIndex() == 0) {
                 semoryearcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
             } else {
-                String cource = (String) courcenamecombo.getSelectedItem();
-
-                semoryearcombo.setModel(new DefaultComboBoxModel<String>(new CourceData().getSemorYear(cource)));
+                String dept = (String) deptnamecombo.getSelectedItem();
+                semoryearcombo.setModel(new DefaultComboBoxModel<String>(new DepartmentData().getSemorYear(dept)));
             }
         }
         if (e.getSource() == semoryearcombo && semoryearcombo.getSelectedIndex() > 0) {
-            String cource = (String) courcenamecombo.getSelectedItem();
-
-            String[] totalsub = new SubjectData().getSubjectinCource(new CourceData().getCourcecode(cource), semoryearcombo.getSelectedIndex());
-            if (totalsub != null) {
-                subjectnamecombo.setModel(new DefaultComboBoxModel<String>(totalsub));
+            String dept = (String) deptnamecombo.getSelectedItem();
+            String[] totalcourse = new CourseData().getCourseDept(new DepartmentData().getDeptcode(dept), semoryearcombo.getSelectedIndex());
+            if (totalcourse != null) {
+                coursenamecombo.setModel(new DefaultComboBoxModel<String>(totalcourse));
             } else {
-                subjectnamecombo.setModel(new DefaultComboBoxModel<String>(new String[]{"No Subject Found"}));
-
+                coursenamecombo.setModel(new DefaultComboBoxModel<String>(new String[]{"No Course Found"}));
             }
         } else if (e.getSource() == semoryearcombo) {
-            subjectnamecombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
+            coursenamecombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
         }
-        if (e.getSource() == subjectnamecombo) {
-            if (courcenamecombo.getSelectedIndex() == 0) {
-                showerror(courcenamecombo);
+        if (e.getSource() == coursenamecombo) {
+            if (deptnamecombo.getSelectedIndex() == 0) {
+                showerror(deptnamecombo);
             } else if (semoryearcombo.getSelectedIndex() == 0) {
                 showerror(semoryearcombo);
-            } else if (subjectnamecombo.getSelectedItem().equals("No Subject Found")) {
-                Component tf = subjectnamecombo;
+            } else if (coursenamecombo.getSelectedItem().equals("No Course Found")) {
+                Component tf = coursenamecombo;
                 Errorlabel.setVisible(true);
-                Errorlabel.setText("No Subject Found !");
+                Errorlabel.setText("No Course Found !");
                 Errorlabel.setBounds(tf.getX(), tf.getY() + tf.getHeight() - 5, 400, 26);
-            } else if (subjectnamecombo.getSelectedIndex() == 0) {
-                showerror(subjectnamecombo);
+            } else if (coursenamecombo.getSelectedIndex() == 0) {
+                showerror(coursenamecombo);
             } else {
                 createtablemodel();
             }
         }
-        if (courcenamecombo.getSelectedIndex() == 0 || semoryearcombo.getSelectedIndex() == 0 || subjectnamecombo.getSelectedIndex() == 0) {
+        if (deptnamecombo.getSelectedIndex() == 0 || semoryearcombo.getSelectedIndex() == 0 || coursenamecombo.getSelectedIndex() == 0) {
             scrollPane.setVisible(false);
             submitbutton.setVisible(false);
             totalstudent = 0;
@@ -317,30 +304,28 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
             }
             if (theorymarksbutton.getName().equals("Active")) {
                 this.addtheorymarks();
-            } else {
-                this.addpracticalmarks();
             }
-
+            /*else {
+                this.addpracticalmarks();
+            }*/
         }
         if (e.getSource() == theorymarksbutton) {
             ActiveButton(theorymarksbutton);
-            DeactiveButton(practicalmarksbutton);
-
-            if (courcenamecombo.getSelectedIndex() != 0 && semoryearcombo.getSelectedIndex() != 0 && subjectnamecombo.getSelectedIndex() != 0) {
+//            DeactiveButton(practicalmarksbutton);
+            if (deptnamecombo.getSelectedIndex() != 0 && semoryearcombo.getSelectedIndex() != 0 && coursenamecombo.getSelectedIndex() != 0) {
                 createtablemodel();
             }
         }
-        if (e.getSource() == practicalmarksbutton) {
+        /*if (e.getSource() == practicalmarksbutton) {
             DeactiveButton(theorymarksbutton);
             ActiveButton(practicalmarksbutton);
-            if (courcenamecombo.getSelectedIndex() != 0 && semoryearcombo.getSelectedIndex() != 0 && subjectnamecombo.getSelectedIndex() != 0) {
+            if (deptnamecombo.getSelectedIndex() != 0 && semoryearcombo.getSelectedIndex() != 0 && coursenamecombo.getSelectedIndex() != 0) {
                 createtablemodel();
             }
-        }
+        }*/
         if (totalstudent == 0) {
             submitbutton.setVisible(false);
         }
-
     }
 
     public void showerror(JComponent tf) {
@@ -353,11 +338,11 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
         nodatafoundlabel.setVisible(false);
         if (theorymarksbutton.getName().equals("Active")) {
             table.setModel(createTheoryMarksModel());
-        } else {
-            table.setModel(createPracticalMarksModel());
         }
+        /*else {
+            table.setModel(createPracticalMarksModel());
+        }*/
         totalstudent = table.getRowCount();
-
         scrollPane.setBounds(10, scrollPane.getY(), 1062, 40 + (totalstudent * 40));
         this.setSize(1116, 544 + (totalstudent * 40));
         JTextField textField = new JTextField();
@@ -388,72 +373,63 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
         submitbutton.setVisible(false);
         nodatafoundlabel.setVisible(true);
         nodatafoundlabel.setLocation(nodatafoundlabel.getX(), scrollPane.getY() - 100);
-
     }
 
     public DefaultTableModel createTheoryMarksModel() {
-
-        String courcecode = new CourceData().getCourcecode(courcenamecombo.getSelectedItem() + "");
+        String deptcode = new DepartmentData().getDeptcode(deptnamecombo.getSelectedItem() + "");
         int sem = semoryearcombo.getSelectedIndex();
-        String subjectname = subjectnamecombo.getSelectedItem() + "";
-        String[] columnname = {"Roll Number", "Student Name", "Subject Name", "Max Theory Marks", "Theory Marks"};
+        String coursename = coursenamecombo.getSelectedItem() + "";
+        String[] columnname = {"Roll Number", "Student Name", "Course Name", "Max Marks", "Marks"};
         DefaultTableModel model = new DefaultTableModel(columnname, 0) {
             boolean[] canEdit = new boolean[]{
                 false, false, false, false, true
             };
-
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit[columnIndex];
             }
         };
-        ArrayList<Marks> listdata = new StudentData().getStudentTheoryMarksDetails(courcecode, sem, subjectname);
-
+        ArrayList<Marks> listdata = new StudentData().getStudentTheoryMarksDetails(deptcode, sem, coursename);
         for (int i = 0; i < listdata.size(); i++) {
-            Object[] data = {listdata.get(i).getRollNumber(), listdata.get(i).getStudentName(), listdata.get(i).getSubjectName(), listdata.get(i).getMaxTheoryMarks(), listdata.get(i).getTheoryMarks()};
+            Object[] data = {listdata.get(i).getRollNumber(), listdata.get(i).getStudentName(), listdata.get(i).getCourseName(), listdata.get(i).getMaxTheoryMarks(), listdata.get(i).getTheoryMarks()};
             model.addRow(data);
         }
         submitbutton.setVisible(true);
         table.setEnabled(true);
-
         return model;
     }
 
-    public DefaultTableModel createPracticalMarksModel() {
-        String courcecode = new CourceData().getCourcecode(courcenamecombo.getSelectedItem() + "");
+    /*public DefaultTableModel createPracticalMarksModel() {
+        String deptcode = new DepartmentData().getDeptcode(deptnamecombo.getSelectedItem() + "");
         int sem = semoryearcombo.getSelectedIndex();
-        String subjectname = subjectnamecombo.getSelectedItem() + "";
-        String[] columnname = {"Roll Number", "Student Name", "Subject Name", "Max Practical Marks", "Practical Marks"};
+        String coursename = coursenamecombo.getSelectedItem() + "";
+        String[] columnname = {"Roll Number", "Student Name", "Course Name", "Max Practical Marks", "Practical Marks"};
         DefaultTableModel model = new DefaultTableModel(columnname, 0) {
-
             boolean[] canEdit = new boolean[]{
                 false, false, false, false, true
             };
-
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit[columnIndex];
             }
-        };
-        ArrayList<Marks> listdata = new StudentData().getStudentPracticalMarksDetails(courcecode, sem, subjectname);
-
+        };*/
+       /* ArrayList<Marks> listdata = new StudentData().getStudentPracticalMarksDetails(deptcode, sem, coursename);
         for (int i = 0; i < listdata.size(); i++) {
-            Object[] data = {listdata.get(i).getRollNumber(), listdata.get(i).getStudentName(), listdata.get(i).getSubjectName(), listdata.get(i).getMaxPracticalMarks(), listdata.get(i).getPracticalMarks()};
+            Object[] data = {listdata.get(i).getRollNumber(), listdata.get(i).getStudentName(), listdata.get(i).getCourseName(), listdata.get(i).getMaxPracticalMarks(), listdata.get(i).getPracticalMarks()};
             model.addRow(data);
         }
         table.setEnabled(true);
         submitbutton.setVisible(true);
-
         return model;
-    }
+    }*/
 
     public void addtheorymarks() {
         int result = 0;
         int i = 0;
         for (i = 0; i < table.getRowCount(); i++) {
             Marks m = new Marks();
-            m.setCourceCode(new CourceData().getCourcecode(courcenamecombo.getSelectedItem() + ""));
+            m.setDeptCode(new DepartmentData().getDeptcode(deptnamecombo.getSelectedItem() + ""));
             m.setSemorYear(semoryearcombo.getSelectedIndex());
-            m.setSubjectName(subjectnamecombo.getSelectedItem() + "");
-            m.setSubjectCode(new SubjectData().getSubjectCode(m.getCourceCode(), m.getSemorYear(), m.getSubjectName()));
+            m.setCourseName(coursenamecombo.getSelectedItem() + "");
+            m.setCourseCode(new CourseData().getCourseCode(m.getDeptCode(), m.getSemorYear(), m.getCourseName()));
             m.setRollNumber(Long.parseLong("" + table.getValueAt(i, 0)));
             m.setMaxTheoryMarks(Integer.parseInt(table.getValueAt(i, 3) + ""));
             try {
@@ -465,46 +441,40 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
                     TableError("Marks must be less than or equal to Maximum Marks !");
                     break;
                 } else {
-
                     result = new StudentData().addStudentTheoryMarks(m);
                 }
-
             } catch (NumberFormatException e) {
                 TableError("Must be a Number !");
                 break;
             }
-
         }
         if (result > 0 && i == table.getRowCount()) {
             TableErrorlabel.setForeground(new Color(34, 139, 34));
-            TableError("Theory Marks Succesfully submitted");
+            TableError("Marks Succesfully submitted");
             timer.restart();
         }
-
         if (i != table.getRowCount()) {
             TableErrorlabel.setForeground(Color.red);
             timer.restart();
-
             table.setSelectionBackground(Color.red);
             table.setSelectionForeground(Color.white);
             table.addRowSelectionInterval(i, i);
-
         } else {
             this.createtablemodel();
         }
     }
 
-    public void addpracticalmarks() {
+    /*public void addpracticalmarks() {
         int result = 0;
         int i = 0;
         for (i = 0; i < table.getRowCount(); i++) {
             Marks m = new Marks();
-            m.setCourceCode(new CourceData().getCourcecode(courcenamecombo.getSelectedItem() + ""));
+            m.setDeptCode(new DepartmentData().getDeptcode(deptnamecombo.getSelectedItem() + ""));
             m.setSemorYear(semoryearcombo.getSelectedIndex());
-            m.setSubjectName(table.getValueAt(i, 2) + "");
-            m.setSubjectCode(new SubjectData().getSubjectCode(m.getCourceCode(), m.getSemorYear(), m.getSubjectName()));
+            m.setCourseName(table.getValueAt(i, 2) + "");
+            m.setCourseCode(new CourseData().getCourseCode(m.getDeptCode(), m.getSemorYear(), m.getCourseName()));
             m.setRollNumber(Long.parseLong("" + table.getValueAt(i, 0)));
-            m.setMaxPracticalMarks(Integer.parseInt(table.getValueAt(i, 3) + ""));
+            *//**//*m.setMaxPracticalMarks(Integer.parseInt(table.getValueAt(i, 3) + ""));
             try {
                 m.setPracticalMarks(Integer.parseInt(table.getValueAt(i, 4) + ""));
                 if (m.getPracticalMarks() < 0) {
@@ -513,23 +483,17 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
                 } else if (m.getPracticalMarks() > m.getMaxPracticalMarks()) {
                     TableError("Marks must be less than or equal to Maximum Marks !");
                     break;
-                } else {
-
-                    result = new StudentData().addStudentPracticalMarks(m);
                 }
-
             } catch (NumberFormatException e) {
                 TableError("Must be a Number !");
                 break;
-            }
-
-        }
-        if (result > 0 && i == table.getRowCount()) {
+            }*//**//*
+        }*//*
+        *//*if (result > 0 && i == table.getRowCount()) {
             TableErrorlabel.setForeground(new Color(34, 139, 34));
             TableError("Practical Marks Succesfully submitted");
             timer.restart();
-        }
-
+        }*//*
         if (i != table.getRowCount()) {
             TableErrorlabel.setForeground(Color.red);
             timer.restart();
@@ -537,11 +501,10 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
             table.setSelectionBackground(Color.red);
             table.setSelectionForeground(Color.white);
             table.addRowSelectionInterval(i, i);
-
         } else {
             this.createtablemodel();
         }
-    }
+    }*/
 
     public void ActiveButton(JButton button) {
         button.setBorder(new LineBorder(new Color(92, 9, 134)));
@@ -551,7 +514,6 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
     }
 
     public void DeactiveButton(JButton button) {
-
         button.setBorder(new LineBorder(new Color(92, 9, 134)));
         button.setForeground(new Color(255, 255, 255));
         button.setBackground(new Color(61, 0, 169));
@@ -567,17 +529,17 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
 
 @SuppressWarnings("serial")
 class ForcedListSelectionModel extends DefaultListSelectionModel {
-
     public ForcedListSelectionModel() {
         setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 
     @Override
     public void clearSelection() {
+
     }
 
     @Override
     public void removeSelectionInterval(int index0, int index1) {
-    }
 
+    }
 }

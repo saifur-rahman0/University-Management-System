@@ -7,79 +7,52 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Types;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import application.common.DataBaseConnection;
-import application.common.Notification;
-import application.common.NotificationData;
-import application.common.TimeUtil;
-import application.subject.SubjectData;
+import application.course.CourseData;
 
 /*
  * Title : StudentData.java
- * Created by : Ajaysinh Rathod
  * Purpose : Handling all the data related to student
- * Mail : ajaysinhrathod1290@gmail.com
  */
 public class StudentData {
-
     static Connection con = DataBaseConnection.getConnection();
-
     public static void closeConnection() throws SQLException {
         con.close();
     }
 
     public int addStudent(Student s) {
         int result = 0;
-        String query = "insert into students values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+        String query = "insert into students values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
         try {
-
-            //Adding notification of new student
-            {
-                Notification n = new Notification();
-                n.setUserProfile("Student");
-                n.setCourceCode(s.getCourceCode());
-                n.setSemorYear(s.getSemorYear());
-                n.setTitle("New Student");
-                n.setUserId(s.generateUserId());
-                n.setMessage(s.getFullName() + " (" + s.getRollNumber() + ") has taken admission in your class.");
-                n.setTime(TimeUtil.getCurrentTime());
-                new NotificationData().addNotification(n);
-                n.setUserProfile("Faculty");
-                new NotificationData().addNotification(n);
-            }
-
             PreparedStatement pr = con.prepareStatement(query);
-            pr.setString(1, s.getCourceCode());
+            pr.setString(1, s.getDeptCode());
             pr.setInt(2, s.getSemorYear());
             pr.setLong(3, s.getRollNumber());
-            pr.setString(4, s.getOptionalSubject());
+            pr.setString(4, s.getOptionalCourse());
             pr.setString(5, s.getFirstName());
             pr.setString(6, s.getLastName());
             pr.setString(7, s.getEmailId());
             pr.setString(8, s.getContactNumber());
             pr.setString(9, s.getBirthDate());
             pr.setString(10, s.getGender());
-            pr.setString(11, s.getState());
-            pr.setString(12, s.getCity());
-            pr.setString(13, s.getFatherName());
-            pr.setString(14, s.getFatherOccupation());
-            pr.setString(15, s.getMotherName());
-            pr.setString(16, s.getMotherOccupation());
-            pr.setBytes(17, s.getProfilePicInBytes());
-            pr.setInt(18, 0);//sr no 
-            pr.setString(19, "");//lastlogin
-            pr.setString(20, s.generateUserId());//userid
-            pr.setString(21, s.getBirthDate());//password
-            pr.setBoolean(22, false);//activestatus
-            pr.setString(23, s.generateAdmissionDate());
+            pr.setString(11, s.getAddress());
+            pr.setString(12, s.getFatherName());
+            pr.setString(13, s.getFatherOccupation());
+            pr.setString(14, s.getMotherName());
+            pr.setString(15, s.getMotherOccupation());
+            pr.setBytes(16, s.getProfilePicInBytes());
+            pr.setInt(17, 0);//sr no
+            pr.setString(18, "");//lastlogin
+            pr.setString(19, s.generateUserId());//userid
+            pr.setString(20, s.getBirthDate());//password
+            pr.setString(21, s.generateAdmissionDate());
             result = pr.executeUpdate();
 
             pr.close();
             return result;
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -88,7 +61,7 @@ public class StudentData {
 
     public int deleteMarksData(Student s) {
         int result = 0;
-        String query = "delete from marks where courcecode='" + s.getCourceCode() + "' and semoryear=" + s.getSemorYear() + " and rollnumber=" + s.getRollNumber();
+        String query = "delete from marks where Departmentcode='" + s.getDeptCode() + "' and semoryear=" + s.getSemorYear() + " and rollnumber=" + s.getRollNumber();
         try {
             PreparedStatement pr = con.prepareStatement(query);
             result = pr.executeUpdate();
@@ -100,7 +73,7 @@ public class StudentData {
 
     public int deleteAttandanceData(Student s) {
         int result = 0;
-        String query = "delete from attandance where courcecode='" + s.getCourceCode() + "' and semoryear=" + s.getSemorYear() + " and rollnumber=" + s.getRollNumber();
+        String query = "delete from attandance where Departmentcode='" + s.getDeptCode() + "' and semoryear=" + s.getSemorYear() + " and rollnumber=" + s.getRollNumber();
         try {
             PreparedStatement pr = con.prepareStatement(query);
             result = pr.executeUpdate();
@@ -116,7 +89,6 @@ public class StudentData {
         try {
             PreparedStatement pr = con.prepareStatement(query);
             result = pr.executeUpdate();
-
         } catch (Exception exp) {
             exp.printStackTrace();
         }
@@ -124,54 +96,10 @@ public class StudentData {
 
     }
 
-    public int deleteChatHistory(Student s) {
-        int result = 0;
-        String query = "delete from chat where touserid='" + s.getUserId() + "' or fromuserid='" + s.getUserId() + "'";
-        try {
-            PreparedStatement pr = con.prepareStatement(query);
-            result = pr.executeUpdate();
-            if (result > 0) {
-                this.reArrangeChatSrNoColumn();
-            }
-        } catch (Exception exp) {
-            exp.printStackTrace();
-        }
-        return result;
-    }
-
-    public void reArrangeChatSrNoColumn() {
-
-        try {
-            String query = "alter table chat drop sr_no;";
-            PreparedStatement pr = con.prepareStatement(query);
-            pr.executeUpdate();
-            query = "alter table chat add sr_no int primary key auto_increment first";
-            pr = con.prepareStatement(query);
-            pr.executeUpdate();
-
-        } catch (Exception exp) {
-            exp.printStackTrace();
-        }
-    }
-
-    public int deleteNotificationHistory(Student s) {
-        int result = 0;
-        String query = "delete from notification where userid='" + s.getUserId() + "'";
-        try {
-            PreparedStatement pr = con.prepareStatement(query);
-            result = pr.executeUpdate();
-
-        } catch (Exception exp) {
-            exp.printStackTrace();
-        }
-        return result;
-
-    }
-
-    public int deleteOldOptionalSubjectMarks(Student s) {
+    public int deleteOldOptionalCourseMarks(Student s) {
         int result = 0;
         try {
-            String query = "delete from marks where courcecode='" + s.getCourceCode() + "' and semoryear=" + s.getSemorYear() + " and rollnumber=" + s.getRollNumber() + " and subjectname='" + s.getOptionalSubject() + "'";
+            String query = "delete from marks where Departmentcode='" + s.getDeptCode() + "' and semoryear=" + s.getSemorYear() + " and rollnumber=" + s.getRollNumber() + " and coursename='" + s.getOptionalCourse() + "'";
             PreparedStatement pr = con.prepareStatement(query);
             result = pr.executeUpdate();
 
@@ -183,78 +111,54 @@ public class StudentData {
 
     public int updateStudentData(Student sold, Student s) {
         int result = 0;
-        String query = "update students set Courcecode=?,semoryear=?,rollnumber=?,optionalsubject=?,firstname=?,lastname=?,emailid=?,contactnumber=?,dateofbirth=?,gender=?,state=?,city=?,fathername=?,fatheroccupation=?,mothername=?,motheroccupation=?,profilepic=?,lastlogin=?,activestatus=?,userid=? where courcecode='" + sold.getCourceCode() + "' and semoryear=" + sold.getSemorYear() + " and rollnumber=" + sold.getRollNumber();
+        String query = "update students set Departmentcode=?,semoryear=?,rollnumber=?,optionalcourse=?,firstname=?,lastname=?,emailid=?,contactnumber=?,dateofbirth=?,gender=?,address=?,fathername=?,fatheroccupation=?,mothername=?,motheroccupation=?,profilepic=?,lastlogin=?,userid=? where Departmentcode='" + sold.getDeptCode() + "' and semoryear=" + sold.getSemorYear() + " and rollnumber=" + sold.getRollNumber();
 
-        //if cource or sem or rollnumber is changed 
-        if (!s.getCourceCode().equals(sold.getCourceCode()) || s.getSemorYear() != sold.getSemorYear() || s.getRollNumber() != sold.getRollNumber()) {
-
-            //Adding notification 
-            {
-                Notification n = new Notification();
-                n.setUserProfile("Student");
-                n.setCourceCode(s.getCourceCode());
-                n.setSemorYear(s.getSemorYear());
-                n.setTitle("New Student");
-                n.setUserId(s.generateUserId());
-                n.setMessage(s.getFullName() + " (" + s.getRollNumber() + ") has taken admission in your class.");
-                n.setTime(TimeUtil.getCurrentTime());
-                new NotificationData().addNotification(n);
-                n.setUserProfile("Faculty");
-                new NotificationData().addNotification(n);
-            }
-            //deleting all the data of student from this cource
+        //if dept or sem or rollnumber is changed
+        if (!s.getDeptCode().equals(sold.getDeptCode()) || s.getSemorYear() != sold.getSemorYear() || s.getRollNumber() != sold.getRollNumber()) {
+            //deleting all the data of student from this dept
             this.deleteMarksData(sold);
             this.deleteAttandanceData(sold);
             this.deleteUsersHistory(sold);
-            this.deleteNotificationHistory(sold);
-            this.deleteChatHistory(sold);
         }
-
-        if (!s.getOptionalSubject().equals(sold.getOptionalSubject())) {
-            this.deleteOldOptionalSubjectMarks(sold);
+        if (!s.getOptionalCourse().equals(sold.getOptionalCourse())) {
+            this.deleteOldOptionalCourseMarks(sold);
         }
         try {
-
             PreparedStatement pr = con.prepareStatement(query);
-            pr.setString(1, s.getCourceCode());
+            pr.setString(1, s.getDeptCode());
             pr.setInt(2, s.getSemorYear());
             pr.setLong(3, s.getRollNumber());
-            pr.setString(4, s.getOptionalSubject());
+            pr.setString(4, s.getOptionalCourse());
             pr.setString(5, s.getFirstName());
             pr.setString(6, s.getLastName());
             pr.setString(7, s.getEmailId());
             pr.setString(8, s.getContactNumber());
             pr.setString(9, s.getBirthDate());
             pr.setString(10, s.getGender());
-            pr.setString(11, s.getState());
-            pr.setString(12, s.getCity());
-            pr.setString(13, s.getFatherName());
-            pr.setString(14, s.getFatherOccupation());
-            pr.setString(15, s.getMotherName());
-            pr.setString(16, s.getMotherOccupation());
-            pr.setBytes(17, s.getProfilePicInBytes());
-            pr.setString(18, s.getLastLogin());
-            pr.setBoolean(19, s.getActiveStatus());
-            pr.setString(20, s.generateUserId());
+            pr.setString(11, s.getAddress());
+            pr.setString(12, s.getFatherName());
+            pr.setString(13, s.getFatherOccupation());
+            pr.setString(14, s.getMotherName());
+            pr.setString(15, s.getMotherOccupation());
+            pr.setBytes(16, s.getProfilePicInBytes());
+            pr.setString(17, s.getLastLogin());
+            pr.setString(18, s.generateUserId());
             result = pr.executeUpdate();
-
             pr.close();
             return result;
-
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         return result;
     }
 
-    public int getTotalStudentInCource(String Courcecode, int sem) {
+    public int getTotalStudentInDept(String Deptcode, int sem) {
         int rollnumber = 0;
 
-        String query = "select rollnumber from students where courcecode='" + Courcecode + "' and semoryear=" + sem;
+        String query = "select rollnumber from students where Departmentcode='" + Deptcode + "' and semoryear=" + sem;
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
-
             while (rs.next()) {
                 rollnumber++;
             }
@@ -267,20 +171,19 @@ public class StudentData {
         return rollnumber;
     }
 
-    public String[] getRollNumber(String Courcecode, int sem) {
+    public String[] getRollNumber(String Deptcode, int sem) {
         String rollnumber[] = null;
         int i = 0;
-        String query = "select rollnumber from students where courcecode='" + Courcecode + "' and semoryear=" + sem + " order by rollnumber asc";
+        String query = "select rollnumber from students where Departmentcode='" + Deptcode + "' and semoryear=" + sem + " order by rollnumber asc";
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             long num;
-            rollnumber = new String[this.getTotalStudentInCource(Courcecode, sem) + 1];
+            rollnumber = new String[this.getTotalStudentInDept(Deptcode, sem) + 1];
             rollnumber[i++] = "---Select Rollnumber---";
             while (rs.next()) {
                 num = rs.getLong(1);
                 rollnumber[i++] = num + "";
-
             }
             return rollnumber;
         } catch (Exception ex) {
@@ -291,8 +194,7 @@ public class StudentData {
 
     public ResultSet getStudentinfo(String condition) {
         ResultSet rs = null;
-        String query = "select s.courcecode as 'Class' ,s.rollnumber as 'Roll Number',concat(s.firstname,' ',s.lastname) as 'Student Name',c.courcename as 'Cource Name',concat(c.semoryear,'-',s.semoryear) as 'Sem/Year' from students s ,cources c where s.courcecode=c.courcecode " + condition + " order by s.courcecode asc,s.semoryear asc,s.rollnumber asc";
-
+        String query = "select s.Departmentcode as 'Class' ,s.rollnumber as 'Roll Number',concat(s.firstname,' ',s.lastname) as 'Student Name',d.DepartmentName as 'Department Name',concat(d.semoryear,'-',s.semoryear) as 'Sem/Year' from students s, departments d where s.Departmentcode=d.Departmentcode " + condition + " order by s.Departmentcode asc,s.semoryear asc,s.rollnumber asc";
         try {
             Statement st = con.createStatement();
             rs = st.executeQuery(query);
@@ -304,8 +206,7 @@ public class StudentData {
     }
 
     public ResultSet searchStudent(String query) {
-
-        query += " order by s.courcecode asc,s.semoryear asc,s.rollnumber asc";
+        query += " order by s.Departmentcode asc,s.semoryear asc,s.rollnumber asc";
         ResultSet rs = null;
         try {
             Statement st = con.createStatement();
@@ -317,38 +218,34 @@ public class StudentData {
         return rs;
     }
 
-    public Student getStudentDetails(String Courcecode, int sem, long rollnumber) {
+    public Student getStudentDetails(String Deptcode, int sem, long rollnumber) {
         Student s = new Student();
-
-        String query = " select * from students where courcecode='" + Courcecode + "' and semoryear=" + sem + " and rollnumber=" + rollnumber;
+        String query = " select * from students where Departmentcode='" + Deptcode + "' and semoryear=" + sem + " and rollnumber=" + rollnumber;
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             rs.next();
-            s.setCourceCode(rs.getString(1));
+            s.setDeptCode(rs.getString(1));
             s.setSemorYear(rs.getInt(2));
             s.setRollNumber(rs.getLong(3));
-            s.setOptionalSubject(rs.getString(4));
+            s.setOptionalCourse(rs.getString(4));
             s.setFirstName(rs.getString(5));
             s.setLastName(rs.getString(6));
             s.setEmailId(rs.getString(7));
             s.setContactNumber(rs.getString(8));
             s.setBirthDate(rs.getString(9));
             s.setGender(rs.getString(10));
-            s.setState(rs.getString(11));
-            s.setCity(rs.getString(12));
-            s.setFatherName(rs.getString(13));
-            s.setFatherOccupation(rs.getString(14));
-            s.setMotherName(rs.getString(15));
-            s.setMotherOccupation(rs.getString(16));
-            s.setProfilePic(rs.getBytes(17));
-            s.setSrNo(rs.getInt(18));
-            s.setLastLogin(rs.getString(19));
-            s.setUserId(rs.getString(20));
-            s.setPassword(rs.getString(21));
-            s.setActiveStatus(rs.getBoolean(22));
-            s.setAdmissionDate(rs.getString(23));
-
+            s.setAddress(rs.getString(11));
+            s.setFatherName(rs.getString(12));
+            s.setFatherOccupation(rs.getString(13));
+            s.setMotherName(rs.getString(14));
+            s.setMotherOccupation(rs.getString(15));
+            s.setProfilePic(rs.getBytes(16));
+            s.setSrNo(rs.getInt(17));
+            s.setLastLogin(rs.getString(18));
+            s.setUserId(rs.getString(19));
+            s.setPassword(rs.getString(20));
+            s.setAdmissionDate(rs.getString(21));
             return s;
         } catch (Exception e) {
             e.printStackTrace();
@@ -359,43 +256,38 @@ public class StudentData {
     public int addStudentTheoryMarks(Marks m) {
         int result = 0;
         try {
-
-            String query = "update marks set theorymarks=" + m.getTheoryMarks() + " where subjectcode='" + m.getSubjectCode() + "' and rollnumber=" + m.getRollNumber();
+            String query = "update marks set marks=" + m.getTheoryMarks() + " where coursecode='" + m.getCourseCode() + "' and rollnumber=" + m.getRollNumber();
             PreparedStatement pr = con.prepareStatement(query);
             result = pr.executeUpdate();
             if (result == 0) {
-                query = "insert into marks values(?,?,?,?,?,?,?)";
+                query = "insert into marks values(?,?,?,?,?,?)";
                 pr = con.prepareStatement(query);
-                pr.setString(1, m.getCourceCode());
+                pr.setString(1, m.getDeptCode());
                 pr.setInt(2, m.getSemorYear());
-                pr.setString(3, m.getSubjectCode());
-                pr.setString(4, m.getSubjectName());
+                pr.setString(3, m.getCourseCode());
+                pr.setString(4, m.getCourseName());
                 pr.setLong(5, m.getRollNumber());
                 pr.setInt(6, m.getTheoryMarks());
-
-                pr.setInt(7, Types.NULL);
                 result = pr.executeUpdate();
             }
         } catch (Exception exp) {
-
         }
         return result;
-
     }
 
-    public int addStudentPracticalMarks(Marks m) {
+/*    public int addStudentPracticalMarks(Marks m) {
         int result = 0;
         try {
-            String query = "update marks set practicalmarks=" + m.getPracticalMarks() + " where subjectcode='" + m.getSubjectCode() + "' and rollnumber=" + m.getRollNumber();
+            String query = "update marks set practicalmarks=" + m.getPracticalMarks() + " where coursecode='" + m.getCourseCode() + "' and rollnumber=" + m.getRollNumber();
             PreparedStatement pr = con.prepareStatement(query);
             result = pr.executeUpdate();
             if (result == 0) {
                 query = "insert into marks values(?,?,?,?,?,?,?)";
                 pr = con.prepareStatement(query);
-                pr.setString(1, m.getCourceCode());
+                pr.setString(1, m.getDeptCode());
                 pr.setInt(2, m.getSemorYear());
-                pr.setString(3, m.getSubjectCode());
-                pr.setString(4, m.getSubjectName());
+                pr.setString(3, m.getCourseCode());
+                pr.setString(4, m.getCourseName());
                 pr.setLong(5, m.getRollNumber());
                 pr.setInt(6, Types.NULL);
                 pr.setInt(7, m.getPracticalMarks());
@@ -405,18 +297,16 @@ public class StudentData {
             exp.printStackTrace();
         }
         return result;
+    }*/
 
-    }
-
-    public ArrayList<Marks> getStudentTheoryMarksDetails(String Courcecode, int sem, String subjectname) {
+    public ArrayList<Marks> getStudentTheoryMarksDetails(String Deptcode, int sem, String coursename) {
         ResultSet rs = null;
         ArrayList<Marks> marks = new ArrayList<Marks>();
-        String subjectcode = new SubjectData().getSubjectCode(Courcecode, sem, subjectname);
-        String query = "select distinct s.firstname,s.rollnumber,subject.subjectname,subject.theorymarks,m.theorymarks from students s left join marks m on s.rollnumber=m.rollnumber and m.subjectcode='" + subjectcode + "',subject where s.courcecode='" + Courcecode + "' and s.semoryear=" + sem + " and subject.subjectcode='" + subjectcode + "'  order by s.rollnumber asc";
-        String subjecttype = new SubjectData().checkCoreorOptional(subjectcode);
-        if (!subjecttype.equals("core")) {
-            query = "select distinct s.firstname,s.rollnumber,subject.subjectname,subject.theorymarks,m.theorymarks from students s left join marks m on s.rollnumber=m.rollnumber and m.subjectcode='" + subjectcode + "',subject where s.optionalsubject=subject.subjectname  and s.courcecode='" + Courcecode + "' and s.semoryear=" + sem + " and subject.subjectcode='" + subjectcode + "'  order by s.rollnumber asc";
-
+        String coursecode = new CourseData().getCourseCode(Deptcode, sem, coursename);
+        String query = "select distinct s.firstname,s.rollnumber,courses.coursename,courses.marks,m.marks from students s left join marks m on s.rollnumber=m.rollnumber and m.coursecode='" + coursecode + "',courses where s.Departmentcode='" + Deptcode + "' and s.semoryear=" + sem + " and courses.coursecode='" + coursecode + "'  order by s.rollnumber asc";
+        String coursetype = new CourseData().checkCoreorOptional(coursecode);
+        if (!coursetype.equals("core")) {
+            query = "select distinct s.firstname,s.rollnumber,courses.coursename,courses.marks,m.marks from students s left join marks m on s.rollnumber=m.rollnumber and m.coursecode='" + coursecode + "',courses where s.optionalcourse=courses.coursename  and s.Departmentcode='" + Deptcode + "' and s.semoryear=" + sem + " and courses.coursecode='" + coursecode + "'  order by s.rollnumber asc";
         }
         try {
             Statement st = con.createStatement();
@@ -425,11 +315,10 @@ public class StudentData {
                 Marks m = new Marks();
                 m.setRollNumber(rs.getLong(2));
                 m.setStudentName(rs.getString(1));
-                m.setSubjectName(rs.getString(3));
+                m.setCourseName(rs.getString(3));
                 m.setMaxTheoryMarks(rs.getInt(4));
                 m.setTheoryMarks(rs.getInt(5));
                 marks.add(m);
-
             }
             st.close();
         } catch (Exception e) {
@@ -438,15 +327,14 @@ public class StudentData {
         return marks;
     }
 
-    public ArrayList<Marks> getStudentPracticalMarksDetails(String Courcecode, int sem, String subjectname) {
+   /* public ArrayList<Marks> getStudentPracticalMarksDetails(String Deptcode, int sem, String coursename) {
         ResultSet rs = null;
         ArrayList<Marks> marks = new ArrayList<Marks>();
-        String subjectcode = new SubjectData().getSubjectCode(Courcecode, sem, subjectname);
-        String query = "select distinct s.firstname,s.rollnumber,subject.subjectname,subject.practicalmarks,m.practicalmarks from students s left join marks m on s.rollnumber=m.rollnumber and m.subjectcode='" + subjectcode + "',subject where s.courcecode='" + Courcecode + "' and s.semoryear=" + sem + " and subject.subjectcode='" + subjectcode + "' order by s.rollnumber asc";
-        String subjecttype = new SubjectData().checkCoreorOptional(subjectcode);
-        if (!subjecttype.equals("core")) {
-            query = "select distinct s.firstname,s.rollnumber,subject.subjectname,subject.practicalmarks,m.practicalmarks from students s left join marks m on s.rollnumber=m.rollnumber and m.subjectcode='" + subjectcode + "',subject where s.optionalsubject=subject.subjectname  and s.courcecode='" + Courcecode + "' and s.semoryear=" + sem + " and subject.subjectcode='" + subjectcode + "'  order by s.rollnumber asc";
-
+        String coursecode = new CourseData().getCourseCode(Deptcode, sem, coursename);
+        String query = "select distinct s.firstname,s.rollnumber,courses.coursename,courses.practicalmarks,m.practicalmarks from students s left join marks m on s.rollnumber=m.rollnumber and m.coursecode='" + coursecode + "',courses where s.Departmentcode='" + Deptcode + "' and s.semoryear=" + sem + " and courses.coursecode='" + coursecode + "' order by s.rollnumber asc";
+        String coursetype = new CourseData().checkCoreorOptional(coursecode);
+        if (!coursetype.equals("core")) {
+            query = "select distinct s.firstname,s.rollnumber,courses.coursename,courses.practicalmarks,m.practicalmarks from students s left join marks m on s.rollnumber=m.rollnumber and m.coursecode='" + coursecode + "',courses where s.optionalcourse=courses.coursename  and s.Departmentcode='" + Deptcode + "' and s.semoryear=" + sem + " and courses.coursecode='" + coursecode + "'  order by s.rollnumber asc";
         }
         try {
             Statement st = con.createStatement();
@@ -455,52 +343,47 @@ public class StudentData {
                 Marks m = new Marks();
                 m.setRollNumber(rs.getLong(2));
                 m.setStudentName(rs.getString(1));
-                m.setSubjectName(rs.getString(3));
+                m.setCourseName(rs.getString(3));
                 m.setMaxPracticalMarks(rs.getInt(4));
                 m.setPracticalMarks(rs.getInt(5));
                 marks.add(m);
-
             }
             st.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return marks;
-    }
+    }*/
 
     public Student getStudentDetails(int row) {
         Student s = new Student();
         String query = "select * from students where sr_no=" + row;
         try {
-
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             rs.next();
-            s.setCourceCode(rs.getString(1));
+            s.setDeptCode(rs.getString(1));
             s.setSemorYear(rs.getInt(2));
             s.setRollNumber(rs.getLong(3));
-            s.setOptionalSubject(rs.getString(4));
+            s.setOptionalCourse(rs.getString(4));
             s.setFirstName(rs.getString(5));
             s.setLastName(rs.getString(6));
             s.setEmailId(rs.getString(7));
             s.setContactNumber(rs.getString(8));
             s.setBirthDate(rs.getString(9));
             s.setGender(rs.getString(10));
-            s.setState(rs.getString(11));
-            s.setCity(rs.getString(12));
-            s.setFatherName(rs.getString(13));
-            s.setFatherOccupation(rs.getString(14));
-            s.setMotherName(rs.getString(15));
-            s.setMotherOccupation(rs.getString(16));
-            s.setProfilePic(rs.getBytes(17));
-            s.setSrNo(rs.getInt(18));
-            s.setLastLogin(rs.getString(19));
-            s.setUserId(rs.getString(20));
-            s.setPassword(rs.getString(21));
-            s.setActiveStatus(rs.getBoolean(22));
-            s.setAdmissionDate(rs.getString(23));
+            s.setAddress(rs.getString(11));
+            s.setFatherName(rs.getString(12));
+            s.setFatherOccupation(rs.getString(13));
+            s.setMotherName(rs.getString(14));
+            s.setMotherOccupation(rs.getString(15));
+            s.setProfilePic(rs.getBytes(16));
+            s.setSrNo(rs.getInt(17));
+            s.setLastLogin(rs.getString(18));
+            s.setUserId(rs.getString(19));
+            s.setPassword(rs.getString(20));
+            s.setAdmissionDate(rs.getString(21));
             return s;
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -511,36 +394,31 @@ public class StudentData {
         Student s = new Student();
         String query = "select * from students where userid='" + userid + "'";
         try {
-
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             rs.next();
-            s.setCourceCode(rs.getString(1));
+            s.setDeptCode(rs.getString(1));
             s.setSemorYear(rs.getInt(2));
             s.setRollNumber(rs.getLong(3));
-            s.setOptionalSubject(rs.getString(4));
+            s.setOptionalCourse(rs.getString(4));
             s.setFirstName(rs.getString(5));
             s.setLastName(rs.getString(6));
             s.setEmailId(rs.getString(7));
             s.setContactNumber(rs.getString(8));
             s.setBirthDate(rs.getString(9));
             s.setGender(rs.getString(10));
-            s.setState(rs.getString(11));
-            s.setCity(rs.getString(12));
-            s.setFatherName(rs.getString(13));
-            s.setFatherOccupation(rs.getString(14));
-            s.setMotherName(rs.getString(15));
-            s.setMotherOccupation(rs.getString(16));
-            s.setProfilePic(rs.getBytes(17));
-            s.setSrNo(rs.getInt(18));
-            s.setLastLogin(rs.getString(19));
-            s.setUserId(rs.getString(20));
-            s.setPassword(rs.getString(21));
-            s.setActiveStatus(rs.getBoolean(22));
-            s.setAdmissionDate(rs.getString(23));
-
+            s.setAddress(rs.getString(11));
+            s.setFatherName(rs.getString(12));
+            s.setFatherOccupation(rs.getString(13));
+            s.setMotherName(rs.getString(14));
+            s.setMotherOccupation(rs.getString(15));
+            s.setProfilePic(rs.getBytes(16));
+            s.setSrNo(rs.getInt(17));
+            s.setLastLogin(rs.getString(18));
+            s.setUserId(rs.getString(19));
+            s.setPassword(rs.getString(20));
+            s.setAdmissionDate(rs.getString(21));
             return s;
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -564,28 +442,26 @@ public class StudentData {
         return totalstudent;
     }
 
-    public Marks getOptionalSubjectMarks(String courcecode, int semoryear, long rollnumber) {
+    public Marks getOptionalCoursesMarks(String deptcode, int semoryear, long rollnumber) {
         try {
             Marks m = new Marks();
-            m.setCourceCode(courcecode);
+            m.setDeptCode(deptcode);
             m.setSemorYear(semoryear);
             m.setRollNumber(rollnumber);
-            String scode = this.getOptionalSubjectCode(courcecode, semoryear, rollnumber);
-            if (scode == null) {
+            String ccode = this.getOptionalCoursesCode(deptcode, semoryear, rollnumber);
+            if (ccode == null) {
                 return null;
             }
-            String query = "select su.subjectcode,su.subjectname,su.theorymarks,m.theorymarks,su.practicalmarks,m.practicalmarks from subject su left join marks m on m.subjectcode='" + scode + "' and m.rollnumber=" + rollnumber + " where su.subjectcode='" + scode + "'";
+            String query = "select cu.coursecode,cu.coursename,cu.marks,m.marks from courses cu left join marks m on m.coursecode='" + ccode + "' and m.rollnumber=" + rollnumber + " where su.coursecode='" + ccode + "'";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             rs.next();
-            m.setSubjectCode(rs.getString(1));
-            m.setSubjectName(rs.getString(2));
+            m.setCourseCode(rs.getString(1));
+            m.setCourseName(rs.getString(2));
             m.setMaxTheoryMarks(rs.getInt(3));
             m.setTheoryMarks(rs.getInt(4));
-            m.setMaxPracticalMarks(rs.getInt(5));
-            m.setPracticalMarks(rs.getInt(6));
             m.setRollNumber(rollnumber);
-            m.setStudentName(getStudentName(courcecode + "-" + semoryear + "-" + rollnumber));
+            m.setStudentName(getStudentName(deptcode + "-" + semoryear + "-" + rollnumber));
             return m;
         } catch (Exception exp) {
             exp.printStackTrace();
@@ -593,16 +469,16 @@ public class StudentData {
         return null;
     }
 
-    public String getOptionalSubjectCode(String courcecode, int semoryear, long rollnumber) {
+    public String getOptionalCoursesCode(String deptcode, int semoryear, long rollnumber) {
         String osub = null;
 
         try {
-            String query = "select optionalsubject from students where userid='" + courcecode + "-" + semoryear + "-" + rollnumber + "'";
+            String query = "select optionalcourse from students where userid='" + deptcode + "-" + semoryear + "-" + rollnumber + "'";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             rs.next();
             osub = rs.getString(1);
-            osub = new SubjectData().getSubjectCode(courcecode, semoryear, osub);
+            osub = new CourseData().getCourseCode(deptcode, semoryear, osub);
 
         } catch (Exception exp) {
             exp.printStackTrace();
@@ -611,30 +487,27 @@ public class StudentData {
 
     }
 
-    public ArrayList<Marks> getMarkssheetOfStudent(String courcecode, int sem, long rollnumber) {
+    public ArrayList<Marks> getMarkssheetOfStudent(String deptcode, int sem, long rollnumber) {
         ArrayList<Marks> list = new ArrayList<Marks>();
-        String query = "select su.subjectcode,su.subjectname,su.theorymarks,m.theorymarks,su.practicalmarks,m.practicalmarks from subject su left join marks m on su.subjectname=m.subjectname and m.rollnumber=" + rollnumber + " and m.semoryear=" + sem + " and m.courcecode='" + courcecode + "' where su.courcecode='" + courcecode + "' and su.semoryear=" + sem + " and su.subjecttype='core' order by su.subjectcode asc";
+        String query = "select su.coursecode,su.coursename,su.marks,m.marks from courses su left join marks m on su.coursename=m.coursename and m.rollnumber=" + rollnumber + " and m.semoryear=" + sem + " and m.Departmentcode='" + deptcode + "' where su.Departmentcode='" + deptcode + "' and su.semoryear=" + sem + " and su.coursetype='core' order by su.coursetype asc";
         try {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             int index = 1;
             while (rs.next()) {
                 Marks m = new Marks();
-
                 m.setSrNo(index);
-                m.setSubjectCode(rs.getString(1));
-                m.setSubjectName(rs.getString(2));
+                m.setCourseCode(rs.getString(1));
+                m.setCourseName(rs.getString(2));
                 m.setMaxTheoryMarks(rs.getInt(3));
                 m.setTheoryMarks(rs.getInt(4));
-                m.setMaxPracticalMarks(rs.getInt(5));
-                m.setPracticalMarks(rs.getInt(6));
                 m.setRollNumber(rollnumber);
-                m.setStudentName(getStudentName(courcecode + "-" + sem + "-" + rollnumber));
+                m.setStudentName(getStudentName(deptcode + "-" + sem + "-" + rollnumber));
                 index++;
                 list.add(m);
             }
             {
-                Marks m = getOptionalSubjectMarks(courcecode, sem, rollnumber);
+                Marks m = getOptionalCoursesMarks(deptcode, sem, rollnumber);
                 if (m != null) {
                     m.setSrNo(index);
                     list.add(m);
@@ -649,17 +522,15 @@ public class StudentData {
     public int addStudentAttandance(Attandance a) {
         int result = 0;
         try {
-
             String query = "insert into attandance values(?,?,?,?,?,?)";
             PreparedStatement pr = con.prepareStatement(query);
-            pr.setString(1, a.getSubjectCode());
+            pr.setString(1, a.getCourseCode());
             pr.setString(2, a.getAttandanceDate());
             pr.setLong(3, a.getRollNumber());
             pr.setBoolean(4, a.getPresentStatus());
-            pr.setString(5, a.getCourceCode());
+            pr.setString(5, a.getDeptCode());
             pr.setInt(6, a.getSemorYear());
             result = pr.executeUpdate();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -671,12 +542,12 @@ public class StudentData {
         String query = "select s.rollnumber,concat(s.firstname,' ',s.lastname),s.semoryear,a.present from students s left join attandance a on"
                 + " s.rollnumber=a.rollnumber"
                 + " and a.date='" + a.getAttandanceDate() + "'"
-                + " and a.subjectcode='" + a.getSubjectCode() + "'"
-                + " where s.courcecode='" + a.getCourceCode() + "'"
+                + " and a.coursecode='" + a.getCourseCode() + "'"
+                + " where s.Departmentcode='" + a.getDeptCode() + "'"
                 + " and s.semoryear=" + a.getSemorYear();
-        String subjecttype = new SubjectData().checkCoreorOptional(a.getSubjectCode());
-        if (!subjecttype.equals("core")) {
-            query += " and s.optionalsubject='" + a.getSubjectName() + "'";
+        String coursetype = new CourseData().checkCoreorOptional(a.getCourseCode());
+        if (!coursetype.equals("core")) {
+            query += " and s.optionalcourse='" + a.getCourseName() + "'";
         }
         query += " order by s.rollnumber asc";
         try {
@@ -688,10 +559,9 @@ public class StudentData {
                 at.setStudentName(rs.getString(2));
                 at.setSemorYear(rs.getInt(3));
                 at.setPresentStatus(rs.getBoolean(4));
-                at.setCourceCode(a.getCourceCode());
-                at.setSubjectName(a.getSubjectName());
+                at.setDeptCode(a.getDeptCode());
+                at.setCourseName(a.getCourseName());
                 list.add(at);
-
             }
         } catch (Exception exp) {
             exp.printStackTrace();
@@ -699,10 +569,10 @@ public class StudentData {
         return list;
     }
 
-    public boolean isSubmitted(String subjectcode, String date) {
+    public boolean isSubmitted(String coursecode, String date) {
         try {
             String query = " select count(*) from attandance where "
-                    + "subjectcode='" + subjectcode
+                    + "coursecode='" + coursecode
                     + "'"
                     + " and date='" + date
                     + "'";
@@ -717,18 +587,18 @@ public class StudentData {
         return false;
     }
 
-    public ArrayList<Attandance> getAttandanceReportBySubject(Attandance a) {
+    public ArrayList<Attandance> getAttandanceReportByCourse(Attandance a) {
         ArrayList<Attandance> list = new ArrayList<Attandance>();
         try {
             String query = "select distinct s.rollnumber,concat(s.firstname,' ',s.lastname) as 'Student Name',(select count(*) from attandance where "
-                    + "subjectcode='" + a.getSubjectCode()
-                    + "' and rollnumber=s.rollnumber and present=1),(select count(*) from attandance where subjectcode='" + a.getSubjectCode() + "' and rollnumber=s.rollnumber)"
+                    + "coursecode='" + a.getCourseCode()
+                    + "' and rollnumber=s.rollnumber and present=1),(select count(*) from attandance where coursecode='" + a.getCourseCode() + "' and rollnumber=s.rollnumber)"
                     + "from students s left join attandance a on s.rollnumber=a.rollnumber where "
-                    + "s.courcecode='" + a.getCourceCode()
+                    + "s.Departmentcode='" + a.getDeptCode()
                     + "' and s.semoryear=" + a.getSemorYear() + " ";
-            String subjecttype = new SubjectData().checkCoreorOptional(a.getSubjectCode());
-            if (!subjecttype.equals("core")) {
-                query += " and s.optionalsubject='" + a.getSubjectName() + "'";
+            String coursetype = new CourseData().checkCoreorOptional(a.getCourseCode());
+            if (!coursetype.equals("core")) {
+                query += " and s.optionalcourse='" + a.getCourseName() + "'";
             }
             query += " order by s.rollnumber asc";
             Statement st = con.createStatement();
@@ -737,13 +607,12 @@ public class StudentData {
                 Attandance at = new Attandance();
                 at.setRollNumber(rs.getLong(1));
                 at.setStudentName(rs.getString(2));
-                at.setCourceCode(a.getCourceCode());
-                at.setSubjectName(a.getSubjectName());
+                at.setDeptCode(a.getDeptCode());
+                at.setCourseName(a.getCourseName());
                 at.setAttandance(rs.getInt(3));
                 at.setTotalAttandance(rs.getInt(4));
                 list.add(at);
             }
-
         } catch (Exception exp) {
             exp.printStackTrace();
         }
@@ -751,41 +620,33 @@ public class StudentData {
 
     }
 
-    public ArrayList<Marks> getMarksheetReportBySubject(Marks marks) {
+    public ArrayList<Marks> getMarksheetReportByCourse(Marks marks) {
         ArrayList<Marks> list = new ArrayList<Marks>();
         try {
             String query = "select distinct s.rollnumber,concat(s.firstname,' ',s.lastname) as 'Student Name'"
-                    + ",(select theorymarks from marks where "
-                    + "subjectcode='" + marks.getSubjectCode()
+                    + ",(select marks from marks where "
+                    + "coursecode='" + marks.getCourseCode()
                     + "' and rollnumber=s.rollnumber) as 'Theory'"
-                    + ",(select practicalmarks from marks where"
-                    + " subjectcode='" + marks.getSubjectCode()
-                    + "' and rollnumber=s.rollnumber) as 'Practical',"
-                    + "(select theorymarks from subject where subjectcode='" + marks.getSubjectCode()
-                    + "') as 'Total theory',(select practicalmarks from subject where subjectcode='" + marks.getSubjectCode()
-                    + "') as 'Total Practical' from students s left join marks m on s.rollnumber=m.rollnumber where s.courcecode='" + marks.getCourceCode()
+                    + ",(select marks from courses where coursecode='" + marks.getCourseCode()
+                    + "') as 'Total theory' from students s left join marks m on s.rollnumber=m.rollnumber where s.Departmentcode='" + marks.getDeptCode()
                     + "' and s.semoryear=" + marks.getSemorYear();
-            String subjecttype = new SubjectData().checkCoreorOptional(marks.getSubjectCode());
-            if (!subjecttype.equals("core")) {
-                query += " and s.optionalsubject='" + marks.getSubjectName() + "'";
+            String coursetype = new CourseData().checkCoreorOptional(marks.getCourseCode());
+            if (!coursetype.equals("core")) {
+                query += " and s.optionalcourse='" + marks.getCourseName() + "'";
             }
             query += " order by s.rollnumber asc";
-
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
                 Marks m = new Marks();
                 m.setRollNumber(rs.getLong(1));
                 m.setStudentName(rs.getString(2));
-                m.setSubjectName(marks.getSubjectName());
+                m.setCourseName(marks.getCourseName());
                 m.setTheoryMarks(rs.getInt(3));
-                m.setPracticalMarks(rs.getInt(4));
-                m.setMaxTheoryMarks(rs.getInt(5));
-                m.setMaxPracticalMarks(rs.getInt(6));
+//                m.setMaxTheoryMarks(rs.getInt(5));
 
                 list.add(m);
             }
-
         } catch (Exception exp) {
             exp.printStackTrace();
         }
@@ -796,26 +657,22 @@ public class StudentData {
     public ArrayList<Marks> getMarksheetReportByClass(Marks marks) {
         ArrayList<Marks> list = new ArrayList<Marks>();
         try {
-            String query = "select distinct s.rollnumber,concat(s.firstname,' ',s.lastname) as 'Student Name',(select sum(theorymarks) from marks where courcecode=s.courcecode and semoryear=s.semoryear and rollnumber=s.rollnumber) as 'Theory',(select sum(practicalmarks) from marks where courcecode=s.courcecode and semoryear=s.semoryear  and rollnumber=s.rollnumber) as 'Practical',(select sum(theorymarks) from subject where courcecode=s.courcecode and semoryear=s.semoryear and subjecttype='core') as 'Total theory',(select sum(practicalmarks) from subject where courcecode=s.courcecode and semoryear=s.semoryear and  subjecttype='core' ) as 'Total Practical' from students s left join marks m on s.rollnumber=m.rollnumber where s.courcecode='" + marks.getCourceCode() + "' and s.semoryear=" + marks.getSemorYear();
+            String query = "select distinct s.rollnumber,concat(s.firstname,' ',s.lastname) as 'Student Name',(select sum(marks) from marks where Departmentcode=s.Departmentcode and semoryear=s.semoryear and rollnumber=s.rollnumber) as 'Theory',(select sum(marks) from courses where Departmentcode=s.Departmentcode and semoryear=s.semoryear and coursetype='core') as 'Total theory' from students s left join marks m on s.rollnumber=m.rollnumber where s.Departmentcode='" + marks.getDeptCode() + "' and s.semoryear=" + marks.getSemorYear();
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
                 Marks m = new Marks();
-                String subjectcode = this.getOptionalSubjectCode(marks.getCourceCode(), marks.getSemorYear(), rs.getLong(1));
-                int maxpracticalmarks = new SubjectData().getMaxTheoryMarksOfSubject(subjectcode);
-                int maxtheorymarks = new SubjectData().getMaxPracticalMarksOfSubject(subjectcode);
+                //String coursecode = this.getOptionalCoursesCode(marks.getDeptCode(), marks.getSemorYear(), rs.getLong(1));
+                //int maxtheorymarks = new CourseData().getMaxTheoryMarksOfCourse(coursecode);
 
                 m.setRollNumber(rs.getLong(1));
                 m.setStudentName(rs.getString(2));
-                m.setSubjectName(marks.getSubjectName());
+                m.setCourseName(marks.getCourseName());
                 m.setTheoryMarks(rs.getInt(3));
-                m.setPracticalMarks(rs.getInt(4));
-                m.setMaxTheoryMarks(rs.getInt(5) + maxtheorymarks);
-                m.setMaxPracticalMarks(rs.getInt(6) + maxpracticalmarks);
+                //m.setMaxTheoryMarks(rs.getInt(4) + maxtheorymarks);
 
                 list.add(m);
             }
-
         } catch (Exception exp) {
             exp.printStackTrace();
         }
@@ -827,11 +684,11 @@ public class StudentData {
         ArrayList<Attandance> list = new ArrayList<Attandance>();
         try {
             String query = "select distinct s.rollnumber,concat(s.firstname,' ',s.lastname) as 'Student Name',(select count(*) from attandance where "
-                    + "courcecode='" + a.getCourceCode()
+                    + "Departmentcode='" + a.getDeptCode()
                     + "' and semoryear=" + a.getSemorYear()
-                    + " and rollnumber=s.rollnumber and present=1),(select count(*) from attandance where courcecode='" + a.getCourceCode() + "' and semoryear=" + a.getSemorYear() + " and  rollnumber=s.rollnumber)"
+                    + " and rollnumber=s.rollnumber and present=1),(select count(*) from attandance where Departmentcode='" + a.getDeptCode() + "' and semoryear=" + a.getSemorYear() + " and  rollnumber=s.rollnumber)"
                     + " from students s left join attandance a on s.rollnumber=a.rollnumber where "
-                    + "s.courcecode='" + a.getCourceCode()
+                    + "s.Departmentcode='" + a.getDeptCode()
                     + "' and s.semoryear=" + a.getSemorYear() + " order by s.rollnumber";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
@@ -839,10 +696,9 @@ public class StudentData {
                 Attandance at = new Attandance();
                 at.setRollNumber(rs.getLong(1));
                 at.setStudentName(rs.getString(2));
-                at.setSubjectName("All");
+                at.setCourseName("All");
                 at.setAttandance(rs.getInt(3));
                 at.setTotalAttandance(rs.getInt(4));
-
                 list.add(at);
             }
 
@@ -850,18 +706,17 @@ public class StudentData {
             exp.printStackTrace();
         }
         return list;
-
     }
 
     public ArrayList<Attandance> getTotalAttandanceReportOfStudent(Attandance a) {
         ArrayList<Attandance> list = new ArrayList<Attandance>();
         try {
             String query = "select distinct s.rollnumber,concat(s.firstname,' ',s.lastname) as 'Student Name',(select count(*) from attandance where "
-                    + "courcecode='" + a.getCourceCode()
+                    + "Departmentcode='" + a.getDeptCode()
                     + "' and semoryear=" + a.getSemorYear()
-                    + " and rollnumber=s.rollnumber and present=1),(select count(*) from attandance where courcecode='" + a.getCourceCode() + "' and semoryear=" + a.getSemorYear() + " and  rollnumber=s.rollnumber)"
+                    + " and rollnumber=s.rollnumber and present=1),(select count(*) from attandance where Departmentcode='" + a.getDeptCode() + "' and semoryear=" + a.getSemorYear() + " and  rollnumber=s.rollnumber)"
                     + " from students s left join attandance a on s.rollnumber=a.rollnumber where "
-                    + "s.courcecode='" + a.getCourceCode()
+                    + "s.Departmentcode='" + a.getDeptCode()
                     + "' and s.semoryear=" + a.getSemorYear()
                     + " and s.rollnumber=" + a.getRollNumber()
                     + " order by s.rollnumber";
@@ -872,10 +727,9 @@ public class StudentData {
                 Attandance at = new Attandance();
                 at.setRollNumber(rs.getLong(1));
                 at.setStudentName(rs.getString(2));
-                at.setSubjectName("All");
+                at.setCourseName("All");
                 at.setAttandance(rs.getInt(3));
                 at.setTotalAttandance(rs.getInt(4));
-
                 list.add(at);
             }
 
@@ -889,36 +743,34 @@ public class StudentData {
     public ArrayList<Attandance> getAttandanceReportByStudent(Attandance a) {
         ArrayList<Attandance> list = new ArrayList<Attandance>();
         try {
-            String query = "select distinct su.subjectcode,su.subjectname,(select count(*) from attandance where subjectcode=su.subjectcode "
+            String query = "select distinct su.coursecode,su.coursename,(select count(*) from attandance where coursecode=su.coursecode "
                     + "and rollnumber=" + a.getRollNumber() + " and present=1) as 'Attandance',(select count(*) from attandance where"
-                    + " subjectcode=su.subjectcode and rollnumber=" + a.getRollNumber() + ") as 'Total Attandance' from subject su "
-                    + "left join attandance a on su.subjectcode=a.subjectcode where su.courcecode='" + a.getCourceCode()
-                    + "' and su.semoryear=" + a.getSemorYear() + "  order by su.subjectcode asc;";
+                    + " coursecode=su.coursecode and rollnumber=" + a.getRollNumber() + ") as 'Total Attandance' from courses su "
+                    + "left join attandance a on su.coursecode=a.coursecode where su.Departmentcode='" + a.getDeptCode()
+                    + "' and su.semoryear=" + a.getSemorYear() + "  order by su.coursecode asc;";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             while (rs.next()) {
                 Attandance at = new Attandance();
-                at.setStudentName(this.getStudentName(a.getCourceCode() + "-" + a.getSemorYear() + "-" + a.getRollNumber()));
+                at.setStudentName(this.getStudentName(a.getDeptCode() + "-" + a.getSemorYear() + "-" + a.getRollNumber()));
                 at.setRollNumber(a.getRollNumber());;
-                at.setSubjectCode(rs.getString(1));
-                at.setSubjectName(rs.getString(2));
+                at.setCourseCode(rs.getString(1));
+                at.setCourseName(rs.getString(2));
                 at.setAttandance(rs.getInt(3));
                 at.setTotalAttandance(rs.getInt(4));
-                String courcetype = new SubjectData().checkCoreorOptional(at.getSubjectCode());
-                if (!courcetype.equals("core")) {
-                    if (at.getSubjectCode().equals(this.getOptionalSubjectCode(a.getCourceCode(), a.getSemorYear(), a.getRollNumber()))) {
+                String depttype = new CourseData().checkCoreorOptional(at.getCourseCode());
+                if (!depttype.equals("core")) {
+                    if (at.getCourseCode().equals(this.getOptionalCoursesCode(a.getDeptCode(), a.getSemorYear(), a.getRollNumber()))) {
                         list.add(at);
                     }
                 } else {
                     list.add(at);
                 }
             }
-
         } catch (Exception exp) {
             exp.printStackTrace();
         }
         return list;
-
     }
 
     public boolean checkPassword(String userid, String password) {
@@ -933,7 +785,6 @@ public class StudentData {
             } else {
                 JOptionPane.showMessageDialog(null, "Incorrect User-Id or Password", "Error", JOptionPane.ERROR_MESSAGE);
             }
-
         } catch (Exception exp) {
             exp.printStackTrace();
         }
@@ -942,37 +793,33 @@ public class StudentData {
 
     public ArrayList<Student> getStudentsDetails(String condition) {
         ArrayList<Student> list = new ArrayList<Student>();
-        String query = "select * from students s " + condition + " order by s.courcecode asc,s.semoryear asc,s.rollnumber asc";
+        String query = "select * from students s " + condition + " order by s.Departmentcode asc,s.semoryear asc,s.rollnumber asc";
         try {
-
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
-
             while (rs.next()) {
                 Student s = new Student();
-                s.setCourceCode(rs.getString(1));
+                s.setDeptCode(rs.getString(1));
                 s.setSemorYear(rs.getInt(2));
                 s.setRollNumber(rs.getLong(3));
-                s.setOptionalSubject(rs.getString(4));
+                s.setOptionalCourse(rs.getString(4));
                 s.setFirstName(rs.getString(5));
                 s.setLastName(rs.getString(6));
                 s.setEmailId(rs.getString(7));
                 s.setContactNumber(rs.getString(8));
                 s.setBirthDate(rs.getString(9));
                 s.setGender(rs.getString(10));
-                s.setState(rs.getString(11));
-                s.setCity(rs.getString(12));
-                s.setFatherName(rs.getString(13));
-                s.setFatherOccupation(rs.getString(14));
-                s.setMotherName(rs.getString(15));
-                s.setMotherOccupation(rs.getString(16));
-                s.setProfilePic(rs.getBytes(17));
-                s.setSrNo(rs.getInt(18));
-                s.setLastLogin(rs.getString(19));
-                s.setUserId(rs.getString(20));
-                s.setPassword(rs.getString(21));
-                s.setActiveStatus(rs.getBoolean(22));
-                s.setAdmissionDate(rs.getString(23));
+                s.setAddress(rs.getString(11));
+                s.setFatherName(rs.getString(12));
+                s.setFatherOccupation(rs.getString(1));
+                s.setMotherName(rs.getString(14));
+                s.setMotherOccupation(rs.getString(15));
+                s.setProfilePic(rs.getBytes(16));
+                s.setSrNo(rs.getInt(17));
+                s.setLastLogin(rs.getString(18));
+                s.setUserId(rs.getString(19));
+                s.setPassword(rs.getString(20));
+                s.setAdmissionDate(rs.getString(21));
                 list.add(s);
             }
 
@@ -980,22 +827,6 @@ public class StudentData {
             e.printStackTrace();
         }
         return list;
-    }
-
-    public boolean isActive(String userid) {
-        try {
-            String query = "select activestatus from students where userid='" + userid + "'";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(query);
-            rs.next();
-            boolean active = rs.getBoolean(1);
-            st.close();
-            rs.close();
-            return active;
-        } catch (Exception exp) {
-            exp.printStackTrace();
-        }
-        return false;
     }
 
     public String getStudentName(String userid) {
@@ -1014,19 +845,6 @@ public class StudentData {
             exp.printStackTrace();
         }
         return name;
-    }
-
-    public int setActiveStatus(boolean activestatus, String userid) {
-        int result = 0;
-        try {
-            String query = "update students set activestatus=" + activestatus + " where userid='" + userid + "'";
-            PreparedStatement pr = con.prepareStatement(query);
-            result = pr.executeUpdate();
-            pr.close();
-        } catch (Exception exp) {
-            exp.printStackTrace();
-        }
-        return result;
     }
 
     public String getLastLogin(String userid) {
@@ -1069,5 +887,4 @@ public class StudentData {
         }
         return 0;
     }
-
 }

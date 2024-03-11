@@ -16,21 +16,19 @@ import javax.swing.SwingConstants;
 import javax.swing.border.MatteBorder;
 
 import application.admin.AdminMain;
-import application.cource.CourceData;
+import application.department.DepartmentData;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
 /*
  * Title : ViewStudentDialog.java
- * Created by : Ajaysinh Rathod
  * Purpose : Selecting student for finding more details
- * Mail : ajaysinhrathod1290@gmail.com
  */
 @SuppressWarnings("serial")
 public class ViewStudentDialog extends JDialog implements ActionListener {
 
-    private JComboBox<String> courcenamecombo, semoryearcombo, rollnumbercombo;
+    private JComboBox<String> deptnamecombo, semoryearcombo, rollnumbercombo;
     private JButton viewdetails;
     private AdminMain am;
     private JLabel Errorlabel;
@@ -65,20 +63,20 @@ public class ViewStudentDialog extends JDialog implements ActionListener {
         headerlabel.setHorizontalAlignment(SwingConstants.CENTER);
         headerlabel.setBounds(0, 0, 514, 53);
         getContentPane().add(headerlabel);
-        headerlabel.setBackground(new Color(32, 178, 170));
+        headerlabel.setBackground(new Color(125, 104, 196));
         headerlabel.setOpaque(true);
         headerlabel.setForeground(new Color(255, 255, 255));
         headerlabel.setFont(new Font("Arial", Font.BOLD, 23));
         headerlabel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) Color.LIGHT_GRAY));
 
-        courcenamecombo = new JComboBox<String>(new CourceData().getCourceName());
-        courcenamecombo.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+        deptnamecombo = new JComboBox<String>(new DepartmentData().getDeptName());
+        deptnamecombo.setFont(new Font("Segoe UI", Font.PLAIN, 17));
 
-        courcenamecombo.setFocusable(false);
-        courcenamecombo.setBackground(Color.WHITE);
-        courcenamecombo.setBounds(170, 98, 320, 43);
-        courcenamecombo.addActionListener(this);
-        getContentPane().add(courcenamecombo);
+        deptnamecombo.setFocusable(false);
+        deptnamecombo.setBackground(Color.WHITE);
+        deptnamecombo.setBounds(170, 98, 320, 43);
+        deptnamecombo.addActionListener(this);
+        getContentPane().add(deptnamecombo);
 
         semoryearcombo = new JComboBox<String>();
         semoryearcombo.setFont(new Font("Segoe UI", Font.PLAIN, 17));
@@ -107,17 +105,17 @@ public class ViewStudentDialog extends JDialog implements ActionListener {
         viewdetails.setCursor(new Cursor(Cursor.HAND_CURSOR));
         viewdetails.setFocusable(false);
         viewdetails.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        viewdetails.setForeground(new Color(255, 255, 255));
-        viewdetails.setBackground(new Color(32, 178, 170));
+        viewdetails.setForeground(new Color(61, 0, 169));
+        viewdetails.setBackground(new Color(245, 245, 245));
         viewdetails.addActionListener(this);
         viewdetails.setBounds(351, 11, 139, 33);
         panel.add(viewdetails);
 
-        JLabel lblCource = new JLabel("Cource     :");
-        lblCource.setHorizontalAlignment(SwingConstants.RIGHT);
-        lblCource.setFont(new Font("Microsoft YaHei Light", Font.BOLD, 18));
-        lblCource.setBounds(24, 98, 136, 43);
-        getContentPane().add(lblCource);
+        JLabel lblDept = new JLabel("Department     :");
+        lblDept.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblDept.setFont(new Font("Microsoft YaHei Light", Font.BOLD, 18));
+        lblDept.setBounds(24, 98, 136, 43);
+        getContentPane().add(lblDept);
 
         JLabel lblSemyear = new JLabel("Sem/Year     :");
         lblSemyear.setHorizontalAlignment(SwingConstants.RIGHT);
@@ -141,21 +139,19 @@ public class ViewStudentDialog extends JDialog implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
 
         if (e.getSource() == viewdetails) {
-            if (courcenamecombo.getSelectedIndex() == 0) {
-                showerror(courcenamecombo);
+            if (deptnamecombo.getSelectedIndex() == 0) {
+                showerror(deptnamecombo);
             } else if (semoryearcombo.getSelectedIndex() == 0) {
                 showerror(semoryearcombo);
             } else if (rollnumbercombo.getSelectedIndex() == 0) {
                 showerror(rollnumbercombo);
             } else {
-                String Courcecode = new CourceData().getCourcecode(courcenamecombo.getSelectedItem() + "");
+                String Deptcode = new DepartmentData().getDeptcode(deptnamecombo.getSelectedItem() + "");
                 int sem = semoryearcombo.getSelectedIndex();
                 long rollnumber = Long.parseLong(rollnumbercombo.getSelectedItem() + "");
-                Student s = new StudentData().getStudentDetails(Courcecode, sem, rollnumber);
-
+                Student s = new StudentData().getStudentDetails(Deptcode, sem, rollnumber);
                 am.viewstudentpanel = new ViewStudentPanel(s, am, am.studentpanel);
                 am.viewstudentpanel.setVisible(true);
                 am.studentpanel.setVisible(false);
@@ -163,30 +159,25 @@ public class ViewStudentDialog extends JDialog implements ActionListener {
                 am.viewstudentpanel.setVisible(true);
                 am.viewstudentpanel.setFocusable(true);
                 am.contentPane.add(am.viewstudentpanel);
-
                 this.dispose();
             }
         }
 
-        if (e.getSource() == courcenamecombo) {
-
-            if (courcenamecombo.getSelectedIndex() == 0) {
+        if (e.getSource() == deptnamecombo) {
+            if (deptnamecombo.getSelectedIndex() == 0) {
                 semoryearcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
             } else {
-                String cource = (String) courcenamecombo.getSelectedItem();
-
-                semoryearcombo.setModel(new DefaultComboBoxModel<String>(new CourceData().getSemorYear(cource)));
+                String dept = (String) deptnamecombo.getSelectedItem();
+                semoryearcombo.setModel(new DefaultComboBoxModel<String>(new DepartmentData().getSemorYear(dept)));
             }
-
         }
         if (e.getSource() == semoryearcombo) {
             if (semoryearcombo.getSelectedIndex() > 0) {
-                String courcecode = new CourceData().getCourcecode(courcenamecombo.getSelectedItem() + "");
+                String deptcode = new DepartmentData().getDeptcode(deptnamecombo.getSelectedItem() + "");
                 int sem = semoryearcombo.getSelectedIndex();
-                rollnumbercombo.setModel(new DefaultComboBoxModel<String>(new StudentData().getRollNumber(courcecode, sem)));
+                rollnumbercombo.setModel(new DefaultComboBoxModel<String>(new StudentData().getRollNumber(deptcode, sem)));
             }
         }
-
     }
 
     public void showerror(JComponent tf) {

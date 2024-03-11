@@ -18,7 +18,7 @@ import javax.print.attribute.standard.Destination;
 import javax.swing.JButton;
 
 import application.admin.AdminMain;
-import application.faculty.FacultyMain;
+import application.teacher.TeacherMain;
 import application.student.StudentMain;
 
 /*
@@ -28,7 +28,7 @@ import application.student.StudentMain;
 public class printMarksheetPDF implements Printable, ActionListener {
 
     private AdminMain am;
-    private FacultyMain fm;
+    private TeacherMain fm;
     private StudentMain sm;
     String pdfpath;
     PrintMarksheetDialog pgd;
@@ -38,7 +38,7 @@ public class printMarksheetPDF implements Printable, ActionListener {
         this.am = am;
     }
 
-    public printMarksheetPDF(FacultyMain fm) {
+    public printMarksheetPDF(TeacherMain fm) {
         this.fm = fm;
     }
 

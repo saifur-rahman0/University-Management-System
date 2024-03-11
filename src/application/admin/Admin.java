@@ -78,9 +78,6 @@ public class Admin {
         this.lastlogin = lastlogin;
     }
 
-    public void setActiveStatus(boolean isactive) {
-        this.isactive = isactive;
-    }
 
     public void setAddress(String address) {
         this.address = address;

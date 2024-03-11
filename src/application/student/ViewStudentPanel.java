@@ -13,13 +13,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import application.admin.AdminMain;
 import application.common.ChangePasswordDialog;
-import application.cource.CourceData;
-import application.faculty.FacultyMain;
+import application.department.DepartmentData;
+import application.teacher.TeacherMain;
 
 /*
  * Title : ViewStudentPanel.java
@@ -31,7 +30,7 @@ public class ViewStudentPanel extends JPanel {
     private JButton editdetailsbutton;
     public JComponent lastpanel;
     AdminMain am;
-    FacultyMain fm;
+    TeacherMain fm;
     StudentMain sm;
     private JButton backbutton;
     private JButton marksheetbutton;
@@ -83,15 +82,15 @@ public class ViewStudentPanel extends JPanel {
         panel.add(marksheetbutton);
 
         backbutton = new JButton("Back");
-        backbutton.setContentAreaFilled(false);
+        //backbutton.setContentAreaFilled(false);
         backbutton.setBorder(new LineBorder(new Color(92, 9, 134)));
-
         backbutton.setIcon(new ImageIcon(".\\assets\\back.png"));
         backbutton.setFocusable(false);
         backbutton.setForeground(new Color(61, 0, 169));
         backbutton.setFont(new Font("Segoe UI", Font.BOLD, 16));
         backbutton.setBackground(new Color(255, 255, 255));
         backbutton.setBounds(10, 141, 88, 36);
+        backbutton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         panel.add(backbutton);
 
         lblLastLogin = new JLabel("Last Login ");
@@ -167,14 +166,14 @@ public class ViewStudentPanel extends JPanel {
         lblContactNumber.setBounds(309, 300 + 150, 274, 48);
         add(lblContactNumber);
 
-        JLabel lblCource = new JLabel("Cource  ");
-        lblCource.setOpaque(true);
-        lblCource.setHorizontalAlignment(SwingConstants.RIGHT);
-        lblCource.setFont(new Font("Segoe UI Historic", Font.PLAIN, 20));
-        lblCource.setBorder(new LineBorder(new Color(192, 192, 192)));
-        lblCource.setBackground(Color.WHITE);
-        lblCource.setBounds(20, 359 + 150, 291, 48);
-        add(lblCource);
+        JLabel lblDept = new JLabel("Department  ");
+        lblDept.setOpaque(true);
+        lblDept.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblDept.setFont(new Font("Segoe UI Historic", Font.PLAIN, 20));
+        lblDept.setBorder(new LineBorder(new Color(192, 192, 192)));
+        lblDept.setBackground(Color.WHITE);
+        lblDept.setBounds(20, 359 + 150, 291, 48);
+        add(lblDept);
 
         JLabel lblFatherName = new JLabel("Father Name  ");
         lblFatherName.setOpaque(true);
@@ -266,14 +265,14 @@ public class ViewStudentPanel extends JPanel {
         contactnumberlabel.setBounds(582, 300 + 150, 523, 48);
         add(contactnumberlabel);
 
-        JLabel courcenamelabel = new JLabel("  " + new CourceData().getcourcename(s.getCourceCode()));
-        courcenamelabel.setOpaque(true);
-        courcenamelabel.setHorizontalAlignment(SwingConstants.LEFT);
-        courcenamelabel.setFont(new Font("Segoe UI Historic", Font.BOLD, 20));
-        courcenamelabel.setBorder(new LineBorder(new Color(192, 192, 192)));
-        courcenamelabel.setBackground(Color.WHITE);
-        courcenamelabel.setBounds(309, 359 + 150, 274, 48);
-        add(courcenamelabel);
+        JLabel deptnamelabel = new JLabel("  " + new DepartmentData().getdeptname(s.getDeptCode()));
+        deptnamelabel.setOpaque(true);
+        deptnamelabel.setHorizontalAlignment(SwingConstants.LEFT);
+        deptnamelabel.setFont(new Font("Segoe UI Historic", Font.BOLD, 20));
+        deptnamelabel.setBorder(new LineBorder(new Color(192, 192, 192)));
+        deptnamelabel.setBackground(Color.WHITE);
+        deptnamelabel.setBounds(309, 359 + 150, 274, 48);
+        add(deptnamelabel);
 
         JLabel fathernamelabel = new JLabel("  " + s.getFatherName());
         fathernamelabel.setOpaque(true);
@@ -331,7 +330,7 @@ public class ViewStudentPanel extends JPanel {
         add(lblsemoryear);
 
         JLabel semoryearlabel = new JLabel(
-                "  " + new CourceData().getsemoryear(s.getCourceCode()) + "-" + s.getSemorYear() + " " + " (" + s.getCourceCode() + ")");
+                "  " + new DepartmentData().getsemoryear(s.getDeptCode()) + "-" + s.getSemorYear() + " " + " (" + s.getDeptCode() + ")");
         semoryearlabel.setOpaque(true);
         semoryearlabel.setHorizontalAlignment(SwingConstants.LEFT);
         semoryearlabel.setFont(new Font("Segoe UI Historic", Font.BOLD, 20));
@@ -387,7 +386,6 @@ public class ViewStudentPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 // TODO Auto-generated method stub
-
                 am.viewstudentpanel.setVisible(false);
                 am.marksheetpanel = new MarkSheetPanel(am, s);
                 am.marksheetpanel.setVisible(true);
@@ -444,7 +442,7 @@ public class ViewStudentPanel extends JPanel {
 
     }
 
-    public ViewStudentPanel(Student s, FacultyMain fm, JComponent lastpanel) {
+    public ViewStudentPanel(Student s, TeacherMain fm, JComponent lastpanel) {
         this(s);
         this.fm = fm;
         this.lastpanel = lastpanel;

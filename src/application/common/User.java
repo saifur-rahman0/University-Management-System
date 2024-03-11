@@ -4,18 +4,16 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import application.cource.Cource;
-import application.faculty.FacultyData;
+import application.department.Department;
+import application.teacher.TeacherData;
 import application.student.StudentData;
 
 
 /*
  * Title : User.java
- * Created by : Ajaysinh Rathod
  * Purpose : Binding data related to login activity of students and faculties
- * Mail : ajaysinhrathod1290@gmail.com
  */
-class User extends Cource {
+class User extends Department {
 
     private String logindate;
     private String logintime;
@@ -76,8 +74,8 @@ class User extends Cource {
     public String getName() {
         if (getUserProfile().equals("Student")) {
             return new StudentData().getStudentName(userid);
-        } else if (getUserProfile().equals("Faculty")) {
-            return new FacultyData().getFacultyName(userid);
+        } else if (getUserProfile().equals("Teacher")) {
+            return new TeacherData().getTeacherName(userid);
         }
         return "-";
     }

@@ -31,13 +31,14 @@ import application.common.DataBaseConnection;
 public class LoginPageFrame extends JFrame implements ActionListener {
 
     private JPanel contentPane;
-    private JButton facultybutton;
+    private JButton teacherbutton;
     private JButton studentbutton;
     private JButton adminbutton;
-    private LoginPanel studentloginpanel, facultyloginpanel, adminloginpanel;
-    private boolean adminchanging = false, studentchanging = false, facultychanging = false;
+    private JButton fullscrnbtn;
+    private LoginPanel studentloginpanel, teacherloginpanel, adminloginpanel;
+    private boolean adminchanging = false, studentchanging = false, teacherchanging = false;
     private int adminpanelx = -2300, adminpanely = 240;
-    private int facultypanelx = -900, facultypanely = 240;
+    private int teacherpanelx = -900, teacherpanely = 240;
     private int studentpanelx = 500, studentpanely = 240;
     private int underlinelabelx = 280, underlinelabelwidth = 140;
     public Timer timer;
@@ -67,7 +68,6 @@ public class LoginPageFrame extends JFrame implements ActionListener {
             }
         });
     }
-
     /**
      * Create the frame.
      */
@@ -76,6 +76,7 @@ public class LoginPageFrame extends JFrame implements ActionListener {
         imagetimer = new Timer(5000, this);
         imagetimer.start();
         setTitle("Login");
+        setIconImage(new AdminData().getProfilePic());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1380, 733);
         setLocationRelativeTo(null);
@@ -105,20 +106,20 @@ public class LoginPageFrame extends JFrame implements ActionListener {
         lblLogo.setIcon(new ImageIcon(ad.getRoundedProfilePic(lblLogo.getWidth(), lblLogo.getHeight(), lblLogo.getWidth())));
         panel.add(lblLogo);
 
-        studentloginpanel = new LoginPanel("Student", new ImageIcon("./assets/studentlogin.png"), this);
+        studentloginpanel = new LoginPanel("Student", new ImageIcon("./assets/login_Panal/studentlogin.png"), this);
         studentloginpanel.setVisible(true);
         studentloginpanel.setLocation(studentpanelx, studentpanely);
 
-        facultyloginpanel = new LoginPanel("Faculty", new ImageIcon("./assets/facultylogin.png"), this);
-        facultyloginpanel.setVisible(true);
-        facultyloginpanel.setLocation(facultypanelx, facultypanely);
+        teacherloginpanel = new LoginPanel("Teacher", new ImageIcon("./assets/login_Panal/teacherlogin.png"), this);
+        teacherloginpanel.setVisible(true);
+        teacherloginpanel.setLocation(teacherpanelx, teacherpanely);
 
-        adminloginpanel = new LoginPanel("Admin", new ImageIcon("./assets/adminlogin.png"), this);
+        adminloginpanel = new LoginPanel("Admin", new ImageIcon("./assets/login_Panal/adminlogin.png"), this);
         adminloginpanel.setVisible(true);
         adminloginpanel.setLocation(adminpanelx, adminpanely);
 
         contentPane.add(studentloginpanel);
-        contentPane.add(facultyloginpanel);
+        contentPane.add(teacherloginpanel);
         contentPane.add(adminloginpanel);
 
         loginbuttonpanel = new JPanel() {
@@ -138,11 +139,11 @@ public class LoginPageFrame extends JFrame implements ActionListener {
         adminbutton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 activeButton(adminbutton);
-                disableButton(facultybutton);
+                disableButton(teacherbutton);
                 disableButton(studentbutton);
                 adminchanging = true;
                 studentchanging = false;
-                facultychanging = false;
+                teacherchanging = false;
                 timer.start();
             }
         });
@@ -150,31 +151,31 @@ public class LoginPageFrame extends JFrame implements ActionListener {
         adminbutton.setBounds(0, 0, 140, 35);
         loginbuttonpanel.add(adminbutton);
 
-        facultybutton = new JButton("Faculty");
-        facultybutton.addActionListener(new ActionListener() {
+        teacherbutton = new JButton("Teacher");
+        teacherbutton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                activeButton(facultybutton);
+                activeButton(teacherbutton);
                 disableButton(studentbutton);
                 disableButton(adminbutton);
-                facultychanging = true;
+                teacherchanging = true;
                 adminchanging = false;
                 studentchanging = false;
                 timer.start();
             }
         });
-        this.buttonStyle(facultybutton);
-        facultybutton.setBounds(140, 0, 140, 35);
-        loginbuttonpanel.add(facultybutton);
+        this.buttonStyle(teacherbutton);
+        teacherbutton.setBounds(140, 0, 140, 35);
+        loginbuttonpanel.add(teacherbutton);
 
         studentbutton = new JButton("Student");
         studentbutton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 activeButton(studentbutton);
-                disableButton(facultybutton);
+                disableButton(teacherbutton);
                 disableButton(adminbutton);
                 studentchanging = true;
                 adminchanging = false;
-                facultychanging = false;
+                teacherchanging = false;
                 timer.start();
             }
         });
@@ -184,7 +185,7 @@ public class LoginPageFrame extends JFrame implements ActionListener {
         activeButton(studentbutton);
 
         underlinelabel = new JLabel("");
-        underlinelabel.setBorder(new MatteBorder(3, 0, 0, 0, (Color) new Color(136, 104, 159)));
+        underlinelabel.setBorder(new MatteBorder(3, 0, 0, 0, (Color) new Color(23, 182, 11)));
         underlinelabel.setBounds(underlinelabelx, 37, underlinelabelwidth, 4);
         loginbuttonpanel.add(underlinelabel);
 
@@ -193,21 +194,16 @@ public class LoginPageFrame extends JFrame implements ActionListener {
         contentPane.add(bgimagelabel);
         this.setBackgroundImage();
     }
-//
-//	protected void disposethis() {
-//		this.dispose();
-//	}
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (!adminchanging && !studentchanging && !facultychanging) {
+        if (!adminchanging && !studentchanging && !teacherchanging) {
             imagenumber++;
             if (imagenumber > 6) {
                 imagenumber = 1;
             }
             this.setBackgroundImage();
         }
-
         if (adminchanging) {
             if (adminpanelx == 500) {
                 adminchanging = false;
@@ -216,25 +212,26 @@ public class LoginPageFrame extends JFrame implements ActionListener {
             else {
                 adminpanelx += 50;
                 studentpanelx += 50;
-                facultypanelx += 50;
+                teacherpanelx += 50;
                 underlinelabelx -= 5;
             }
         }
-        else if (facultychanging) {
-            if (facultypanelx == 500) {
-                facultychanging = false;
+        else if (teacherchanging) {
+            if (teacherpanelx == 500) {
+                teacherchanging = false;
                 timer.stop();
             }
             else {
-                if (facultypanelx > 500) {
+                if (teacherpanelx > 500) {
                     adminpanelx -= 50;
                     studentpanelx -= 50;
-                    facultypanelx -= 50;
+                    teacherpanelx -= 50;
                     underlinelabelx += 5;
-                } else {
+                }
+                else {
                     adminpanelx += 50;
                     studentpanelx += 50;
-                    facultypanelx += 50;
+                    teacherpanelx += 50;
                     underlinelabelx -= 5;
                 }
             }
@@ -243,16 +240,16 @@ public class LoginPageFrame extends JFrame implements ActionListener {
             if (studentpanelx == 500) {
                 studentchanging = false;
                 timer.stop();
-            } else {
+            }
+            else {
                 adminpanelx -= 50;
                 studentpanelx -= 50;
-                facultypanelx -= 50;
+                teacherpanelx -= 50;
                 underlinelabelx += 5;
             }
         }
-
         studentloginpanel.setLocation(studentpanelx, studentpanely);
-        facultyloginpanel.setLocation(facultypanelx, facultypanely);
+        teacherloginpanel.setLocation(teacherpanelx, teacherpanely);
         adminloginpanel.setLocation(adminpanelx, adminpanely);
         underlinelabel.setLocation(underlinelabelx, underlinelabel.getY());
         this.repaint();
@@ -267,12 +264,10 @@ public class LoginPageFrame extends JFrame implements ActionListener {
         button.setFocusPainted(false);
         button.setBorderPainted(false);
         button.setOpaque(false);
-
     }
 
     public void activeButton(JButton button) {
-        button.setForeground( new Color(136, 104, 159));
-
+        button.setForeground( new Color(23, 182, 11));
     }
 
     public void disableButton(JButton button) {
@@ -281,12 +276,16 @@ public class LoginPageFrame extends JFrame implements ActionListener {
 
     public void setBackgroundImage() {
         try {
-            System.out.println(imagenumber);
+            //System.out.println(imagenumber);
             Image image = ImageIO.read(new File(".//assets//background image//backgroundimage" + imagenumber + ".jpg"));
             bgimagelabel.setIcon(new ImageIcon(image.getScaledInstance(bgimagelabel.getWidth(), bgimagelabel.getHeight(), Image.SCALE_SMOOTH)));
-
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void removeall(){
+
     }
 }

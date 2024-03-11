@@ -8,9 +8,15 @@ import java.sql.*;
  */
 public class DataBaseConnection {
     static Connection con = null;
-    static final String url = "jdbc:mysql://localhost:3308/Collegedata";
+    //local database
+    static final String url = "jdbc:mysql://localhost:3308/collegedata";
     static final String uname = "root";
     static final String password = "";
+
+    //online database
+//    static final String url = "jdbc:mysql://sql6.freesqldatabase.com:3306/sql6688694";
+//    static final String uname = "sql6688694";
+//    static final String password = "2NGtt4N8cx";
 
     public static Connection getConnection() {
         if (con != null) {

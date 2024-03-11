@@ -30,7 +30,7 @@ import javax.swing.text.DefaultFormatter;
 
 import application.admin.AdminMain;
 import application.common.PhotoViewPanel;
-import application.faculty.FacultyMain;
+import application.teacher.TeacherMain;
 import net.proteanit.sql.DbUtils;
 
 /*
@@ -43,7 +43,7 @@ public class StudentPanel extends JPanel implements ActionListener {
     public JTable table;
     private JButton viewstudentbutton, addstudentbutton;
     public AdminMain am;
-    public FacultyMain fm;
+    public TeacherMain fm;
     public StudentMain sm;
     public JButton viewbutton;
     public JScrollPane tableviewscroll;
@@ -64,20 +64,20 @@ public class StudentPanel extends JPanel implements ActionListener {
         this.am = am;
     }
 
-    public StudentPanel(FacultyMain fm) {
+    public StudentPanel(TeacherMain fm) {
         this();
         this.fm = fm;
-        condition = " and s.courcecode='" + fm.f.getCourceCode() + "' and s.semoryear=" + fm.f.getSemorYear() + " ";
+        condition = " and s.Departmentcode='" + fm.t.getDeptCode() + "' and s.semoryear=" + fm.t.getSemorYear() + " ";
         this.createtablemodel();
         this.addstudentbutton.setVisible(false);
         this.viewstudentbutton.setVisible(false);
         this.viewbutton.setLocation(addstudentbutton.getX(), addstudentbutton.getY());
     }
 
-    public StudentPanel(FacultyMain fm, JComponent lastpanel) {
+    public StudentPanel(TeacherMain fm, JComponent lastpanel) {
         this();
         this.fm = fm;
-        condition = " and s.courcecode='" + fm.f.getCourceCode() + "' and s.semoryear=" + fm.f.getSemorYear() + " ";
+        condition = " and s.Departmentcode='" + fm.t.getDeptCode() + "' and s.semoryear=" + fm.t.getSemorYear() + " ";
         this.createtablemodel();
         this.addstudentbutton.setVisible(false);
         this.viewstudentbutton.setVisible(false);
@@ -103,7 +103,7 @@ public class StudentPanel extends JPanel implements ActionListener {
     public StudentPanel(StudentMain sm) {
         this();
         this.sm = sm;
-        condition = " and s.courcecode='" + sm.s.getCourceCode() + "' and s.semoryear=" + sm.s.getSemorYear() + " " + " and userid!='" + sm.s.getUserId() + "'";
+        condition = " and s.Departmentcode='" + sm.s.getDeptCode() + "' and s.semoryear=" + sm.s.getSemorYear() + " " + " and userid!='" + sm.s.getUserId() + "'";
         this.createtablemodel();
         this.addstudentbutton.setVisible(false);
         this.viewstudentbutton.setVisible(false);
@@ -145,16 +145,14 @@ public class StudentPanel extends JPanel implements ActionListener {
         table.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (e.getClickCount() > 1 && e.getButton() == MouseEvent.BUTTON1) {
-
                     JTable t = (JTable) e.getSource();
                     int row = t.getSelectedRow();
-                    String courcecode = table.getValueAt(row, 0) + "";
+                    String deptcode = table.getValueAt(row, 0) + "";
                     String strsem = table.getValueAt(row, 4) + "";
                     int sem = Integer.parseInt(strsem.substring(strsem.indexOf('-') + 1));
                     String strroll = table.getValueAt(row, 1) + "";
                     long rollnumber = Long.parseLong(strroll);
-                    Student s = new StudentData().getStudentDetails(courcecode, sem, rollnumber);
-
+                    Student s = new StudentData().getStudentDetails(deptcode, sem, rollnumber);
                     if (am != null) {
                         am.viewstudentpanel = new ViewStudentPanel(s, am, am.studentpanel);
                         am.viewstudentpanel.setVisible(true);
@@ -181,7 +179,6 @@ public class StudentPanel extends JPanel implements ActionListener {
                         sm.contentPane.add(sm.viewstudentpanel);
                     }
                 }
-
             }
         });
 
@@ -249,18 +246,16 @@ public class StudentPanel extends JPanel implements ActionListener {
             public void stateChanged(ChangeEvent arg0) {
                 // TODO Auto-generated method stub
                 maxphoto = (int) maxphotospinner.getValue();
-
                 createphotopanel();
             }
 
         });
 
         panel.add(maxphotospinner);
-
         maxphotolabel = new JLabel("Max Photos in Row");
         maxphotolabel.setHorizontalAlignment(SwingConstants.RIGHT);
         maxphotolabel.setFont(new Font("Segoe UI", Font.BOLD, 17));
-        maxphotolabel.setForeground(new Color(137, 45, 224));
+        maxphotolabel.setForeground(new Color(255, 253, 253));
         maxphotolabel.setBounds(797, 98, 193, 30);
         maxphotolabel.setVisible(false);
         panel.add(maxphotolabel);
@@ -269,7 +264,6 @@ public class StudentPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
         if (e.getSource() == viewstudentbutton) {
             ViewStudentDialog vs = new ViewStudentDialog(am);
             vs.setLocationRelativeTo(null);
@@ -279,12 +273,9 @@ public class StudentPanel extends JPanel implements ActionListener {
             AddStudentDialog sd = new AddStudentDialog(table, this);
             sd.setLocationRelativeTo(null);
             sd.setVisible(true);
-
         }
         if (e.getSource() == viewbutton && viewbutton.getText().equals("Photo View")) {
-
             createphotopanel();
-
         } else if (e.getSource() == viewbutton && viewbutton.getText().equals("Table View")) {
             if (photoviewscrollpane != null) {
                 photoviewscrollpane.setVisible(false);
@@ -292,7 +283,6 @@ public class StudentPanel extends JPanel implements ActionListener {
             createtablemodel();
             tableviewscroll.setVisible(true);
             viewbutton.setText("Photo View");
-
         }
         if (photoviewscrollpane != null && photoviewscrollpane.isVisible()) {
             maxphotolabel.setVisible(true);

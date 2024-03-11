@@ -27,7 +27,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import application.admin.AdminMain;
-import application.faculty.FacultyMain;
+import application.teacher.TeacherMain;
 import application.student.Student;
 import application.student.StudentMain;
 
@@ -45,7 +45,7 @@ public class PrintMarksheetDialog extends JDialog {
     private BufferedImage image;
     private JLabel filedownloadedlabel;
     public printMarksheetPDF p;
-    private FacultyMain fm;
+    private TeacherMain fm;
     private StudentMain sm;
     private JLabel imagelabel;
     private JLabel filepathlabel;
@@ -85,7 +85,7 @@ public class PrintMarksheetDialog extends JDialog {
         btnPdf.addActionListener(p);
     }
 
-    public PrintMarksheetDialog(FacultyMain fm, Student s) {
+    public PrintMarksheetDialog(TeacherMain fm, Student s) {
         this(s);
         this.fm = fm;
 
@@ -151,7 +151,7 @@ public class PrintMarksheetDialog extends JDialog {
         contentPanel.add(filepathlabel);
 
         JLabel filenamelabel = new JLabel();
-        filename = s.getCourceCode() + "-" + s.getSemorYear() + "-" + s.getRollNumber() + "-" + s.getFullName() + "-" + "mark-sheet";
+        filename = s.getDeptCode() + "-" + s.getSemorYear() + "-" + s.getRollNumber() + "-" + s.getFullName() + "-" + "mark-sheet";
         filenamelabel.setText(filename);
         filenamelabel.setForeground(Color.BLACK);
         filenamelabel.setFont(new Font("Tahoma", Font.PLAIN, 13));

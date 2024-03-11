@@ -1,0 +1,10 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CMS:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/CMS_jar</output-path>
+    <root id="archive" name="CMS.jar">
+      <element id="module-output" name="CMS" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jar files/rs2xml.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/jar files/mysql-connector-java-5.1.38.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

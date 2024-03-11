@@ -31,13 +31,13 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import application.admin.AdminMain;
-import application.cource.CourceData;
-import application.faculty.FacultyMain;
-import application.subject.SubjectData;
+import application.department.DepartmentData;
+import application.teacher.TeacherMain;
+import application.course.CourseData;
 
 /*
  * Title : AttandanceReportPanel.java
- * Purpose : For displaying student attandance according to class/subject/student wice
+ * Purpose : For displaying student attandance according to class/course/student wice
  */
 public class AttandanceReportPanel extends JPanel implements ActionListener {
 
@@ -45,16 +45,16 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
      *
      */
     private static final long serialVersionUID = 1L;
-    private JComboBox<String> courcenamecombo;
+    private JComboBox<String> deptnamecombo;
     private JComboBox<String> semoryearcombo;
-    private JComboBox<String> subjectorrollcombo;
+    private JComboBox<String> courseorrollcombo;
     private JTable table;
     private JScrollPane scrollPane;
     private int totalstudent = 0;
     private JLabel Errorlabel;
     private JButton studentwicebutton;
     private JButton classwicebutton;
-    private JButton subjectwicebutton;
+    private JButton coursewicebutton;
     private JButton fetchdetailsbutton;
     private JLabel label3;
     private JLabel label1;
@@ -93,14 +93,14 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
         headinglabel.setFont(new Font("Segoe UI", Font.BOLD, 28));
         headinglabel.setOpaque(true);
 
-        subjectwicebutton = new JButton("Subject Wice");
-        subjectwicebutton.setForeground(new Color(61, 0, 169));
-        subjectwicebutton.setFont(new Font("Segoe UI", Font.BOLD, 15));
-        subjectwicebutton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        subjectwicebutton.setBackground(new Color(255, 255, 255));
-        subjectwicebutton.setBounds(577, 139, 146, 33);
+        coursewicebutton = new JButton("Course Wice");
+        coursewicebutton.setForeground(new Color(61, 0, 169));
+        coursewicebutton.setFont(new Font("Segoe UI", Font.BOLD, 15));
+        coursewicebutton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        coursewicebutton.setBackground(new Color(255, 255, 255));
+        coursewicebutton.setBounds(577, 139, 146, 33);
 
-        panel.add(subjectwicebutton);
+        panel.add(coursewicebutton);
 
         studentwicebutton = new JButton("Student Wice");
         studentwicebutton.setForeground(new Color(61, 0, 169));
@@ -120,7 +120,7 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
 
         panel.add(classwicebutton);
 
-        label1 = new JLabel("Cource Name   :");
+        label1 = new JLabel("Dept. Name   :");
         label1.setHorizontalAlignment(SwingConstants.RIGHT);
         label1.setForeground(Color.DARK_GRAY);
         label1.setFont(new Font("Segoe UI", Font.PLAIN, 18));
@@ -134,21 +134,21 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
         label2.setBounds(23, 270, 169, 40);
         add(label2);
 
-        label3 = new JLabel("Select Subject  :");
+        label3 = new JLabel("Select Course  :");
         label3.setHorizontalAlignment(SwingConstants.RIGHT);
         label3.setForeground(Color.DARK_GRAY);
         label3.setFont(new Font("Segoe UI", Font.PLAIN, 18));
         label3.setBounds(29, 339, 163, 32);
         add(label3);
 
-        courcenamecombo = new JComboBox<String>(new CourceData().getCourceName());
+        deptnamecombo = new JComboBox<String>(new DepartmentData().getDeptName());
 
-        courcenamecombo.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        courcenamecombo.addActionListener(this);
-        courcenamecombo.setFocusable(false);
-        courcenamecombo.setBackground(new Color(255, 255, 255));
-        courcenamecombo.setBounds(204, 211, 872, 40);
-        add(courcenamecombo);
+        deptnamecombo.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        deptnamecombo.addActionListener(this);
+        deptnamecombo.setFocusable(false);
+        deptnamecombo.setBackground(new Color(255, 255, 255));
+        deptnamecombo.setBounds(204, 211, 872, 40);
+        add(deptnamecombo);
 
         semoryearcombo = new JComboBox<String>();
         semoryearcombo.setFont(new Font("Segoe UI", Font.PLAIN, 18));
@@ -158,13 +158,13 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
         semoryearcombo.setFocusable(false);
 
         add(semoryearcombo);
-        subjectorrollcombo = new JComboBox<String>();
-        subjectorrollcombo.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        subjectorrollcombo.setFocusable(false);
-        subjectorrollcombo.addActionListener(this);
-        subjectorrollcombo.setBackground(Color.WHITE);
-        subjectorrollcombo.setBounds(204, 335, 872, 40);
-        add(subjectorrollcombo);
+        courseorrollcombo = new JComboBox<String>();
+        courseorrollcombo.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        courseorrollcombo.setFocusable(false);
+        courseorrollcombo.addActionListener(this);
+        courseorrollcombo.setBackground(Color.WHITE);
+        courseorrollcombo.setBounds(204, 335, 872, 40);
+        add(courseorrollcombo);
 
         scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.setBounds(21, 460, 1055, 84);
@@ -194,7 +194,7 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
         Errorlabel.setFont(new Font("Arial", Font.PLAIN, 14));
         Errorlabel.setBounds(233, 45, 225, 17);
         add(Errorlabel);
-        enableButton(subjectwicebutton);
+        enableButton(coursewicebutton);
         disableButton(studentwicebutton);
         disableButton(classwicebutton);
 
@@ -253,51 +253,50 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         Errorlabel.setVisible(false);
-        if (e.getSource() == courcenamecombo) {
-            courcenamecombo.setFocusable(false);
+        if (e.getSource() == deptnamecombo) {
+            deptnamecombo.setFocusable(false);
 
-            subjectorrollcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
-            if (courcenamecombo.getSelectedIndex() == 0) {
+            courseorrollcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
+            if (deptnamecombo.getSelectedIndex() == 0) {
                 semoryearcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
 
             } else {
-                String cource = (String) courcenamecombo.getSelectedItem();
-
-                semoryearcombo.setModel(new DefaultComboBoxModel<String>(new CourceData().getSemorYear(cource)));
+                String dept = (String) deptnamecombo.getSelectedItem();
+                semoryearcombo.setModel(new DefaultComboBoxModel<String>(new DepartmentData().getSemorYear(dept)));
             }
 
         }
         if (e.getSource() == semoryearcombo && semoryearcombo.getSelectedIndex() > 0) {
-            String cource = (String) courcenamecombo.getSelectedItem();
+            String dept = (String) deptnamecombo.getSelectedItem();
 
-            if (subjectwicebutton.getName().equals("Active")) {
-                String[] totalsub = new SubjectData().getSubjectinCource(new CourceData().getCourcecode(cource), semoryearcombo.getSelectedIndex());
+            if (coursewicebutton.getName().equals("Active")) {
+                String[] totalsub = new CourseData().getCourseDept(new DepartmentData().getDeptcode(dept), semoryearcombo.getSelectedIndex());
                 if (totalsub != null) {
-                    subjectorrollcombo.setModel(new DefaultComboBoxModel<String>(totalsub));
+                    courseorrollcombo.setModel(new DefaultComboBoxModel<String>(totalsub));
                 } else {
 
-                    subjectorrollcombo.setModel(new DefaultComboBoxModel<String>(new String[]{"No Subject Found"}));
+                    courseorrollcombo.setModel(new DefaultComboBoxModel<String>(new String[]{"No Course Found"}));
                 }
             } else if (studentwicebutton.getName().equals("Active")) {
 
-                subjectorrollcombo.setModel(new DefaultComboBoxModel<String>(new StudentData().getRollNumber(new CourceData().getCourcecode(cource), semoryearcombo.getSelectedIndex())));
+                courseorrollcombo.setModel(new DefaultComboBoxModel<String>(new StudentData().getRollNumber(new DepartmentData().getDeptcode(dept), semoryearcombo.getSelectedIndex())));
 
             }
         } else if (e.getSource() == semoryearcombo) {
-            subjectorrollcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
+            courseorrollcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
         }
         if (e.getSource() == fetchdetailsbutton) {
-            if (courcenamecombo.getSelectedIndex() == 0) {
-                showerror(courcenamecombo);
+            if (deptnamecombo.getSelectedIndex() == 0) {
+                showerror(deptnamecombo);
             } else if (semoryearcombo.getSelectedIndex() == 0) {
                 showerror(semoryearcombo);
-            } else if (subjectorrollcombo.isVisible() && subjectorrollcombo.getSelectedItem().equals("No Subject Found")) {
-                Component tf = subjectorrollcombo;
+            } else if (courseorrollcombo.isVisible() && courseorrollcombo.getSelectedItem().equals("No Course Found")) {
+                Component tf = courseorrollcombo;
                 Errorlabel.setVisible(true);
-                Errorlabel.setText("No Subject Found !");
+                Errorlabel.setText("No Course Found !");
                 Errorlabel.setBounds(tf.getX(), tf.getY() + tf.getHeight() - 5, 400, 26);
-            } else if (subjectorrollcombo.isVisible() && subjectorrollcombo.getSelectedIndex() == 0) {
-                showerror(subjectorrollcombo);
+            } else if (courseorrollcombo.isVisible() && courseorrollcombo.getSelectedIndex() == 0) {
+                showerror(courseorrollcombo);
             } else {
                 this.createtablemodel();
             }
@@ -323,10 +322,10 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
 
                     String strsem = table.getValueAt(row, 2) + "";
                     int sem = Integer.parseInt(strsem.substring(strsem.indexOf('-') + 1));
-                    String courcecode = strsem.substring(0, strsem.indexOf('-'));
+                    String deptcode = strsem.substring(0, strsem.indexOf('-'));
                     String strroll = table.getValueAt(row, 0) + "";
                     long rollnumber = Long.parseLong(strroll);
-                    Student s = new StudentData().getStudentDetails(courcecode, sem, rollnumber);
+                    Student s = new StudentData().getStudentDetails(deptcode, sem, rollnumber);
 
                     am.viewstudentpanel = new ViewStudentPanel(s, am, am.attandancereportpanelscroll);
                     am.viewstudentpanel.setVisible(true);
@@ -339,20 +338,20 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
 
             }
         });
-        subjectwicebutton.addActionListener(new ActionListener() {
+        coursewicebutton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                enableButton(subjectwicebutton);
+                enableButton(coursewicebutton);
                 disableButton(studentwicebutton);
                 disableButton(classwicebutton);
-                subjectorrollcombo.setVisible(true);
+                courseorrollcombo.setVisible(true);
                 label3.setVisible(true);
-                fetchdetailsbutton.setLocation(fetchdetailsbutton.getX(), subjectorrollcombo.getY() + 65);
+                fetchdetailsbutton.setLocation(fetchdetailsbutton.getX(), courseorrollcombo.getY() + 65);
                 scrollPane.setLocation(scrollPane.getX(), fetchdetailsbutton.getY() + 60);
-                label3.setText("Select Subject :");
-                subjectorrollcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
-                courcenamecombo.setSelectedIndex(0);
+                label3.setText("Select Course :");
+                courseorrollcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
+                deptnamecombo.setSelectedIndex(0);
                 semoryearcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
                 scrollPane.setVisible(false);
             }
@@ -365,15 +364,15 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
             public void actionPerformed(ActionEvent arg0) {
                 // TODO Auto-generated method stub
                 enableButton(studentwicebutton);
-                disableButton(subjectwicebutton);
+                disableButton(coursewicebutton);
                 disableButton(classwicebutton);
                 label3.setVisible(true);
-                subjectorrollcombo.setVisible(true);
+                courseorrollcombo.setVisible(true);
                 label3.setText("Select Roll Number :");
-                fetchdetailsbutton.setLocation(fetchdetailsbutton.getX(), subjectorrollcombo.getY() + 65);
+                fetchdetailsbutton.setLocation(fetchdetailsbutton.getX(), courseorrollcombo.getY() + 65);
                 scrollPane.setLocation(scrollPane.getX(), fetchdetailsbutton.getY() + 60);
-                subjectorrollcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
-                courcenamecombo.setSelectedIndex(0);
+                courseorrollcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
+                deptnamecombo.setSelectedIndex(0);
                 semoryearcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
                 scrollPane.setVisible(false);
 
@@ -388,12 +387,12 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
                 // TODO Auto-generated method stub
                 enableButton(classwicebutton);
                 disableButton(studentwicebutton);
-                disableButton(subjectwicebutton);
-                subjectorrollcombo.setVisible(false);
+                disableButton(coursewicebutton);
+                courseorrollcombo.setVisible(false);
                 label3.setVisible(false);
-                fetchdetailsbutton.setLocation(fetchdetailsbutton.getX(), subjectorrollcombo.getY());
+                fetchdetailsbutton.setLocation(fetchdetailsbutton.getX(), courseorrollcombo.getY());
                 scrollPane.setLocation(scrollPane.getX(), fetchdetailsbutton.getY() + 60);
-                courcenamecombo.setSelectedIndex(0);
+                deptnamecombo.setSelectedIndex(0);
                 semoryearcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
                 scrollPane.setVisible(false);
             }
@@ -403,22 +402,22 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
 
     }
 
-    public AttandanceReportPanel(FacultyMain fm) {
+    public AttandanceReportPanel(TeacherMain fm) {
 
         this();
 
-        courcenamecombo.setSelectedItem(new CourceData().getcourcename(fm.f.getCourceCode()));
-        semoryearcombo.setModel(new DefaultComboBoxModel<String>(new CourceData().getSemorYear(courcenamecombo.getSelectedItem() + "")));
-        String[] totalsub = new SubjectData().getSubjectinCource(fm.f.getCourceCode(), fm.f.getSemorYear());
-        subjectorrollcombo.setModel(new DefaultComboBoxModel<String>(totalsub));
-        semoryearcombo.setSelectedIndex(fm.f.getSemorYear());
-        subjectorrollcombo.setSelectedItem(fm.f.getSubject());
-        courcenamecombo.setVisible(false);
+        deptnamecombo.setSelectedItem(new DepartmentData().getdeptname(fm.t.getDeptCode()));
+        semoryearcombo.setModel(new DefaultComboBoxModel<String>(new DepartmentData().getSemorYear(deptnamecombo.getSelectedItem() + "")));
+        String[] totalsub = new CourseData().getCourseDept(fm.t.getDeptCode(), fm.t.getSemorYear());
+        courseorrollcombo.setModel(new DefaultComboBoxModel<String>(totalsub));
+        semoryearcombo.setSelectedIndex(fm.t.getSemorYear());
+        courseorrollcombo.setSelectedItem(fm.t.getCourse());
+        deptnamecombo.setVisible(false);
         semoryearcombo.setVisible(false);
         label3.setLocation(label1.getLocation());
         label1.setVisible(false);
         label2.setVisible(false);
-        subjectorrollcombo.setLocation(courcenamecombo.getLocation());
+        courseorrollcombo.setLocation(deptnamecombo.getLocation());
         this.fetchdetailsbutton.setLocation(fetchdetailsbutton.getX(), semoryearcombo.getY());
         scrollPane.setLocation(scrollPane.getX(), fetchdetailsbutton.getY() + 50);
         table.addMouseListener(new MouseAdapter() {
@@ -430,10 +429,10 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
 
                     String strsem = table.getValueAt(row, 2) + "";
                     int sem = Integer.parseInt(strsem.substring(strsem.indexOf('-') + 1));
-                    String courcecode = strsem.substring(0, strsem.indexOf('-'));
+                    String deptcode = strsem.substring(0, strsem.indexOf('-'));
                     String strroll = table.getValueAt(row, 0) + "";
                     long rollnumber = Long.parseLong(strroll);
-                    Student s = new StudentData().getStudentDetails(courcecode, sem, rollnumber);
+                    Student s = new StudentData().getStudentDetails(deptcode, sem, rollnumber);
 
                     fm.viewstudentpanel = new ViewStudentPanel(s, fm, fm.attandancereportpanelscroll);
                     fm.viewstudentpanel.setVisible(true);
@@ -452,39 +451,39 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
             public void actionPerformed(ActionEvent arg0) {
                 // TODO Auto-generated method stub
                 enableButton(studentwicebutton);
-                disableButton(subjectwicebutton);
+                disableButton(coursewicebutton);
                 disableButton(classwicebutton);
                 label3.setVisible(true);
-                subjectorrollcombo.setVisible(true);
+                courseorrollcombo.setVisible(true);
                 label3.setText("Select Roll Number :");
                 fetchdetailsbutton.setVisible(true);
-                subjectorrollcombo.setLocation(courcenamecombo.getLocation());
+                courseorrollcombo.setLocation(deptnamecombo.getLocation());
                 fetchdetailsbutton.setLocation(fetchdetailsbutton.getX(), semoryearcombo.getY());
                 scrollPane.setLocation(scrollPane.getX(), fetchdetailsbutton.getY() + 50);
-                subjectorrollcombo.setModel(new DefaultComboBoxModel<String>(new StudentData().getRollNumber(fm.f.getCourceCode(), semoryearcombo.getSelectedIndex())));
+                courseorrollcombo.setModel(new DefaultComboBoxModel<String>(new StudentData().getRollNumber(fm.t.getDeptCode(), semoryearcombo.getSelectedIndex())));
                 scrollPane.setVisible(false);
 
             }
 
         }
         );
-        subjectwicebutton.addActionListener(new ActionListener() {
+        coursewicebutton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 // TODO Auto-generated method stub
-                enableButton(subjectwicebutton);
+                enableButton(coursewicebutton);
                 disableButton(studentwicebutton);
                 disableButton(classwicebutton);
                 label3.setVisible(true);
-                subjectorrollcombo.setVisible(true);
-                label3.setText("Select Subject :");
+                courseorrollcombo.setVisible(true);
+                label3.setText("Select Course :");
                 fetchdetailsbutton.setVisible(true);
-                subjectorrollcombo.setLocation(courcenamecombo.getLocation());
+                courseorrollcombo.setLocation(deptnamecombo.getLocation());
                 fetchdetailsbutton.setLocation(fetchdetailsbutton.getX(), semoryearcombo.getY());
                 scrollPane.setLocation(scrollPane.getX(), fetchdetailsbutton.getY() + 50);
-                String[] totalsub = new SubjectData().getSubjectinCource(fm.f.getCourceCode(), fm.f.getSemorYear());
-                subjectorrollcombo.setModel(new DefaultComboBoxModel<String>(totalsub));
+                String[] totalsub = new CourseData().getCourseDept(fm.t.getDeptCode(), fm.t.getSemorYear());
+                courseorrollcombo.setModel(new DefaultComboBoxModel<String>(totalsub));
                 scrollPane.setVisible(false);
 
             }
@@ -496,13 +495,13 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 // TODO Auto-generated method stub
-                subjectwicebutton.setName("Active");
+                coursewicebutton.setName("Active");
                 enableButton(classwicebutton);
                 disableButton(studentwicebutton);
-                disableButton(subjectwicebutton);
-                subjectorrollcombo.setVisible(false);
+                disableButton(coursewicebutton);
+                courseorrollcombo.setVisible(false);
                 label3.setVisible(false);
-                scrollPane.setLocation(scrollPane.getX(), courcenamecombo.getY());
+                scrollPane.setLocation(scrollPane.getX(), deptnamecombo.getY());
                 fetchdetailsbutton.setVisible(false);
                 createtablemodel();
             }
@@ -536,24 +535,24 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
         this();
         classwicebutton.setVisible(false);
         studentwicebutton.setVisible(false);
-        subjectwicebutton.setVisible(false);
+        coursewicebutton.setVisible(false);
         label1.setVisible(false);
         label2.setVisible(false);
         label3.setVisible(false);
-        courcenamecombo.setVisible(false);
-        subjectorrollcombo.setVisible(false);
+        deptnamecombo.setVisible(false);
+        courseorrollcombo.setVisible(false);
         semoryearcombo.setVisible(false);
         this.fetchdetailsbutton.setVisible(false);
         enableButton(studentwicebutton);
-        disableButton(subjectwicebutton);
+        disableButton(coursewicebutton);
         disableButton(classwicebutton);
 
-        courcenamecombo.setSelectedItem(new CourceData().getcourcename(sm.s.getCourceCode()));
-        semoryearcombo.setModel(new DefaultComboBoxModel<String>(new CourceData().getSemorYear(courcenamecombo.getSelectedItem() + "")));
-        subjectorrollcombo.setModel(new DefaultComboBoxModel<String>(new StudentData().getRollNumber(sm.s.getCourceCode(), sm.s.getSemorYear())));
+        deptnamecombo.setSelectedItem(new DepartmentData().getdeptname(sm.s.getDeptCode()));
+        semoryearcombo.setModel(new DefaultComboBoxModel<String>(new DepartmentData().getSemorYear(deptnamecombo.getSelectedItem() + "")));
+        courseorrollcombo.setModel(new DefaultComboBoxModel<String>(new StudentData().getRollNumber(sm.s.getDeptCode(), sm.s.getSemorYear())));
         semoryearcombo.setSelectedIndex(sm.s.getSemorYear());
-        subjectorrollcombo.setSelectedItem(sm.s.getRollNumber() + "");
-        scrollPane.setLocation(scrollPane.getX(), courcenamecombo.getY());
+        courseorrollcombo.setSelectedItem(sm.s.getRollNumber() + "");
+        scrollPane.setLocation(scrollPane.getX(), deptnamecombo.getY());
         scrollPane.setVisible(true);
 
         this.createtablemodel();
@@ -570,19 +569,19 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
 
     public void createtablemodel() {
         nodatafoundlabel.setVisible(false);
-        if (courcenamecombo.getSelectedIndex() == 0 || (semoryearcombo.isVisible() && semoryearcombo.getSelectedIndex() == 0) || (subjectorrollcombo.isVisible() && subjectorrollcombo.getSelectedIndex() == 0)) {
+        if (deptnamecombo.getSelectedIndex() == 0 || (semoryearcombo.isVisible() && semoryearcombo.getSelectedIndex() == 0) || (courseorrollcombo.isVisible() && courseorrollcombo.getSelectedIndex() == 0)) {
             scrollPane.setVisible(false);
         } else {
             Attandance a = new Attandance();
-            a.setCourceCode(new CourceData().getCourcecode(courcenamecombo.getSelectedItem() + ""));
+            a.setDeptCode(new DepartmentData().getDeptcode(deptnamecombo.getSelectedItem() + ""));
             a.setSemorYear(semoryearcombo.getSelectedIndex());
-            if (subjectwicebutton.getName().equals("Active")) {
-                a.setSubjectName(subjectorrollcombo.getSelectedItem() + "");
-                a.setSubjectCode(new SubjectData().getSubjectCode(a.getCourceCode(), a.getSemorYear(), a.getSubjectName()));
+            if (coursewicebutton.getName().equals("Active")) {
+                a.setCourseName(courseorrollcombo.getSelectedItem() + "");
+                a.setCourseCode(new CourseData().getCourseCode(a.getDeptCode(), a.getSemorYear(), a.getCourseName()));
             } else if (classwicebutton.getName().equals("Active")) {
-                a.setSubjectName("All");
+                a.setCourseName("All");
             } else if (studentwicebutton.getName().equals("Active")) {
-                a.setRollNumber(Long.parseLong(subjectorrollcombo.getSelectedItem() + ""));
+                a.setRollNumber(Long.parseLong(courseorrollcombo.getSelectedItem() + ""));
 
             }
             table.setModel(createModel(a));
@@ -614,7 +613,7 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
     }
 
     public DefaultTableModel createModel(Attandance a) {
-        String Column[] = {"Roll Number", "Student Name", "Class", "Subject", "Total Attandance", "Percentage"};
+        String Column[] = {"Roll Number", "Student Name", "Class", "Course", "Total Attandance", "Percentage"};
 
         @SuppressWarnings("serial")
         DefaultTableModel model = new DefaultTableModel(Column, 0) {
@@ -629,8 +628,8 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
         ArrayList<Attandance> list = null;
         if (studentwicebutton.getName().equals("Active")) {
             list = new StudentData().getAttandanceReportByStudent(a);
-        } else if (subjectwicebutton.getName().equals("Active")) {
-            list = new StudentData().getAttandanceReportBySubject(a);
+        } else if (coursewicebutton.getName().equals("Active")) {
+            list = new StudentData().getAttandanceReportByCourse(a);
         } else if (classwicebutton.getName().equals("Active")) {
             list = new StudentData().getAttandanceReportByClass(a);
         }
@@ -639,8 +638,8 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
             model.addRow(new Object[0]);
             model.setValueAt(list.get(i).getRollNumber(), i, 0);
             model.setValueAt(list.get(i).getStudentName(), i, 1);
-            model.setValueAt(a.getCourceCode() + "-" + a.getSemorYear(), i, 2);
-            model.setValueAt(list.get(i).getSubjectName(), i, 3);
+            model.setValueAt(a.getDeptCode() + "-" + a.getSemorYear(), i, 2);
+            model.setValueAt(list.get(i).getCourseName(), i, 3);
             model.setValueAt(list.get(i).getAttandance() + " out of " + list.get(i).getTotalAttandance(), i, 4);
 
             try {
@@ -653,14 +652,14 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
 
         {
             table.setEnabled(true);
-            if (!classwicebutton.isVisible() && !studentwicebutton.isVisible() && !subjectwicebutton.isVisible()) {
+            if (!classwicebutton.isVisible() && !studentwicebutton.isVisible() && !coursewicebutton.isVisible()) {
                 try {
 
                     list = new StudentData().getTotalAttandanceReportOfStudent(a);
-                    Object obj[] = {"", "Total", "", list.get(0).getSubjectName(), list.get(0).getAttandance() + " out of " + list.get(0).getTotalAttandance(), (list.get(0).getAttandance() * 100) / list.get(0).getTotalAttandance() + " %"};
+                    Object obj[] = {"", "Total", "", list.get(0).getCourseName(), list.get(0).getAttandance() + " out of " + list.get(0).getTotalAttandance(), (list.get(0).getAttandance() * 100) / list.get(0).getTotalAttandance() + " %"};
                     model.addRow(obj);
                 } catch (ArithmeticException exp) {
-                    Object obj[] = {"", "Total", "", list.get(0).getSubjectName(), list.get(0).getAttandance() + " out of " + list.get(0).getTotalAttandance(), list.get(0).getTotalAttandance() + " %"};
+                    Object obj[] = {"", "Total", "", list.get(0).getCourseName(), list.get(0).getAttandance() + " out of " + list.get(0).getTotalAttandance(), list.get(0).getTotalAttandance() + " %"};
                     model.addRow(obj);
                 }
 

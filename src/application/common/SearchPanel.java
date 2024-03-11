@@ -27,11 +27,11 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import application.admin.AdminMain;
-import application.cource.CourceData;
-import application.faculty.Faculty;
-import application.faculty.FacultyData;
-import application.faculty.FacultyMain;
-import application.faculty.ViewFacultyPanel;
+import application.department.DepartmentData;
+import application.teacher.Teacher;
+import application.teacher.TeacherData;
+import application.teacher.TeacherMain;
+import application.teacher.ViewTeacherPanel;
 import application.student.Student;
 import application.student.StudentData;
 import application.student.StudentMain;
@@ -41,7 +41,7 @@ import net.proteanit.sql.DbUtils;
 
 /*
  * Title : SearchPanel.java
- * Purpose : For searching student of faculty
+ * Purpose : For searching student of teacher
  */
 @SuppressWarnings("serial")
 public class SearchPanel extends JPanel implements ActionListener {
@@ -49,9 +49,9 @@ public class SearchPanel extends JPanel implements ActionListener {
     private JTable table;
     private JScrollPane tableviewscroll;
     private JTextField searchfield;
-    private JComboBox<String> courcenamecombo;
+    private JComboBox<String> deptnamecombo;
     private JComboBox<String> semoryearcombo;
-    private JComboBox<String> studentandfacultycombo;
+    private JComboBox<String> studentandteachercombo;
 
     private JButton searchbutton;
 
@@ -63,15 +63,15 @@ public class SearchPanel extends JPanel implements ActionListener {
         table.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (e.getClickCount() > 1 && e.getButton() == MouseEvent.BUTTON1) {
-                    if (studentandfacultycombo.getSelectedIndex() == 0) {
+                    if (studentandteachercombo.getSelectedIndex() == 0) {
                         JTable t = (JTable) e.getSource();
                         int row = t.getSelectedRow();
-                        String courcecode = table.getValueAt(row, 0) + "";
+                        String deptcode = table.getValueAt(row, 0) + "";
                         String strsem = table.getValueAt(row, 4) + "";
                         int sem = Integer.parseInt(strsem.substring(strsem.indexOf('-') + 1));
                         String strroll = table.getValueAt(row, 1) + "";
                         long rollnumber = Long.parseLong(strroll);
-                        Student s = new StudentData().getStudentDetails(courcecode, sem, rollnumber);
+                        Student s = new StudentData().getStudentDetails(deptcode, sem, rollnumber);
 
                         am.viewstudentpanel = new ViewStudentPanel(s, am, am.searchpanel);
                         am.viewstudentpanel.setVisible(true);
@@ -83,15 +83,15 @@ public class SearchPanel extends JPanel implements ActionListener {
                     } else {
                         JTable t = (JTable) e.getSource();
                         int fid = Integer.parseInt(t.getValueAt(t.getSelectedRow(), 0) + "");
-                        Faculty f = new FacultyData().getFacultyInfobyId(fid);
+                        Teacher f = new TeacherData().getTeacherInfobyId(fid);
 
-                        am.viewfacultypanel = new ViewFacultyPanel(f, am, am.searchpanel);
-                        am.viewfacultypanel.setVisible(true);
+                        am.viewteacherpanel = new ViewTeacherPanel(f, am, am.searchpanel);
+                        am.viewteacherpanel.setVisible(true);
                         am.searchpanel.setVisible(false);
-                        am.viewfacultypanel.setLocation(am.panelx, am.panely);
-                        am.viewfacultypanel.setVisible(true);
-                        am.viewfacultypanel.setFocusable(true);
-                        am.contentPane.add(am.viewfacultypanel);
+                        am.viewteacherpanel.setLocation(am.panelx, am.panely);
+                        am.viewteacherpanel.setVisible(true);
+                        am.viewteacherpanel.setFocusable(true);
+                        am.contentPane.add(am.viewteacherpanel);
                     }
                 }
             }
@@ -99,11 +99,11 @@ public class SearchPanel extends JPanel implements ActionListener {
 
     }
 
-    public SearchPanel(FacultyMain fm) {
+    public SearchPanel(TeacherMain tm) {
         this();
-        courcenamecombo.setSelectedItem(new CourceData().getcourcename(fm.f.getCourceCode()));
-        courcenamecombo.setEnabled(false);
-        courcenamecombo.setRenderer(new DefaultListCellRenderer() {
+        deptnamecombo.setSelectedItem(new DepartmentData().getdeptname(tm.t.getDeptCode()));
+        deptnamecombo.setEnabled(false);
+        deptnamecombo.setRenderer(new DefaultListCellRenderer() {
             @Override
             public void paint(Graphics g) {
                 setForeground(Color.BLACK);
@@ -111,7 +111,7 @@ public class SearchPanel extends JPanel implements ActionListener {
                 super.paint(g);
             }
         });
-        semoryearcombo.setSelectedIndex(fm.f.getSemorYear());
+        semoryearcombo.setSelectedIndex(tm.t.getSemorYear());
         semoryearcombo.setEnabled(false);
         semoryearcombo.setRenderer(new DefaultListCellRenderer() {
             @Override
@@ -125,35 +125,35 @@ public class SearchPanel extends JPanel implements ActionListener {
         table.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (e.getClickCount() > 1 && e.getButton() == MouseEvent.BUTTON1) {
-                    if (studentandfacultycombo.getSelectedIndex() == 0) {
+                    if (studentandteachercombo.getSelectedIndex() == 0) {
                         JTable t = (JTable) e.getSource();
                         int row = t.getSelectedRow();
-                        String courcecode = table.getValueAt(row, 0) + "";
+                        String deptcode = table.getValueAt(row, 0) + "";
                         String strsem = table.getValueAt(row, 4) + "";
                         int sem = Integer.parseInt(strsem.substring(strsem.indexOf('-') + 1));
                         String strroll = table.getValueAt(row, 1) + "";
                         long rollnumber = Long.parseLong(strroll);
-                        Student s = new StudentData().getStudentDetails(courcecode, sem, rollnumber);
+                        Student s = new StudentData().getStudentDetails(deptcode, sem, rollnumber);
 
-                        fm.viewstudentpanel = new ViewStudentPanel(s, fm, fm.searchpanel);
-                        fm.viewstudentpanel.setVisible(true);
-                        fm.searchpanel.setVisible(false);
-                        fm.viewstudentpanel.setLocation(fm.panelx, 0);
-                        fm.viewstudentpanel.setVisible(true);
-                        fm.viewstudentpanel.setFocusable(true);
-                        fm.contentPane.add(fm.viewstudentpanel);
+                        tm.viewstudentpanel = new ViewStudentPanel(s, tm, tm.searchpanel);
+                        tm.viewstudentpanel.setVisible(true);
+                        tm.searchpanel.setVisible(false);
+                        tm.viewstudentpanel.setLocation(tm.panelx, 0);
+                        tm.viewstudentpanel.setVisible(true);
+                        tm.viewstudentpanel.setFocusable(true);
+                        tm.contentPane.add(tm.viewstudentpanel);
                     } else {
                         JTable t = (JTable) e.getSource();
                         int fid = Integer.parseInt(t.getValueAt(t.getSelectedRow(), 0) + "");
-                        Faculty f = new FacultyData().getFacultyInfobyId(fid);
+                        Teacher f = new TeacherData().getTeacherInfobyId(fid);
 
-                        fm.viewfacultypanel = new ViewFacultyPanel(f, fm, fm.searchpanel);
-                        fm.viewfacultypanel.setVisible(true);
-                        fm.searchpanel.setVisible(false);
-                        fm.viewfacultypanel.setLocation(fm.panelx, fm.panely);
-                        fm.viewfacultypanel.setVisible(true);
-                        fm.viewfacultypanel.setFocusable(true);
-                        fm.contentPane.add(fm.viewfacultypanel);
+                        tm.viewteacherpanel = new ViewTeacherPanel(f, tm, tm.searchpanel);
+                        tm.viewteacherpanel.setVisible(true);
+                        tm.searchpanel.setVisible(false);
+                        tm.viewteacherpanel.setLocation(tm.panelx, tm.panely);
+                        tm.viewteacherpanel.setVisible(true);
+                        tm.viewteacherpanel.setFocusable(true);
+                        tm.contentPane.add(tm.viewteacherpanel);
                     }
                 }
             }
@@ -163,9 +163,9 @@ public class SearchPanel extends JPanel implements ActionListener {
 
     public SearchPanel(StudentMain sm) {
         this();
-        courcenamecombo.setSelectedItem(new CourceData().getcourcename(sm.s.getCourceCode()));
-        courcenamecombo.setEnabled(false);
-        courcenamecombo.setRenderer(new DefaultListCellRenderer() {
+        deptnamecombo.setSelectedItem(new DepartmentData().getdeptname(sm.s.getDeptCode()));
+        deptnamecombo.setEnabled(false);
+        deptnamecombo.setRenderer(new DefaultListCellRenderer() {
             @Override
             public void paint(Graphics g) {
                 setForeground(Color.BLACK);
@@ -187,15 +187,15 @@ public class SearchPanel extends JPanel implements ActionListener {
         table.addMouseListener(new MouseAdapter() {
             public void mousePressed(MouseEvent e) {
                 if (e.getClickCount() > 1 && e.getButton() == MouseEvent.BUTTON1) {
-                    if (studentandfacultycombo.getSelectedIndex() == 0) {
+                    if (studentandteachercombo.getSelectedIndex() == 0) {
                         JTable t = (JTable) e.getSource();
                         int row = t.getSelectedRow();
-                        String courcecode = table.getValueAt(row, 0) + "";
+                        String deptcode = table.getValueAt(row, 0) + "";
                         String strsem = table.getValueAt(row, 4) + "";
                         int sem = Integer.parseInt(strsem.substring(strsem.indexOf('-') + 1));
                         String strroll = table.getValueAt(row, 1) + "";
                         long rollnumber = Long.parseLong(strroll);
-                        Student s = new StudentData().getStudentDetails(courcecode, sem, rollnumber);
+                        Student s = new StudentData().getStudentDetails(deptcode, sem, rollnumber);
 
                         sm.viewstudentpanel = new ViewStudentPanel(s, sm, sm.searchpanel);
                         sm.viewstudentpanel.setVisible(true);
@@ -207,15 +207,15 @@ public class SearchPanel extends JPanel implements ActionListener {
                     } else {
                         JTable t = (JTable) e.getSource();
                         int fid = Integer.parseInt(t.getValueAt(t.getSelectedRow(), 0) + "");
-                        Faculty f = new FacultyData().getFacultyInfobyId(fid);
+                        Teacher f = new TeacherData().getTeacherInfobyId(fid);
 
-                        sm.viewfacultypanel = new ViewFacultyPanel(f, sm, sm.searchpanel);
-                        sm.viewfacultypanel.setVisible(true);
+                        sm.viewteacherpanel = new ViewTeacherPanel(f, sm, sm.searchpanel);
+                        sm.viewteacherpanel.setVisible(true);
                         sm.searchpanel.setVisible(false);
-                        sm.viewfacultypanel.setLocation(sm.panelx, sm.panely);
-                        sm.viewfacultypanel.setVisible(true);
-                        sm.viewfacultypanel.setFocusable(true);
-                        sm.contentPane.add(sm.viewfacultypanel);
+                        sm.viewteacherpanel.setLocation(sm.panelx, sm.panely);
+                        sm.viewteacherpanel.setVisible(true);
+                        sm.viewteacherpanel.setFocusable(true);
+                        sm.contentPane.add(sm.viewteacherpanel);
                     }
                 }
             }
@@ -272,22 +272,22 @@ public class SearchPanel extends JPanel implements ActionListener {
         lblStudentManagement.setFont(new Font("Segoe UI", Font.BOLD, 50));
         lblStudentManagement.setOpaque(true);
 
-        studentandfacultycombo = new JComboBox<String>();
-        studentandfacultycombo.setModel(new DefaultComboBoxModel<String>(new String[]{"Students", "Faculties"}));
+        studentandteachercombo = new JComboBox<String>();
+        studentandteachercombo.setModel(new DefaultComboBoxModel<String>(new String[]{"Students", "Teachers"}));
         this.arrangeStudentTable();
-        studentandfacultycombo.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        studentandfacultycombo.setBounds(10, 128, 205, 40);
-        studentandfacultycombo.addActionListener(this);
-        panel.add(studentandfacultycombo);
+        studentandteachercombo.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        studentandteachercombo.setBounds(10, 128, 205, 40);
+        studentandteachercombo.addActionListener(this);
+        panel.add(studentandteachercombo);
 
-        String courcename[] = new CourceData().getCourceName();
-        courcename[0] = "All Cources";
-        courcenamecombo = new JComboBox<String>(courcename);
+        String deptcode[] = new DepartmentData().getDeptName();
+        deptcode[0] = "All Departments";
+        deptnamecombo = new JComboBox<String>(deptcode);
 
-        courcenamecombo.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-        courcenamecombo.setBounds(225, 128, 255, 40);
-        courcenamecombo.addActionListener(this);
-        panel.add(courcenamecombo);
+        deptnamecombo.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+        deptnamecombo.setBounds(225, 128, 255, 40);
+        deptnamecombo.addActionListener(this);
+        panel.add(deptnamecombo);
 
         semoryearcombo = new JComboBox<String>();
         semoryearcombo.setFont(new Font("Segoe UI", Font.PLAIN, 18));
@@ -314,7 +314,6 @@ public class SearchPanel extends JPanel implements ActionListener {
         searchbutton.addActionListener(this);
         searchbutton.setFocusable(false);
         panel.add(searchbutton);
-
     }
 
     public void arrangeStudentTable() {
@@ -326,7 +325,7 @@ public class SearchPanel extends JPanel implements ActionListener {
         table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
     }
 
-    public void arrangeFacultyTable() {
+    public void arrangeTeacherTable() {
         table.getColumnModel().getColumn(0).setMaxWidth(200);
         table.getColumnModel().getColumn(1).setMaxWidth(300);
         table.getColumnModel().getColumn(2).setMaxWidth(500);
@@ -340,42 +339,33 @@ public class SearchPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // TODO Auto-generated method stub
-
-        if (e.getSource() == courcenamecombo) {
-
-            if (courcenamecombo.getSelectedIndex() == 0) {
+        if (e.getSource() == deptnamecombo) {
+            if (deptnamecombo.getSelectedIndex() == 0) {
                 semoryearcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
-
             } else {
-                String cource = (String) courcenamecombo.getSelectedItem();
-                String semoryear[] = new CourceData().getSemorYear(cource);
+                String dept = (String) deptnamecombo.getSelectedItem();
+                String semoryear[] = new DepartmentData().getSemorYear(dept);
                 semoryear[0] = "All " + semoryear[1].substring(0, semoryear[1].indexOf(' '));
                 semoryearcombo.setModel(new DefaultComboBoxModel<String>(semoryear));
             }
-
         }
         if (e.getSource() == searchbutton) {
-
             createtablemodel();
         }
-
     }
 
     public void createtablemodel() {
         String searchtext = searchfield.getText().trim();
-        if (studentandfacultycombo.getSelectedIndex() == 0) {
-            String defaultquery = "select s.courcecode as 'Class' ,s.rollnumber as 'Roll Number',concat(s.firstname,' ',s.lastname) as 'Student Name',c.courcename as 'Cource Name',concat(c.semoryear,'-',s.semoryear) as 'Sem/Year' from students s left join cources c on s.courcecode=c.courcecode ";
+        if (studentandteachercombo.getSelectedIndex() == 0) {
+            String defaultquery = "select s.Departmentcode as 'Class' ,s.rollnumber as 'Roll Number',concat(s.firstname,' ',s.lastname) as 'Student Name',d.DepartmentName as 'Dept. Name',concat(d.semoryear,'-',s.semoryear) as 'Sem/Year' from students s left join departments d on s.Departmentcode=d.Departmentcode ";
             String query = defaultquery;
-            if (courcenamecombo.getSelectedIndex() > 0) {
-                String courcecode = new CourceData().getCourcecode(courcenamecombo.getSelectedItem() + "");
-                query += " where s.courcecode='" + courcecode + "'";
+            if (deptnamecombo.getSelectedIndex() > 0) {
+                String deptcode = new DepartmentData().getDeptcode(deptnamecombo.getSelectedItem() + "");
+                query += " where s.Departmentcode='" + deptcode + "'";
                 if (semoryearcombo.getSelectedIndex() > 0) {
                     query += " and s.semoryear=" + semoryearcombo.getSelectedIndex();
                 }
-
             }
-
             if (!searchtext.isEmpty()) {
                 String searchquery = "s.firstname like '" + searchtext + "%' or s.lastname like '" + searchtext + "%' or s.rollnumber like '" + searchtext + "%' ";
                 if (!query.contains("where")) {
@@ -383,32 +373,29 @@ public class SearchPanel extends JPanel implements ActionListener {
                 } else {
                     query += " and ( " + searchquery + " ) ";
                 }
-
             }
             table.setModel(DbUtils.resultSetToTableModel(new StudentData().searchStudent(query)));
             this.arrangeStudentTable();
-        } else if (studentandfacultycombo.getSelectedIndex() == 1) {
-            String defaultquery = "select facultyid as 'Faculty ID',facultyname as 'Faculty Name',emailid as 'Email ID',qualification as 'Qualification',experience as 'Experience' from faculties f ";
+        } else if (studentandteachercombo.getSelectedIndex() == 1) {
+            String defaultquery = "select teacher_id as 'Teacher ID',teacherName as 'Teacher Name',emailid as 'Email ID',qualification as 'Qualification',experience as 'Experience' from teachers t ";
             String query = defaultquery;
-            if (courcenamecombo.getSelectedIndex() > 0) {
-                String courcecode = new CourceData().getCourcecode(courcenamecombo.getSelectedItem() + "");
-                query += " where f.courcecode='" + courcecode + "'";
+            if (deptnamecombo.getSelectedIndex() > 0) {
+                String deptcode = new DepartmentData().getDeptcode(deptnamecombo.getSelectedItem() + "");
+                query += " where t.Departmentcode='" + deptcode + "'";
                 if (semoryearcombo.getSelectedIndex() > 0) {
-                    query += " and f.semoryear=" + semoryearcombo.getSelectedIndex();
+                    query += " and t.semoryear=" + semoryearcombo.getSelectedIndex();
                 }
-
             }
             if (!searchtext.equals("Search") && !searchtext.isEmpty()) {
-                String searchquery = " f.facultyname like '" + searchtext + "%' or f.facultyid like '" + searchtext + "%' ";
+                String searchquery = " t.teacherName like '" + searchtext + "%' or f.teacher_id like '" + searchtext + "%' ";
                 if (!query.contains("where")) {
                     query += "where " + searchquery;
                 } else {
                     query += " and ( " + searchquery + " ) ";
                 }
-
             }
-            table.setModel(DbUtils.resultSetToTableModel(new FacultyData().searchFaculty(query)));
-            this.arrangeFacultyTable();
+            table.setModel(DbUtils.resultSetToTableModel(new TeacherData().searchTeacher(query)));
+            this.arrangeTeacherTable();
         }
     }
 }

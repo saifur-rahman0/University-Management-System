@@ -1,14 +1,12 @@
 package application.student;
 
-import application.subject.Subject;
+import application.course.Course;
 
 /*
  * Title : Marks.java
- * Created by : Ajaysinh Rathod
  * Purpose : Binding all the data related to marks
- * Mail : ajaysinhrathod1290@gmail.com
  */
-public class Marks extends Subject {
+public class Marks extends Course {
 
     private int sr_no;
     private String studentname;
