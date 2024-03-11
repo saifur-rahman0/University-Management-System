@@ -1,32 +1,14 @@
 package application.admin;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dialog;
-import java.awt.FileDialog;
-import java.awt.Font;
-import java.awt.Image;
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 
 /*
  * Title : EditAdminDetailsDialog.java
@@ -34,21 +16,20 @@ import javax.swing.border.LineBorder;
  */
 @SuppressWarnings("serial")
 public class EditAdminDetailsDialog extends JDialog implements ActionListener {
-
     private static EditAdminDetailsDialog dialog;
     private final JPanel contentPanel = new JPanel();
-    private JTextField collagenamefield;
-    private JTextField emailidfield;
-    private JTextField contactnumberfield;
-    private JTextField websitefield;
-    private JPasswordField passwordfield;
+    private final JTextField collagenamefield;
+    private final JTextField emailidfield;
+    private final JTextField contactnumberfield;
+    private final JTextField websitefield;
+    private final JPasswordField passwordfield;
     private File file;
     private String imagepath = null;
-    private JButton choosefilebutton;
-    private JTextArea addresstextarea;
-    private JButton createaccountbutton;
-    private JLabel Errorlabel;
-    private JScrollPane scrollpaneforaddress;
+    private final JButton choosefilebutton;
+    private final JTextArea addresstextarea;
+    private final JButton createaccountbutton;
+    private final JLabel Errorlabel;
+    private final JScrollPane scrollpaneforaddress;
     Admin a;
     AdminMain am;
 

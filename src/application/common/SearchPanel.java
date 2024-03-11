@@ -1,42 +1,26 @@
 package application.common;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableCellRenderer;
-
 import application.admin.AdminMain;
 import application.department.DepartmentData;
-import application.teacher.Teacher;
-import application.teacher.TeacherData;
-import application.teacher.TeacherMain;
-import application.teacher.ViewTeacherPanel;
 import application.student.Student;
 import application.student.StudentData;
 import application.student.StudentMain;
 import application.student.ViewStudentPanel;
+import application.teacher.Teacher;
+import application.teacher.TeacherData;
+import application.teacher.TeacherMain;
+import application.teacher.ViewTeacherPanel;
 import net.proteanit.sql.DbUtils;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 /*
@@ -45,15 +29,14 @@ import net.proteanit.sql.DbUtils;
  */
 @SuppressWarnings("serial")
 public class SearchPanel extends JPanel implements ActionListener {
+    private final JTable table;
+    private final JScrollPane tableviewscroll;
+    private final JTextField searchfield;
+    private final JComboBox<String> deptnamecombo;
+    private final JComboBox<String> semoryearcombo;
+    private final JComboBox<String> studentandteachercombo;
 
-    private JTable table;
-    private JScrollPane tableviewscroll;
-    private JTextField searchfield;
-    private JComboBox<String> deptnamecombo;
-    private JComboBox<String> semoryearcombo;
-    private JComboBox<String> studentandteachercombo;
-
-    private JButton searchbutton;
+    private final JButton searchbutton;
 
     /**
      * Create the panel.
@@ -280,7 +263,7 @@ public class SearchPanel extends JPanel implements ActionListener {
         studentandteachercombo.addActionListener(this);
         panel.add(studentandteachercombo);
 
-        String deptcode[] = new DepartmentData().getDeptName();
+        String[] deptcode = new DepartmentData().getDeptName();
         deptcode[0] = "All Departments";
         deptnamecombo = new JComboBox<String>(deptcode);
 
@@ -344,7 +327,7 @@ public class SearchPanel extends JPanel implements ActionListener {
                 semoryearcombo.setModel(new DefaultComboBoxModel<String>(new String[]{""}));
             } else {
                 String dept = (String) deptnamecombo.getSelectedItem();
-                String semoryear[] = new DepartmentData().getSemorYear(dept);
+                String[] semoryear = new DepartmentData().getSemorYear(dept);
                 semoryear[0] = "All " + semoryear[1].substring(0, semoryear[1].indexOf(' '));
                 semoryearcombo.setModel(new DefaultComboBoxModel<String>(semoryear));
             }

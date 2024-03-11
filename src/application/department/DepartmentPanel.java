@@ -1,25 +1,15 @@
 package application.department;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.border.LineBorder;
-
 import application.common.ScrollPaneUtil;
 import net.proteanit.sql.DbUtils;
 
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
 /*
  * Title : DepartmentPanel.java
@@ -28,13 +18,12 @@ import javax.swing.border.EmptyBorder;
 @SuppressWarnings("serial")
 
 
-
 public class DepartmentPanel extends JPanel implements ActionListener {
+    private final JScrollPane scrollPane;
+    private final JButton adddept;
+    private final JButton rollgenerator;
 
-    private JScrollPane scrollPane;
-    private JButton adddept, rollgenerator;
-
-    private JTable table;
+    private final JTable table;
 
     /**
      * Create the panel.

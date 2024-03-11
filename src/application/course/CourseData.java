@@ -1,12 +1,8 @@
 package application.course;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import application.common.DataBaseConnection;
+
+import java.sql.*;
 /*
  * Title : CourseData.java
  * Purpose : Handling all the data related to course
@@ -94,7 +90,6 @@ public class CourseData {
             pr.setString(5, co.getCourseType());
             pr.setInt(6, co.getMaxTheoryMarks());
             result = pr.executeUpdate();
-
             pr.close();
             return result;
         } catch (Exception exp) {

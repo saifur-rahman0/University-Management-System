@@ -1,30 +1,18 @@
 package application.course;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dialog;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
-
 import application.admin.AdminMain;
 import application.department.DepartmentData;
 import application.teacher.Teacher;
 import application.teacher.TeacherData;
 import application.teacher.ViewTeacherPanel;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /*
  * Title : AssignCourseDialog.java
@@ -36,8 +24,11 @@ public class AssignCourseDialog extends JDialog implements ActionListener {
     private final JPanel contentPanel = new JPanel();
     Teacher t = null;
     static AssignCourseDialog dialog;
-    private JComboBox<String> deptnamecombo, semoryearcombo, coursenamecombo, positioncombo;
-    private JButton assigncoursebutton;
+    private final JComboBox<String> deptnamecombo;
+    private final JComboBox<String> semoryearcombo;
+    private final JComboBox<String> coursenamecombo;
+    private final JComboBox<String> positioncombo;
+    private final JButton assigncoursebutton;
     private AdminMain am;
     JLabel Errorlabel;
 
@@ -56,7 +47,6 @@ public class AssignCourseDialog extends JDialog implements ActionListener {
 
     /**
      * Create the dialog.
-     *
      * @param t
      * @wbp.parser.constructor
      */
@@ -76,7 +66,7 @@ public class AssignCourseDialog extends JDialog implements ActionListener {
         headerlabel.setOpaque(true);
         headerlabel.setForeground(new Color(255, 255, 255));
         headerlabel.setFont(new Font("Arial", Font.BOLD, 23));
-        headerlabel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) Color.LIGHT_GRAY));
+        headerlabel.setBorder(new MatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
         headerlabel.setBounds(0, 0, 510, 39);
         getContentPane().add(headerlabel);
 
@@ -183,12 +173,12 @@ public class AssignCourseDialog extends JDialog implements ActionListener {
         getContentPane().add(assigncoursebutton);
 
         JLabel label = new JLabel("");
-        label.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(192, 192, 192)));
+        label.setBorder(new MatteBorder(0, 0, 2, 0, new Color(192, 192, 192)));
         label.setBounds(0, 462, 505, 8);
         getContentPane().add(label);
 
         JLabel label_1 = new JLabel("");
-        label_1.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(192, 192, 192)));
+        label_1.setBorder(new MatteBorder(0, 0, 2, 0, new Color(192, 192, 192)));
         label_1.setBounds(0, 172, 505, 8);
         getContentPane().add(label_1);
 

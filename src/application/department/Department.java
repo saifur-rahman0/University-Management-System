@@ -7,6 +7,7 @@ public class Department {
     private boolean isdeclared;
     private String deptname;
 
+
     public void setDeptName(String deptname) {
         this.deptname = deptname;
     }

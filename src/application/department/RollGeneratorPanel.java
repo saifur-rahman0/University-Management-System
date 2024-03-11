@@ -1,20 +1,12 @@
 package application.department;
 
-import javax.swing.JPanel;
-import java.awt.Color;
-import java.awt.Dimension;
-
-import javax.swing.JLabel;
-import java.awt.Font;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
-
-import javax.swing.JTextField;
 
 /*
  * Title : RollGeneratorPanel.java
@@ -22,15 +14,14 @@ import javax.swing.JTextField;
  */
 @SuppressWarnings("serial")
 public class RollGeneratorPanel extends JPanel {
-
     /**
      * Create the panel.
      *
      */
-    JPanel panel[];
-    JLabel deptcodelabel[];
-    JLabel semyearlabel[];
-    JTextField textField[];
+    JPanel[] panel;
+    JLabel[] deptcodelabel;
+    JLabel[] semyearlabel;
+    JTextField[] textField;
     String deptcode;
     int sem = 8;
 

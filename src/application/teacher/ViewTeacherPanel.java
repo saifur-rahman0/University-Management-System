@@ -1,24 +1,16 @@
 package application.teacher;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
-
 import application.admin.AdminMain;
 import application.common.ChangePasswordDialog;
+import application.course.AssignCourseDialog;
 import application.department.DepartmentData;
 import application.student.StudentMain;
-import application.course.AssignCourseDialog;
+
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /*
  * Title : ViewTeacherPanel.java
@@ -26,14 +18,13 @@ import application.course.AssignCourseDialog;
  */
 @SuppressWarnings("serial")
 public class ViewTeacherPanel extends JPanel {
-
     /**
      * Create the panel.
      */
     public JComponent lastpanel;
-    private JButton assignCoursebutton;
-    private JButton backbutton;
-    private JButton editdetailsbutton;
+    private final JButton assignCoursebutton;
+    private final JButton backbutton;
+    private final JButton editdetailsbutton;
 
     /**
      * @wbp.parser.constructor

@@ -1,18 +1,14 @@
 package application.common;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.Document;
 
 
 /*
@@ -21,8 +17,7 @@ import javax.swing.text.Document;
  */
 @SuppressWarnings("serial")
 public class HintPasswordField extends JPasswordField {
-
-    private JLabel hintlabel;
+    private final JLabel hintlabel;
 
     public HintPasswordField(String hint, Color hintforegroundcolor) {
         this(hint);
@@ -73,12 +68,8 @@ public class HintPasswordField extends JPasswordField {
         }
 
         public void updateLog(DocumentEvent e) {
-            Document doc = (Document) e.getDocument();
-            if (doc.getLength() == 0) {
-                hintlabel.setVisible(true);
-            } else {
-                hintlabel.setVisible(false);
-            }
+            Document doc = e.getDocument();
+            hintlabel.setVisible(doc.getLength() == 0);
         }
     }
 }

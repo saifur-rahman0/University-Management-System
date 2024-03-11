@@ -1,22 +1,20 @@
 package application.admin;
 
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-import java.sql.ResultSet;
-import javax.swing.JOptionPane;
-
 import application.common.DataBaseConnection;
 import application.common.TimeUtil;
+
+import javax.swing.*;
+import java.awt.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /*
  * Title : AdminData.java
  * Purpose : Handling all the data related to admin
  */
 public class AdminData {
-
     Connection con = DataBaseConnection.getConnection();
 
     public int updateAdminLink(Admin a) {

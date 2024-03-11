@@ -1,19 +1,14 @@
 package application.department;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-
 import application.common.DataBaseConnection;
+
+import java.sql.*;
 
 /*
  * Title : RollNumberData.java
  * Purpose : Handling all the data related to rollnumber
  */
 public class RollNumberData {
-
     static Connection con = DataBaseConnection.getConnection();
 
     public static void closeConnection() throws SQLException {
@@ -23,7 +18,6 @@ public class RollNumberData {
     public void adddata(String deptcode, int sem, long rollnumber) {
         String query = "insert into Rollgenerator values(?,?,?)";
         try {
-
             PreparedStatement pr = con.prepareStatement(query);
             pr.setString(1, deptcode);
             pr.setInt(2, sem);

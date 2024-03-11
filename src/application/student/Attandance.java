@@ -7,7 +7,6 @@ import application.course.Course;
  * Purpose : For binding all the data related to attandance
  */
 public class Attandance extends Course {
-
     private String studentname;
     private String date;
     private int attandance;

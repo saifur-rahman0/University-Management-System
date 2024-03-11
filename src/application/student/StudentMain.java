@@ -1,62 +1,47 @@
 package application.student;
 
-import java.awt.Color;
-
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
-import javax.swing.plaf.ColorUIResource;
-
 import application.admin.AdminData;
 import application.admin.AdminProfilePanel;
 import application.common.DataBaseConnection;
 import application.common.HomePanel;
 import application.common.SearchPanel;
 import application.common.TimeUtil;
-import application.teacher.TeacherPanel;
-import application.teacher.ViewTeacherPanel;
-import application.login.LoginPageFrame;
 import application.course.AssignCoursePanel;
 import application.course.CoursePanel;
+import application.login.LoginPageFrame;
+import application.teacher.TeacherPanel;
+import application.teacher.ViewTeacherPanel;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.plaf.ColorUIResource;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 @SuppressWarnings("serial")
 public class StudentMain extends JFrame implements ActionListener {
-
     public JPanel contentPane;
-    private JLabel studentnamelabel;
-    private JLabel studentprofilepiclabel;
-    private JPanel profilepanel;
-    private JButton homebutton;
-    private JButton studentsbutton;
-    private JButton coursebutton;
-    private JButton faculitiesbutton;
-    private JButton marksheetbutton;
-    private JButton attandancereportbutton;
-    private JButton searchbutton;
-    private JButton contactusbutton;
-    private JButton logoutbutton;
-    private JButton exitbutton;
-    private Color buttonbcolor = new Color(155, 72, 169, 255);
-    private Color buttonfcolor = Color.DARK_GRAY;
-    private Font buttonfont = new Font("Tw Cen MT", Font.PLAIN, 20);
+    private final JLabel studentnamelabel;
+    private final JLabel studentprofilepiclabel;
+    private final JPanel profilepanel;
+    private final JButton homebutton;
+    private final JButton studentsbutton;
+    private final JButton coursebutton;
+    private final JButton faculitiesbutton;
+    private final JButton marksheetbutton;
+    private final JButton attandancereportbutton;
+    private final JButton searchbutton;
+    private final JButton contactusbutton;
+    private final JButton logoutbutton;
+    private final JButton exitbutton;
+    private final Color buttonbcolor = new Color(155, 72, 169, 255);
+    private final Color buttonfcolor = Color.DARK_GRAY;
+    private final Font buttonfont = new Font("Tw Cen MT", Font.PLAIN, 20);
     public CoursePanel coursepanel;
     public HomePanel homepanel;
     public StudentPanel studentpanel;
@@ -74,11 +59,11 @@ public class StudentMain extends JFrame implements ActionListener {
     public SearchPanel searchpanel;
     public int panely = 0, panelx = 250;
     private JButton btn;
-    private JButton myprofilebutton;
-    private String lastlogin;
+    private final JButton myprofilebutton;
+    private final String lastlogin;
     public Student s;
     private int row = 63;
-    private JButton assignedcoursebutton;
+    private final JButton assignedcoursebutton;
 
 
     /**
@@ -132,14 +117,14 @@ public class StudentMain extends JFrame implements ActionListener {
         this.setBounds(-2, 0, 1370, 733);
         createpanel();
         JPanel sidebarpanel = new JPanel();
-        sidebarpanel.setBorder(new MatteBorder(0, 0, 0, 0, (Color) new Color(50, 0, 70, 31)));
+        sidebarpanel.setBorder(new MatteBorder(0, 0, 0, 0, new Color(50, 0, 70, 31)));
         sidebarpanel.setBackground(new Color(183, 183, 183, 255));
         sidebarpanel.setBounds(5, 11, 240, 706);
         contentPane.add(sidebarpanel);
         sidebarpanel.setLayout(null);
 
         profilepanel = new JPanel();
-        profilepanel.setBorder(new MatteBorder(0, 0, 2, 0, (Color) Color.LIGHT_GRAY));
+        profilepanel.setBorder(new MatteBorder(0, 0, 2, 0, Color.LIGHT_GRAY));
         profilepanel.setBackground(new Color(108, 67, 164));
         profilepanel.setBounds(0, 0, 240, 61);
         sidebarpanel.add(profilepanel);

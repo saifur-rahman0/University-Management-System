@@ -1,12 +1,12 @@
 package application.common;
 
+import application.department.Department;
+import application.student.StudentData;
+import application.teacher.TeacherData;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import application.department.Department;
-import application.teacher.TeacherData;
-import application.student.StudentData;
 
 
 /*
@@ -14,7 +14,6 @@ import application.student.StudentData;
  * Purpose : Binding data related to login activity of students and faculties
  */
 class User extends Department {
-
     private String logindate;
     private String logintime;
     private String userid;

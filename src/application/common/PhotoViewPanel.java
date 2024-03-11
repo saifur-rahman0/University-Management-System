@@ -1,27 +1,20 @@
 package application.common;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
-
 import application.department.DepartmentData;
-import application.teacher.Teacher;
-import application.teacher.TeacherData;
-import application.teacher.TeacherPanel;
-import application.teacher.ViewTeacherPanel;
 import application.student.Student;
 import application.student.StudentData;
 import application.student.StudentPanel;
 import application.student.ViewStudentPanel;
+import application.teacher.Teacher;
+import application.teacher.TeacherData;
+import application.teacher.TeacherPanel;
+import application.teacher.ViewTeacherPanel;
+
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 
 /*
@@ -30,12 +23,11 @@ import application.student.ViewStudentPanel;
  */
 @SuppressWarnings("serial")
 public class PhotoViewPanel extends JPanel {
-
-    int xpos[];
-    JPanel panel[][];
-    JLabel profilepiclabel[][];
-    JLabel namelabel[][];
-    JLabel degreelabel[][];
+    int[] xpos;
+    JPanel[][] panel;
+    JLabel[][] profilepiclabel;
+    JLabel[][] namelabel;
+    JLabel[][] degreelabel;
     int totalfaculties = -1;
     int totalstudents = -1;
     int maxphotosinrow = 3;

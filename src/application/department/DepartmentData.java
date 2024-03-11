@@ -1,21 +1,15 @@
 package application.department;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-
 import application.common.DataBaseConnection;
 
+import java.sql.*;
+import java.util.ArrayList;
 
 /*
  * Title : UserData.java
  * Purpose : Handling all the data related to dept
  */
 public class DepartmentData {
-
     static Connection con = DataBaseConnection.getConnection();
 
     public static void closeConnection() throws SQLException {
@@ -72,7 +66,7 @@ public class DepartmentData {
     }
 
     public String[] getDeptName() {
-        String deptname[];
+        String[] deptname;
         int i = 0;
         deptname = new String[getTotalDepartment() + 1];
         deptname[i++] = "---Select Department---";
@@ -109,7 +103,7 @@ public class DepartmentData {
     }
 
     public String[] getRollDeptName() {
-        String deptname[];
+        String[] deptname;
         int i = 0;
         deptname = new String[getRollTotalDepartment() + 1];
         deptname[i++] = "---select---";
@@ -130,7 +124,7 @@ public class DepartmentData {
 
     public String[] getSemorYear(String Deptname) {
         String query = "select semoryear, totalsemoryear from departments where DepartmentName='" + Deptname + "'";
-        String totalsem[] = new String[1];
+        String[] totalsem = new String[1];
         totalsem[0] = "---Select Sem/Year---";
         if (!Deptname.contains("--select--")) {
             try {
@@ -161,7 +155,7 @@ public class DepartmentData {
     }
 
     public String[] getDeptcode() {
-        String deptcode[] = new String[this.getTotalDepartment()];
+        String[] deptcode = new String[this.getTotalDepartment()];
         String query = "select Departmentcode from departments";
         try {
             Statement pr = con.createStatement();

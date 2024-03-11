@@ -5,7 +5,6 @@ import application.common.TimeUtil;
 import application.department.DepartmentData;
 
 public class Student extends Person {
-
     private long rollnumber;
     private String optionalCourse;
     private String firstname;

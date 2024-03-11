@@ -1,14 +1,10 @@
 package application.teacher;
 
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import javax.swing.JOptionPane;
 import application.common.DataBaseConnection;
+
+import javax.swing.*;
+import java.awt.*;
+import java.sql.*;
 
 /*
  * Title : TeacherData.java
@@ -16,7 +12,6 @@ import application.common.DataBaseConnection;
  */
 public class TeacherData {
     static Connection con = DataBaseConnection.getConnection();
-
     public static void closeConnection() {
         try {
             con.close();
@@ -305,7 +300,7 @@ public class TeacherData {
 
     public String getLastLogin(String userid) {
         try {
-            String query = "select lastlogin from teachers where teacher_id=" + userid + "";
+            String query = "select lastlogin from teachers where teacher_id=" + userid;
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             rs.next();

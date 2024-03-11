@@ -1,11 +1,17 @@
 package application.student;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
+import application.admin.AdminMain;
+import application.course.CourseData;
+import application.department.Department;
+import application.department.DepartmentData;
+import application.teacher.TeacherMain;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -14,54 +20,29 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-
-import application.admin.AdminMain;
-import application.department.Department;
-import application.department.DepartmentData;
-import application.teacher.TeacherMain;
-import application.course.CourseData;
-
 /*
  * Title : MarkSheetReportPanel.java
  * Purpose : To display all students marks in class/course/student wice
  */
 @SuppressWarnings("serial")
 public class MarkSheetReportPanel extends JPanel implements ActionListener {
-    private JComboBox<String> deptnamecombo;
-    private JComboBox<String> semoryearcombo;
-    private JComboBox<String> courseorrollcombo;
-    private JTable table;
-    private JScrollPane scrollPane;
+    private final JComboBox<String> deptnamecombo;
+    private final JComboBox<String> semoryearcombo;
+    private final JComboBox<String> courseorrollcombo;
+    private final JTable table;
+    private final JScrollPane scrollPane;
     private int totalstudent = 0;
-    private JLabel Errorlabel;
-    private JButton studentwicebutton;
-    private JButton classwicebutton;
-    private JButton coursewicebutton;
-    private JButton fetchdetailsbutton;
-    private JLabel label3;
-    private JLabel label1;
-    private JLabel label2;
-    private JButton declareresultbutton;
-    private JButton submitbutton;
-    private JLabel nodatafoundlabel;
+    private final JLabel Errorlabel;
+    private final JButton studentwicebutton;
+    private final JButton classwicebutton;
+    private final JButton coursewicebutton;
+    private final JButton fetchdetailsbutton;
+    private final JLabel label3;
+    private final JLabel label1;
+    private final JLabel label2;
+    private final JButton declareresultbutton;
+    private final JButton submitbutton;
+    private final JLabel nodatafoundlabel;
 
     /**
      * Create the panel.
@@ -519,9 +500,9 @@ public class MarkSheetReportPanel extends JPanel implements ActionListener {
 
     public void createTableForDeclareResult(String dept) {
         submitbutton.setVisible(true);
-        String columnname[] = {"Deparmet", "Sem", "Department Name", ""};
+        String[] columnname = {"Deparmet", "Sem", "Department Name", ""};
         DefaultTableModel model = new DefaultTableModel(columnname, 0) {
-            boolean isEdit[] = {false, false, false, true};
+            final boolean[] isEdit = {false, false, false, true};
             @Override
             public boolean isCellEditable(int row, int column) {
                 return isEdit[column];
@@ -627,10 +608,9 @@ public class MarkSheetReportPanel extends JPanel implements ActionListener {
     }
 
     public DefaultTableModel createModel(Marks m) {
-        String Column[] = {"Roll Number", "Student Name", "Course Code", "Obtained Marks", "Latter Grade"};
-
+        String[] Column = {"Roll Number", "Student Name", "Course Code", "Obtained Marks", "Latter Grade"};
         DefaultTableModel model = new DefaultTableModel(Column, 0) {
-            boolean isEdit[] = {false, false, false, false, false, false};
+            final boolean[] isEdit = {false, false, false, false, false, false};
             @Override
             public boolean isCellEditable(int row, int column) {
                 return isEdit[column];

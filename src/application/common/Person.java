@@ -1,19 +1,18 @@
 package application.common;
 
-import java.awt.Image;
-import java.awt.Toolkit;
+import application.department.Department;
+import application.department.DepartmentData;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javax.imageio.ImageIO;
-import application.department.Department;
-import application.department.DepartmentData;
 
 public abstract class Person extends Department {
-
     private String emailid;
     private String contactnumber;
     private String birthdate;
@@ -124,7 +123,7 @@ public abstract class Person extends Department {
     }
 
     public boolean comparePassword(String password) {
-        return password.equals(this.password) ? true : false;
+        return password.equals(this.password);
     }
 
     public Image getProfilePic(int width, int height) {

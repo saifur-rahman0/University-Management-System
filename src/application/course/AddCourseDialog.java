@@ -1,50 +1,31 @@
 package application.course;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dialog;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.ResultSet;
+import net.proteanit.sql.DbUtils;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.table.DefaultTableCellRenderer;
-
-import net.proteanit.sql.DbUtils;
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.ResultSet;
 /*
  * Title : AddCourseDialog.java
  * Purpose : For adding new course to dept
  */
 @SuppressWarnings("serial")
 public class AddCourseDialog extends JDialog implements ActionListener {
-
     private final JPanel contentPanel = new JPanel();
-    private JTextField coursecodefield;
-    private JTextField coursenamefield;
-    private JTextField theorymarksfield;
-    private JButton addcourse;
-    private JComboBox<String> Depttypecombo;
-    private String Deptcode;
-    private int semoryear;
-    private JTable table;
-    private JLabel lblError;
+    private final JTextField coursecodefield;
+    private final JTextField coursenamefield;
+    private final JTextField theorymarksfield;
+    private final JButton addcourse;
+    private final JComboBox<String> Depttypecombo;
+    private final String Deptcode;
+    private final int semoryear;
+    private final JTable table;
+    private final JLabel lblError;
     private static AddCourseDialog dialog;
 
     /**
@@ -176,7 +157,7 @@ public class AddCourseDialog extends JDialog implements ActionListener {
         headerlabel.setForeground(new Color(255, 255, 255));
         headerlabel.setFont(new Font("Arial", Font.BOLD, 23));
         headerlabel.setBounds(0, 0, 512, 44);
-        headerlabel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) Color.LIGHT_GRAY));
+        headerlabel.setBorder(new MatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
         contentPanel.add(headerlabel);
 
         addcourse = new JButton("Add Course");
@@ -210,10 +191,10 @@ public class AddCourseDialog extends JDialog implements ActionListener {
         JLabel borderlabel = new JLabel("");
         borderlabel.setBounds(0, 388, 512, 14);
         contentPanel.add(borderlabel);
-        borderlabel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(192, 192, 192)));
+        borderlabel.setBorder(new MatteBorder(0, 0, 1, 0, new Color(192, 192, 192)));
 
         lblError = new JLabel("This is required question !");
-        lblError.setBorder(new MatteBorder(0, 0, 0, 0, (Color) new Color(255, 0, 0)));
+        lblError.setBorder(new MatteBorder(0, 0, 0, 0, new Color(255, 0, 0)));
         lblError.setForeground(Color.RED);
         lblError.setFont(new Font("Candara", Font.PLAIN, 17));
         lblError.setBounds(172, 107, 331, 30);

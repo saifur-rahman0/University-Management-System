@@ -1,17 +1,12 @@
 package application.student;
 
-import java.awt.Image;
-import java.awt.Toolkit;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
-
 import application.common.DataBaseConnection;
 import application.course.CourseData;
+
+import javax.swing.*;
+import java.awt.*;
+import java.sql.*;
+import java.util.ArrayList;
 
 /*
  * Title : StudentData.java
@@ -154,7 +149,6 @@ public class StudentData {
 
     public int getTotalStudentInDept(String Deptcode, int sem) {
         int rollnumber = 0;
-
         String query = "select rollnumber from students where Departmentcode='" + Deptcode + "' and semoryear=" + sem;
         try {
             Statement st = con.createStatement();
@@ -172,7 +166,7 @@ public class StudentData {
     }
 
     public String[] getRollNumber(String Deptcode, int sem) {
-        String rollnumber[] = null;
+        String[] rollnumber = null;
         int i = 0;
         String query = "select rollnumber from students where Departmentcode='" + Deptcode + "' and semoryear=" + sem + " order by rollnumber asc";
         try {
@@ -580,7 +574,7 @@ public class StudentData {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             rs.next();
-            return rs.getInt(1) > 0 ? true : false;
+            return rs.getInt(1) > 0;
         } catch (Exception exp) {
             exp.printStackTrace();
         }
@@ -753,7 +747,7 @@ public class StudentData {
             while (rs.next()) {
                 Attandance at = new Attandance();
                 at.setStudentName(this.getStudentName(a.getDeptCode() + "-" + a.getSemorYear() + "-" + a.getRollNumber()));
-                at.setRollNumber(a.getRollNumber());;
+                at.setRollNumber(a.getRollNumber());
                 at.setCourseCode(rs.getString(1));
                 at.setCourseName(rs.getString(2));
                 at.setAttandance(rs.getInt(3));

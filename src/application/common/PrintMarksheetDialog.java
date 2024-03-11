@@ -1,11 +1,15 @@
 package application.common;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dialog;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import application.admin.AdminMain;
+import application.student.Student;
+import application.student.StudentMain;
+import application.teacher.TeacherMain;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -16,40 +20,24 @@ import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-
-import application.admin.AdminMain;
-import application.teacher.TeacherMain;
-import application.student.Student;
-import application.student.StudentMain;
-
 /*
  * Title : PrintPageDialog.java
  * Purpose : To download student marksheet in selected format
  */
 @SuppressWarnings("serial")
 public class PrintMarksheetDialog extends JDialog {
-
     private static PrintMarksheetDialog dialog;
     private final JPanel contentPanel = new JPanel();
     private AdminMain am;
-    private String filename;
+    private final String filename;
     private BufferedImage image;
-    private JLabel filedownloadedlabel;
+    private final JLabel filedownloadedlabel;
     public printMarksheetPDF p;
     private TeacherMain fm;
     private StudentMain sm;
-    private JLabel imagelabel;
-    private JLabel filepathlabel;
-    private JButton btnPdf;
+    private final JLabel imagelabel;
+    private final JLabel filepathlabel;
+    private final JButton btnPdf;
 
     /**
      * Launch the application.
@@ -251,7 +239,7 @@ public class PrintMarksheetDialog extends JDialog {
                     }
                 });
 
-                if (job.printDialog() == false) {
+                if (!job.printDialog()) {
                     return;
                 }
                 try {

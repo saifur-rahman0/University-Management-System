@@ -1,32 +1,22 @@
 package application.department;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
+import application.common.HintTextField;
+
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
-
-import application.common.HintTextField;
-
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-
 @SuppressWarnings("serial")
 public class AddDepartmentDialog extends JDialog implements ActionListener {
-
-    private JTextField deptcodefield;
-    private JTextField deptnamefield;
-    private JTextField totalsemoryearfield;
-    private JComboBox<String> semoryearcombo;
-    private JLabel lblError;
+    private final JTextField deptcodefield;
+    private final JTextField deptnamefield;
+    private final JTextField totalsemoryearfield;
+    private final JComboBox<String> semoryearcombo;
+    private final JLabel lblError;
     private DepartmentPanel deptpanel;
 
     /**
@@ -131,7 +121,7 @@ public class AddDepartmentDialog extends JDialog implements ActionListener {
         getContentPane().add(adddeptbutton);
 
         lblError = new JLabel("This is required question !");
-        lblError.setBorder(new MatteBorder(0, 0, 0, 0, (Color) new Color(255, 0, 0)));
+        lblError.setBorder(new MatteBorder(0, 0, 0, 0, new Color(255, 0, 0)));
         lblError.setForeground(new Color(255, 0, 0));
         lblError.setFont(new Font("Candara", Font.PLAIN, 15));
         lblError.setVisible(false);
@@ -139,7 +129,7 @@ public class AddDepartmentDialog extends JDialog implements ActionListener {
         getContentPane().add(lblError);
 
         JLabel label = new JLabel("");
-        label.setBorder(new MatteBorder(0, 0, 2, 0, (Color) new Color(192, 192, 192)));
+        label.setBorder(new MatteBorder(0, 0, 2, 0, new Color(192, 192, 192)));
         label.setBounds(0, 346, 470, 14);
         getContentPane().add(label);
 

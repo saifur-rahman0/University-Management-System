@@ -1,37 +1,23 @@
 package application.teacher;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.ResultSet;
+import application.admin.AdminMain;
+import application.common.PhotoViewPanel;
+import application.student.StudentMain;
+import net.proteanit.sql.DbUtils;
 
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTable;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.text.DefaultFormatter;
-
-import application.admin.AdminMain;
-import application.common.PhotoViewPanel;
-import application.student.StudentMain;
-import net.proteanit.sql.DbUtils;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
 
 /*
  * Title : TeacherPanel.java
@@ -39,20 +25,19 @@ import net.proteanit.sql.DbUtils;
  */
 @SuppressWarnings("serial")
 public class TeacherPanel extends JPanel implements ActionListener {
-
-    private JButton addnewfaculity;
+    private final JButton addnewfaculity;
     public JButton viewbutton;
     public JTable table;
     public AdminMain am;
     public JPanel tableviewpanel;
     public JScrollPane photoviewscrollpane;
-    private JLabel maxphotolabel;
-    private JSpinner maxphotospinner;
+    private final JLabel maxphotolabel;
+    private final JSpinner maxphotospinner;
     int maxphoto = 4;
     public StudentMain sm;
     public TeacherMain fm;
     private String condition = "";
-    private JLabel headinglabel;
+    private final JLabel headinglabel;
 
     /**
      * Create the panel.

@@ -1,44 +1,34 @@
 package application.login;
 
-import java.awt.Color;
-import java.awt.Font;
+import application.admin.AdminData;
+import application.admin.AdminMain;
+import application.common.HintPasswordField;
+import application.common.HintTextField;
+import application.common.UserData;
+import application.student.Student;
+import application.student.StudentData;
+import application.student.StudentMain;
+import application.teacher.Teacher;
+import application.teacher.TeacherData;
+import application.teacher.TeacherMain;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
-
-import application.admin.AdminData;
-import application.admin.AdminMain;
-import application.common.HintPasswordField;
-import application.common.HintTextField;
-import application.teacher.Teacher;
-import application.teacher.TeacherData;
-import application.teacher.TeacherMain;
-import application.common.UserData;
-import application.student.Student;
-import application.student.StudentData;
-import application.student.StudentMain;
-
 @SuppressWarnings("serial")
 public class LoginPanel extends JPanel implements ActionListener {
-
     public HintTextField useridfield;
     public JPasswordField passwordfield;
     public JButton loginbutton;
     String loginprofile;
-    private LoginPageFrame loginpageframe;
+    private final LoginPageFrame loginpageframe;
 
     /**
      * Create the panel.
@@ -129,7 +119,7 @@ public class LoginPanel extends JPanel implements ActionListener {
         String showpic= "./assets/login_Panal/show.png", hidepic= "./assets/login_Panal/hide.png";
         showandhidebutton.setForeground(new Color(255, 255, 255));
         showandhidebutton.setBounds(341, 272, 62, 44);
-        showandhidebutton.setBorder(new MatteBorder(0, 2, 0, 2, (Color) new Color(0,0,0)));
+        showandhidebutton.setBorder(new MatteBorder(0, 2, 0, 2, new Color(0,0,0)));
         showandhidebutton.setName("show");
         showandhidebutton.setIcon(new ImageIcon(showpic));
         showandhidebutton.setFocusable(false);
@@ -156,7 +146,7 @@ public class LoginPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent arg0) {
         if (loginprofile.equals("Admin")) {
             boolean result = new AdminData().checkPassword(useridfield.getText(), passwordfield.getText());
-            if (result == true) {
+            if (result) {
                 AdminMain am = new AdminMain();
                 am.setVisible(true);
                 am.setLocationRelativeTo(null);
@@ -168,7 +158,7 @@ public class LoginPanel extends JPanel implements ActionListener {
             }
         } else if (loginprofile.equals("Teacher")) {
             boolean result = new TeacherData().checkPassword(useridfield.getText(), passwordfield.getText());
-            if (result == true) {
+            if (result) {
                 Teacher f = new TeacherData().getTacherInfobyUserId(useridfield.getText());
                 if (!f.getDeptCode().equals("Not Assigned")) {
 
@@ -186,7 +176,7 @@ public class LoginPanel extends JPanel implements ActionListener {
             }
         } else if (loginprofile.equals("Student")) {
             boolean result = new StudentData().checkPassword(useridfield.getText(), passwordfield.getText());
-            if (result == true) {
+            if (result) {
                 Student s = new StudentData().getStudentDetailsByUserId(useridfield.getText());
                 new UserData().addStudentLoginTime(s);
                 StudentMain sm = new StudentMain(s);

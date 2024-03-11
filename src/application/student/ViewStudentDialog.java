@@ -1,25 +1,13 @@
 package application.student;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dialog;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.border.MatteBorder;
-
 import application.admin.AdminMain;
 import application.department.DepartmentData;
 
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
+import javax.swing.*;
+import javax.swing.border.MatteBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /*
  * Title : ViewStudentDialog.java
@@ -27,11 +15,12 @@ import javax.swing.JComponent;
  */
 @SuppressWarnings("serial")
 public class ViewStudentDialog extends JDialog implements ActionListener {
-
-    private JComboBox<String> deptnamecombo, semoryearcombo, rollnumbercombo;
-    private JButton viewdetails;
-    private AdminMain am;
-    private JLabel Errorlabel;
+    private final JComboBox<String> deptnamecombo;
+    private final JComboBox<String> semoryearcombo;
+    private final JComboBox<String> rollnumbercombo;
+    private final JButton viewdetails;
+    private final AdminMain am;
+    private final JLabel Errorlabel;
     private static ViewStudentDialog dialog;
 
     /**
@@ -67,7 +56,7 @@ public class ViewStudentDialog extends JDialog implements ActionListener {
         headerlabel.setOpaque(true);
         headerlabel.setForeground(new Color(255, 255, 255));
         headerlabel.setFont(new Font("Arial", Font.BOLD, 23));
-        headerlabel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) Color.LIGHT_GRAY));
+        headerlabel.setBorder(new MatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
 
         deptnamecombo = new JComboBox<String>(new DepartmentData().getDeptName());
         deptnamecombo.setFont(new Font("Segoe UI", Font.PLAIN, 17));
@@ -96,7 +85,7 @@ public class ViewStudentDialog extends JDialog implements ActionListener {
 
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
-        panel.setBorder(new MatteBorder(1, 0, 0, 0, (Color) Color.GRAY));
+        panel.setBorder(new MatteBorder(1, 0, 0, 0, Color.GRAY));
         panel.setBounds(0, 402, 514, 53);
         getContentPane().add(panel);
         panel.setLayout(null);

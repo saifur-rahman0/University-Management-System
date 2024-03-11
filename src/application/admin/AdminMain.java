@@ -1,71 +1,48 @@
 package application.admin;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import javax.swing.Timer;
-import javax.swing.UIManager;
+import application.common.*;
+import application.course.AssignCoursePanel;
+import application.course.CoursePanel;
+import application.department.DepartmentPanel;
+import application.login.LoginPageFrame;
+import application.student.*;
+import application.teacher.TeacherPanel;
+import application.teacher.ViewTeacherPanel;
+
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import javax.swing.plaf.ColorUIResource;
-import application.common.DataBaseConnection;
-import application.common.HomePanel;
-import application.common.SearchPanel;
-import application.common.TimeUtil;
-import application.common.UsersPanel;
-import application.department.DepartmentPanel;
-import application.teacher.TeacherPanel;
-import application.teacher.ViewTeacherPanel;
-import application.login.LoginPageFrame;
-import application.student.AttandanceReportPanel;
-import application.student.EnterMarksPanel;
-import application.student.MarkAttandancePanel;
-import application.student.MarkSheetPanel;
-import application.student.MarkSheetReportPanel;
-import application.student.StudentPanel;
-import application.student.ViewStudentPanel;
-import application.course.AssignCoursePanel;
-import application.course.CoursePanel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class AdminMain extends JFrame implements ActionListener {
-
     public JPanel contentPane;
-    private JLabel collagenamelabel;
-    private JLabel profilepiclabel;
-    private JPanel profilepanel;
-    private JButton homebutton;
-    private JButton courcebutton;
-    private JButton studentsbutton;
-    private JButton coursebutton;
-    private JButton deptbutton;
-    private JButton usersbutton;
-    private JButton entermarksbutton;
-    private JButton assigncoursebutton;
-    private JButton markattandancebutton;
-    private JButton attandancereportbutton;
-    private JButton searchbutton;
-    private JButton exitbutton;
+    private final JLabel collagenamelabel;
+    private final JLabel profilepiclabel;
+    private final JPanel profilepanel;
+    private final JButton homebutton;
+    private final JButton courcebutton;
+    private final JButton studentsbutton;
+    private final JButton coursebutton;
+    private final JButton deptbutton;
+    private final JButton usersbutton;
+    private final JButton entermarksbutton;
+    private final JButton assigncoursebutton;
+    private final JButton markattandancebutton;
+    private final JButton attandancereportbutton;
+    private final JButton searchbutton;
+    private final JButton exitbutton;
     private JButton btn;
-    private JButton adminprofilebutton;
+    private final JButton adminprofilebutton;
 
-    private Color buttonbcolor = new Color(155, 72, 169, 255);
-    private Color buttonfcolor = Color.DARK_GRAY;
-    private Font buttonfont = new Font("Tw Cen MT", Font.PLAIN, 20);
+    private final Color buttonbcolor = new Color(155, 72, 169, 255);
+    private final Color buttonfcolor = Color.DARK_GRAY;
+    private final Font buttonfont = new Font("Tw Cen MT", Font.PLAIN, 20);
     private DepartmentPanel courcepanel;
     private CoursePanel coursepanel;
     private HomePanel homepanel;
@@ -92,12 +69,12 @@ public class AdminMain extends JFrame implements ActionListener {
     public int panely = 0, panelx = 250;
 
     private Admin a;
-    private String lastlogin;
+    private final String lastlogin;
     private int row = 0;
-    private JButton logoutbutton;
+    private final JButton logoutbutton;
 
-    private Timer timer = new Timer(2000, this);
-    private JButton marksheetreportbutton;
+    private final Timer timer = new Timer(2000, this);
+    private final JButton marksheetreportbutton;
 
     /**
      * Launch the application.
@@ -156,7 +133,7 @@ public class AdminMain extends JFrame implements ActionListener {
         profilepanel = new JPanel();
         profilepanel.setBounds(5, 7, 240, 63);
         contentPane.add(profilepanel);
-        profilepanel.setBorder(new MatteBorder(0, 0, 2, 0, (Color) Color.LIGHT_GRAY));
+        profilepanel.setBorder(new MatteBorder(0, 0, 2, 0, Color.LIGHT_GRAY));
         profilepanel.setBackground(new Color(108, 67, 164));
         profilepanel.setLayout(null);
 
@@ -182,7 +159,7 @@ public class AdminMain extends JFrame implements ActionListener {
 
         //creating side bar panel
         JPanel sidebarpanel = new JPanel();
-        sidebarpanel.setBorder(new MatteBorder(0, 0, 0, 0, (Color) new Color(255, 0, 0, 31)));
+        sidebarpanel.setBorder(new MatteBorder(0, 0, 0, 0, new Color(255, 0, 0, 31)));
         sidebarpanel.setBackground(new Color(183, 183, 183, 255));
         sidebarpanel.setBounds(5, 75, 240, 654);
         contentPane.add(sidebarpanel);

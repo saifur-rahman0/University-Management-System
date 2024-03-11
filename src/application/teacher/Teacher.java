@@ -9,7 +9,6 @@ import application.department.DepartmentData;
  * Purpose : Binding all the of teacher
  */
 public class Teacher extends Person {
-
     private int teacherId;
     private String teachername;
     private String qualification;

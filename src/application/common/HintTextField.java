@@ -1,18 +1,14 @@
 package application.common;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.Document;
 
 /*
  * Title : HintTextField.java
@@ -20,8 +16,7 @@ import javax.swing.text.Document;
  */
 @SuppressWarnings("serial")
 public class HintTextField extends JTextField {
-
-    private JLabel hintlabel;
+    private final JLabel hintlabel;
 
     /**
      *
@@ -99,12 +94,8 @@ public class HintTextField extends JTextField {
         }
 
         public void updateLog(DocumentEvent e, String action) {
-            Document doc = (Document) e.getDocument();
-            if (doc.getLength() == 0) {
-                hintlabel.setVisible(true);
-            } else {
-                hintlabel.setVisible(false);
-            }
+            Document doc = e.getDocument();
+            hintlabel.setVisible(doc.getLength() == 0);
         }
     }
 }

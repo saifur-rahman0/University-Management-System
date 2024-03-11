@@ -1,57 +1,43 @@
 package application.student;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
+import application.admin.AdminMain;
+import application.common.PrintMarksheetDialog;
+import application.department.DepartmentData;
+import application.teacher.TeacherMain;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-
-import application.admin.AdminMain;
-import application.common.PrintMarksheetDialog;
-import application.course.CourseData;
-import application.department.DepartmentData;
-import application.teacher.TeacherMain;
-
 /*
  * Purpose : For displaying student marksheet
  */
 @SuppressWarnings("serial")
 public class MarkSheetPanel extends JPanel {
-    private JTable table;
+    private final JTable table;
     private int totalcourse = 0;
-    private Student s;
-    private JLabel rollnumberlabel;
-    private JLabel studentnamelabel;
-    private JLabel profilepiclabel;
-    private JLabel deptnamelabel;
-    private JScrollPane tableviewpanel;
-    private int rowsize = 50;
+    private final Student s;
+    private final JLabel rollnumberlabel;
+    private final JLabel studentnamelabel;
+    private final JLabel profilepiclabel;
+    private final JLabel deptnamelabel;
+    private final JScrollPane tableviewpanel;
+    private final int rowsize = 50;
     public JButton downloadbutton;
-    private JButton backbutton;
+    private final JButton backbutton;
     public String defaultDownloadPath = "C:\\Users\\Saifur Rahman\\Downloads\\";
     private JLabel notdeclaredlabel;
-    private JPanel studentdetailspanel;
-    private JPanel headerpanel;
+    private final JPanel studentdetailspanel;
+    private final JPanel headerpanel;
 
     /**
      * Create the panel.
@@ -127,7 +113,6 @@ public class MarkSheetPanel extends JPanel {
         downloadbutton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                // TODO Auto-generated method stub
                 PrintMarksheetDialog ppd = new PrintMarksheetDialog(sm, s);
                 ppd.setLocationRelativeTo(null);
                 ppd.setVisible(true);
@@ -348,7 +333,7 @@ public class MarkSheetPanel extends JPanel {
         ArrayList<Marks> list = new StudentData().getMarkssheetOfStudent(s.getDeptCode(), s.getSemorYear(), s.getRollNumber());
         totalcourse = list.size();
         Marks m = new Marks();
-        String ColumnName[] = {"Course Code", "Course Name", "Latter Grade", "GPA"};
+        String[] ColumnName = {"Course Code", "Course Name", "Latter Grade", "GPA"};
         DefaultTableModel model = new DefaultTableModel(ColumnName, 0);
         int totalGPA = 0;
         String lGrade;
@@ -357,7 +342,7 @@ public class MarkSheetPanel extends JPanel {
             lGrade = numtolattergrade(list.get(i).getTheoryMarks());
             gpa = numtogpa(list.get(i).getTheoryMarks());
             totalGPA+=gpa;
-            Object data[] = {" " + list.get(i).getCourseCode(), list.get(i).getCourseName(), lGrade, gpa};
+            Object[] data = {" " + list.get(i).getCourseCode(), list.get(i).getCourseName(), lGrade, gpa};
             model.addRow(data);
         }
         float avgGPA = (totalGPA/totalcourse);
@@ -365,10 +350,10 @@ public class MarkSheetPanel extends JPanel {
                 (avgGPA >= 3.75) ? "A" : (avgGPA >= 3.50) ? "A-" : (avgGPA >= 3.25) ? "B+" : (avgGPA >= 3.00) ? "B" : (avgGPA >= 2.75) ? "B-" : (avgGPA >= 2.50) ? "C+" : (avgGPA >= 2.25) ? "C" : (avgGPA >= 2.00) ? "D" : "F";
 
         if (totalcourse > 0) {
-            Object result[] = {"", "Average GPA", letterGrade, avgGPA};
+            Object[] result = {"", "Average GPA", letterGrade, avgGPA};
             model.addRow(result);
         } else {
-            Object result[] = {"-", "No Course Found", "-", "-", "-", "-"};
+            Object[] result = {"-", "No Course Found", "-", "-", "-", "-"};
             model.addRow(result);
         }
         totalcourse++;

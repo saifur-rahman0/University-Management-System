@@ -1,12 +1,12 @@
 package application.common;
 
-import java.awt.image.*;
-import java.awt.geom.RoundRectangle2D;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
+import java.awt.image.BufferedImage;
+import java.awt.image.PixelGrabber;
 
 public class ImageUtil {
-
     public static BufferedImage toBufferedImage(Image image) {
         if (image instanceof BufferedImage) {
             return (BufferedImage) image;
@@ -27,7 +27,7 @@ public class ImageUtil {
             // Determine the type of transparency of the new buffered image
             int transparency = Transparency.OPAQUE;
 
-            if (hasAlpha == true) {
+            if (hasAlpha) {
                 transparency = Transparency.BITMASK;
             }
 
@@ -43,7 +43,7 @@ public class ImageUtil {
             // Create a buffered image using the default color model
             int type = BufferedImage.TYPE_INT_RGB;
 
-            if (hasAlpha == true) {
+            if (hasAlpha) {
                 type = BufferedImage.TYPE_INT_ARGB;
             }
             bimage = new BufferedImage(image.getWidth(null), image.getHeight(null), type);

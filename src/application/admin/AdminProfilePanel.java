@@ -1,9 +1,8 @@
 package application.admin;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Desktop;
-import java.awt.Font;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -11,24 +10,15 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URI;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-
 /*
  * Title : AdminProfilePanel.java
  * Purpose : All the data related to admin displaying using this panel
  */
 @SuppressWarnings("serial")
 public class AdminProfilePanel extends JPanel {
-    private JPanel panel;
-    private Admin a;
-    private JLabel headinglabel;
+    private final JPanel panel;
+    private final Admin a;
+    private final JLabel headinglabel;
 
     /**
      * Create the panel.
@@ -204,7 +194,6 @@ public class AdminProfilePanel extends JPanel {
             }
         }
         );
-
         facebooklabel.setForeground(new Color(65, 105, 225));
         facebooklabel.setFont(new Font("Segoe UI", Font.PLAIN, 20));
         facebooklabel.setBorder(new LineBorder(Color.LIGHT_GRAY));

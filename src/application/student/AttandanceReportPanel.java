@@ -1,11 +1,17 @@
 package application.student;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
+import application.admin.AdminMain;
+import application.course.CourseData;
+import application.department.DepartmentData;
+import application.teacher.TeacherMain;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -13,27 +19,6 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-
-import application.admin.AdminMain;
-import application.department.DepartmentData;
-import application.teacher.TeacherMain;
-import application.course.CourseData;
 
 /*
  * Title : AttandanceReportPanel.java
@@ -45,23 +30,23 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
      *
      */
     private static final long serialVersionUID = 1L;
-    private JComboBox<String> deptnamecombo;
-    private JComboBox<String> semoryearcombo;
-    private JComboBox<String> courseorrollcombo;
-    private JTable table;
-    private JScrollPane scrollPane;
+    private final JComboBox<String> deptnamecombo;
+    private final JComboBox<String> semoryearcombo;
+    private final JComboBox<String> courseorrollcombo;
+    private final JTable table;
+    private final JScrollPane scrollPane;
     private int totalstudent = 0;
-    private JLabel Errorlabel;
-    private JButton studentwicebutton;
-    private JButton classwicebutton;
-    private JButton coursewicebutton;
-    private JButton fetchdetailsbutton;
-    private JLabel label3;
-    private JLabel label1;
-    private JLabel label2;
-    private JLabel nodatafoundlabel;
+    private final JLabel Errorlabel;
+    private final JButton studentwicebutton;
+    private final JButton classwicebutton;
+    private final JButton coursewicebutton;
+    private final JButton fetchdetailsbutton;
+    private final JLabel label3;
+    private final JLabel label1;
+    private final JLabel label2;
+    private final JLabel nodatafoundlabel;
     private JButton backbutton;
-    private JPanel panel;
+    private final JPanel panel;
 
     /**
      * Create the panel.
@@ -613,11 +598,11 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
     }
 
     public DefaultTableModel createModel(Attandance a) {
-        String Column[] = {"Roll Number", "Student Name", "Class", "Course", "Total Attandance", "Percentage"};
+        String[] Column = {"Roll Number", "Student Name", "Class", "Course", "Total Attandance", "Percentage"};
 
         @SuppressWarnings("serial")
         DefaultTableModel model = new DefaultTableModel(Column, 0) {
-            boolean isEdit[] = {false, false, false, false, false, false};
+            final boolean[] isEdit = {false, false, false, false, false, false};
 
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -634,7 +619,6 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
             list = new StudentData().getAttandanceReportByClass(a);
         }
         for (int i = 0; i < list.size(); i++) {
-
             model.addRow(new Object[0]);
             model.setValueAt(list.get(i).getRollNumber(), i, 0);
             model.setValueAt(list.get(i).getStudentName(), i, 1);
@@ -656,10 +640,10 @@ public class AttandanceReportPanel extends JPanel implements ActionListener {
                 try {
 
                     list = new StudentData().getTotalAttandanceReportOfStudent(a);
-                    Object obj[] = {"", "Total", "", list.get(0).getCourseName(), list.get(0).getAttandance() + " out of " + list.get(0).getTotalAttandance(), (list.get(0).getAttandance() * 100) / list.get(0).getTotalAttandance() + " %"};
+                    Object[] obj = {"", "Total", "", list.get(0).getCourseName(), list.get(0).getAttandance() + " out of " + list.get(0).getTotalAttandance(), (list.get(0).getAttandance() * 100) / list.get(0).getTotalAttandance() + " %"};
                     model.addRow(obj);
                 } catch (ArithmeticException exp) {
-                    Object obj[] = {"", "Total", "", list.get(0).getCourseName(), list.get(0).getAttandance() + " out of " + list.get(0).getTotalAttandance(), list.get(0).getTotalAttandance() + " %"};
+                    Object[] obj = {"", "Total", "", list.get(0).getCourseName(), list.get(0).getAttandance() + " out of " + list.get(0).getTotalAttandance(), list.get(0).getTotalAttandance() + " %"};
                     model.addRow(obj);
                 }
 

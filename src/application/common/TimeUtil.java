@@ -12,7 +12,6 @@ import java.util.Date;
  * Purpose : To get Current login time
  */
 public class TimeUtil {
-
     static SimpleDateFormat formater = new SimpleDateFormat("dd-MMM-yyyy hh:mm:ss aaa");
 
     public static String getCurrentTime() {
@@ -72,7 +71,7 @@ public class TimeUtil {
         return diff;
     }
 
-    public static void main(String a[]) {
+    public static void main(String[] a) {
         System.out.println(getTimeDifference(getCurrentTime(), getCurrentTime()));
     }
 

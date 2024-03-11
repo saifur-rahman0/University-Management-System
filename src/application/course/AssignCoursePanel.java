@@ -1,29 +1,20 @@
 package application.course;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.ResultSet;
-
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableCellRenderer;
-
 import application.admin.AdminMain;
+import application.student.StudentMain;
 import application.teacher.Teacher;
 import application.teacher.TeacherData;
 import application.teacher.TeacherMain;
-import application.student.StudentMain;
 import net.proteanit.sql.DbUtils;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableCellRenderer;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
 
 /*
  * Title : AssignCoursePanel.java
@@ -31,9 +22,8 @@ import net.proteanit.sql.DbUtils;
  */
 @SuppressWarnings("serial")
 public class AssignCoursePanel extends JPanel {
-
-    private JPanel tableviewpanel;
-    private JTable table;
+    private final JPanel tableviewpanel;
+    private final JTable table;
     String condition = "";
 
     /**
@@ -135,7 +125,7 @@ public class AssignCoursePanel extends JPanel {
         cellrenderer.setHorizontalAlignment(JLabel.CENTER);
         table.getColumnModel().getColumn(0).setCellRenderer(cellrenderer);
         for (int i = 0; i < table.getRowCount(); i++) {
-            if (table.getModel().getValueAt(i, 3).equals(new Integer(0))) {
+            if (table.getModel().getValueAt(i, 3).equals(Integer.valueOf(0))) {
                 table.getModel().setValueAt("Not Assigned", i, 3);
             }
         }

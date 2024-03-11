@@ -1,37 +1,22 @@
 package application.student;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.sql.ResultSet;
+import application.admin.AdminMain;
+import application.common.PhotoViewPanel;
+import application.teacher.TeacherMain;
+import net.proteanit.sql.DbUtils;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTable;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.DefaultFormatter;
-
-import application.admin.AdminMain;
-import application.common.PhotoViewPanel;
-import application.teacher.TeacherMain;
-import net.proteanit.sql.DbUtils;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
 
 /*
  * Title : StudentPanel.java
@@ -39,22 +24,22 @@ import net.proteanit.sql.DbUtils;
  */
 @SuppressWarnings("serial")
 public class StudentPanel extends JPanel implements ActionListener {
-
     public JTable table;
-    private JButton viewstudentbutton, addstudentbutton;
+    private final JButton viewstudentbutton;
+    private final JButton addstudentbutton;
     public AdminMain am;
     public TeacherMain fm;
     public StudentMain sm;
     public JButton viewbutton;
     public JScrollPane tableviewscroll;
     public JScrollPane photoviewscrollpane;
-    private JSpinner maxphotospinner;
-    private JLabel maxphotolabel;
+    private final JSpinner maxphotospinner;
+    private final JLabel maxphotolabel;
     private int maxphoto = 5;
     private String condition = "";
-    private JLabel studentslabel;
+    private final JLabel studentslabel;
     private JButton backbutton;
-    private JPanel panel;
+    private final JPanel panel;
 
     /**
      * Create the panel.

@@ -1,14 +1,12 @@
 package application.admin;
 
-import java.awt.Image;
-import java.awt.Toolkit;
+import application.common.ImageUtil;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
-
-import application.common.ImageUtil;
 
 /*
  * Title : Admin.java
@@ -28,7 +26,7 @@ public class Admin {
     private String lastlogin;
     private String linkedin;
     private String address;
-    private boolean isactive = false;
+    private final boolean isactive = false;
 
     public void setWebsite(String website) {
         this.website = website;
@@ -126,6 +124,7 @@ public class Admin {
     public Image getProfilePic() {
         return logoimage;
     }
+
 
     public byte[] getProfilePicInBytes() {
         ByteArrayOutputStream imagedata = new ByteArrayOutputStream();

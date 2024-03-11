@@ -1,51 +1,44 @@
 package application.login;
 
-import java.awt.Color;
-import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
+import application.admin.Admin;
+import application.admin.AdminData;
+import application.common.DataBaseConnection;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.Timer;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
-
-import application.admin.Admin;
-import application.admin.AdminData;
-import application.common.DataBaseConnection;
-
 @SuppressWarnings("serial")
 public class LoginPageFrame extends JFrame implements ActionListener {
-
-    private JPanel contentPane;
-    private JButton teacherbutton;
-    private JButton studentbutton;
-    private JButton adminbutton;
+    private final JPanel contentPane;
+    private final JButton teacherbutton;
+    private final JButton studentbutton;
+    private final JButton adminbutton;
     private JButton fullscrnbtn;
-    private LoginPanel studentloginpanel, teacherloginpanel, adminloginpanel;
+    private final LoginPanel studentloginpanel;
+    private final LoginPanel teacherloginpanel;
+    private final LoginPanel adminloginpanel;
     private boolean adminchanging = false, studentchanging = false, teacherchanging = false;
-    private int adminpanelx = -2300, adminpanely = 240;
-    private int teacherpanelx = -900, teacherpanely = 240;
-    private int studentpanelx = 500, studentpanely = 240;
-    private int underlinelabelx = 280, underlinelabelwidth = 140;
+    private int adminpanelx = -2300;
+    private final int adminpanely = 240;
+    private int teacherpanelx = -900;
+    private final int teacherpanely = 240;
+    private int studentpanelx = 500;
+    private final int studentpanely = 240;
+    private int underlinelabelx = 280;
+    private final int underlinelabelwidth = 140;
     public Timer timer;
     private int imagenumber = 1;
-    private JLabel bgimagelabel;
-    private JLabel underlinelabel;
-    private JPanel loginbuttonpanel;
+    private final JLabel bgimagelabel;
+    private final JLabel underlinelabel;
+    private final JPanel loginbuttonpanel;
     public Timer imagetimer;
 
     /**
@@ -185,7 +178,7 @@ public class LoginPageFrame extends JFrame implements ActionListener {
         activeButton(studentbutton);
 
         underlinelabel = new JLabel("");
-        underlinelabel.setBorder(new MatteBorder(3, 0, 0, 0, (Color) new Color(23, 182, 11)));
+        underlinelabel.setBorder(new MatteBorder(3, 0, 0, 0, new Color(23, 182, 11)));
         underlinelabel.setBounds(underlinelabelx, 37, underlinelabelwidth, 4);
         loginbuttonpanel.add(underlinelabel);
 

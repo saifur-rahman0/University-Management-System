@@ -1,28 +1,20 @@
 package application.common;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.File;
-import java.io.IOException;
+import application.admin.Admin;
+import application.course.CourseData;
+import application.department.DepartmentData;
+import application.student.Student;
+import application.student.StudentData;
+import application.teacher.Teacher;
+import application.teacher.TeacherData;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-
-import application.admin.Admin;
-import application.admin.AdminMain;
-import application.department.DepartmentData;
-import application.teacher.Teacher;
-import application.teacher.TeacherPanel;
-import application.teacher.TeacherData;
-import application.student.Student;
-import application.student.StudentData;
-import application.course.CourseData;
-import application.teacher.TeacherPanel;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 
 /*
  * Title : HomePanel.java
@@ -30,20 +22,19 @@ import application.teacher.TeacherPanel;
  */
 @SuppressWarnings("serial")
 public class HomePanel extends JPanel  {
-
-    /**
-     *
-     */
-    private JPanel homeheaderpanel;
-    private JLabel totalstudentlabel, totalfaculitieslabel, totaldeptlabel, totallectureslabel;
+    private final JPanel homeheaderpanel;
+    private final JLabel totalstudentlabel;
+    private final JLabel totalfaculitieslabel;
+    private final JLabel totaldeptlabel;
+    private final JLabel totallectureslabel;
     public JLabel lastloginlabel;
-    private JLabel timedifflabel;
-    private JLabel welcomelabel;
-    private JPanel deptspanel;
-    private JPanel faculitiespanel;
-    private JPanel studentspanel;
-    int pos[] = {20, 294, 568, 842};
-    private JPanel coursepanel;
+    private final JLabel timedifflabel;
+    private final JLabel welcomelabel;
+    private final JPanel deptspanel;
+    private final JPanel faculitiespanel;
+    private final JPanel studentspanel;
+    int[] pos = {20, 294, 568, 842};
+    private final JPanel coursepanel;
     /**
      * Create the panel.
      */

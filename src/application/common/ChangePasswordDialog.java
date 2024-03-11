@@ -1,39 +1,25 @@
 package application.common;
 
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Font;
-import javax.swing.JPasswordField;
-import java.awt.Color;
-import javax.swing.SwingConstants;
-import javax.swing.UIManager;
-import javax.swing.border.MatteBorder;
-
-import application.teacher.Teacher;
-import application.teacher.TeacherData;
 import application.student.Student;
 import application.student.StudentData;
+import application.teacher.Teacher;
+import application.teacher.TeacherData;
 
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import java.awt.*;
 
 @SuppressWarnings("serial")
 public class ChangePasswordDialog extends JDialog {
-
     private final JPanel contentPanel = new JPanel();
-    private JPasswordField oldpasswordfield;
-    private JPasswordField newpasswordfield;
-    private JPasswordField newpasswordfield2;
-    private JLabel headinglabel;
-    private JButton changepasswordbutton;
-    private JLabel lblError;
+    private final JPasswordField oldpasswordfield;
+    private final JPasswordField newpasswordfield;
+    private final JPasswordField newpasswordfield2;
+    private final JLabel headinglabel;
+    private final JButton changepasswordbutton;
+    private final JLabel lblError;
 
     /**
      * Launch the application.
@@ -171,7 +157,7 @@ public class ChangePasswordDialog extends JDialog {
         getContentPane().add(changepasswordbutton);
 
         JLabel lblNewLabel_1 = new JLabel("");
-        lblNewLabel_1.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(192, 192, 192)));
+        lblNewLabel_1.setBorder(new MatteBorder(0, 0, 1, 0, new Color(192, 192, 192)));
         lblNewLabel_1.setBounds(0, 256, 523, 14);
         getContentPane().add(lblNewLabel_1);
 
@@ -237,7 +223,7 @@ public class ChangePasswordDialog extends JDialog {
         contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         lblError = new JLabel("This is required question !");
-        lblError.setBorder(new MatteBorder(0, 0, 0, 0, (Color) new Color(255, 0, 0)));
+        lblError.setBorder(new MatteBorder(0, 0, 0, 0, new Color(255, 0, 0)));
         lblError.setForeground(new Color(255, 0, 0));
         lblError.setFont(new Font("Candara", Font.PLAIN, 15));
         lblError.setVisible(false);

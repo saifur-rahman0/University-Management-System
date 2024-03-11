@@ -1,23 +1,12 @@
 package application.department;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dialog;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /*
  * Title : RollGeneratorDialog.java
@@ -33,7 +22,7 @@ public class RollGeneratorDialog extends JDialog implements ActionListener {
     JTable table;
     JPanel panel;
     JButton btnSave;
-    JTextField tf[];
+    JTextField[] tf;
     JLabel lblError;
     RollGeneratorPanel rp = null;
     JLabel lblSelectDept;
@@ -58,7 +47,6 @@ public class RollGeneratorDialog extends JDialog implements ActionListener {
 
     /**
      * Create the dialog.
-     *
      * @paramdeptnamecombo
      */
     public RollGeneratorDialog() {
@@ -70,7 +58,7 @@ public class RollGeneratorDialog extends JDialog implements ActionListener {
         getContentPane().setLayout(null);
 
         JLabel headingLabel = new JLabel("Roll number Generator ");
-        headingLabel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) Color.LIGHT_GRAY));
+        headingLabel.setBorder(new MatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
         headingLabel.setOpaque(true);
         headingLabel.setBounds(0, 0, this.getWidth(), 44);
         headingLabel.setBackground(new Color(48, 11, 103, 105));
@@ -80,7 +68,7 @@ public class RollGeneratorDialog extends JDialog implements ActionListener {
         getContentPane().add(headingLabel);
 
         panel = new JPanel();
-        panel.setBorder(new MatteBorder(1, 0, 0, 0, (Color) new Color(192, 192, 192)));
+        panel.setBorder(new MatteBorder(1, 0, 0, 0, new Color(192, 192, 192)));
         panel.setBackground(new Color(255, 255, 255));
         panel.setBounds(0, this.getHeight() - 82, 599, 53);
         getContentPane().add(panel);

@@ -1,34 +1,19 @@
 package application.course;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.ResultSet;
+import application.admin.AdminMain;
+import application.department.DepartmentData;
+import application.student.StudentMain;
+import application.teacher.TeacherMain;
+import net.proteanit.sql.DbUtils;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
-import javax.swing.Timer;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
-
-import application.admin.AdminMain;
-import application.department.DepartmentData;
-import application.teacher.TeacherMain;
-import application.student.StudentMain;
-import net.proteanit.sql.DbUtils;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 
 /*
  * Title : CoursePanel.java
@@ -36,19 +21,18 @@ import net.proteanit.sql.DbUtils;
  */
 @SuppressWarnings("serial")
 public class CoursePanel extends JPanel implements ActionListener {
-
     /**
      * Create the panel.
      */
-    private JComboBox<String> deptnamecombo;
-    private JComboBox<String> semoryearcombo;
-    private JButton addcourse;
-    private String Deptcode[];
-    private JTable table;
-    private JScrollPane scrollPane;
-    private JLabel selectdeptlabel;
-    private JLabel selectsemlabel;
-    private JLabel headerlabel;
+    private final JComboBox<String> deptnamecombo;
+    private final JComboBox<String> semoryearcombo;
+    private final JButton addcourse;
+    private final String[] Deptcode;
+    private final JTable table;
+    private final JScrollPane scrollPane;
+    private final JLabel selectdeptlabel;
+    private final JLabel selectsemlabel;
+    private final JLabel headerlabel;
     private JButton backbutton;
 
     public CoursePanel(AdminMain am) {

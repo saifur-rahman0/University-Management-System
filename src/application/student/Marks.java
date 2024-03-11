@@ -7,7 +7,6 @@ import application.course.Course;
  * Purpose : Binding all the data related to marks
  */
 public class Marks extends Course {
-
     private int sr_no;
     private String studentname;
     private long rollnumber;

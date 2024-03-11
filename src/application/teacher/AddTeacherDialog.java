@@ -1,39 +1,17 @@
 package application.teacher;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Dialog;
-import java.awt.FileDialog;
-import java.awt.Font;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import application.admin.AdminMain;
 
 import javax.imageio.ImageIO;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JTextField;
-import javax.swing.SpinnerDateModel;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
-
-import application.admin.AdminMain;
+import java.awt.*;
+import java.awt.event.*;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /*
  * Title : AddTeacherDialog.java
@@ -41,28 +19,30 @@ import application.admin.AdminMain;
  */
 @SuppressWarnings("serial")
 public class AddTeacherDialog extends JDialog implements ActionListener {
-
     private final JPanel contentPanel = new JPanel();
-    private JTextField teacheridfield;
-    private JTextField teachernamefield;
-    private JTextField addressField;
-    private JTextField emailidfield;
-    private JTextField contactnumberfield;
-    private JTextField qualificationfield;
-    private JTextField experiencefield;
+    private final JTextField teacheridfield;
+    private final JTextField teachernamefield;
+    private final JTextField addressField;
+    private final JTextField emailidfield;
+    private final JTextField contactnumberfield;
+    private final JTextField qualificationfield;
+    private final JTextField experiencefield;
     private static AddTeacherDialog dialog;
-    private String defaultpicpath = "./assets/profilepicicon.jpg";
-    private JButton choosefilebutton, addteacherbutton;
+    private final String defaultpicpath = "./assets/profilepicicon.jpg";
+    private final JButton choosefilebutton;
+    private final JButton addteacherbutton;
     private File file;
-    private JLabel filesizenote, filenamelabel, filesize;
-    private JLabel profilepiclabel;
-    private JLabel Errorlabel;
-    private JSpinner birthdatespinner;
-    private JComboBox<String> gendercombo;
+    private final JLabel filesizenote;
+    private final JLabel filenamelabel;
+    private final JLabel filesize;
+    private final JLabel profilepiclabel;
+    private final JLabel Errorlabel;
+    private final JSpinner birthdatespinner;
+    private final JComboBox<String> gendercombo;
     TeacherPanel tp;
     private AdminMain am;
     private Teacher teacher;
-    private JLabel headerlabel;
+    private final JLabel headerlabel;
 
     /**
      * Launch the application.
@@ -100,7 +80,7 @@ public class AddTeacherDialog extends JDialog implements ActionListener {
         headerlabel.setOpaque(true);
         headerlabel.setForeground(new Color(255, 255, 255));
         headerlabel.setFont(new Font("Arial", Font.BOLD, 23));
-        headerlabel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) Color.LIGHT_GRAY));
+        headerlabel.setBorder(new MatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
 
         JLabel faculityidlabel = new JLabel("Teacher ID");
         faculityidlabel.setFont(new Font("Segoe UI", Font.PLAIN, 18));
@@ -375,7 +355,7 @@ public class AddTeacherDialog extends JDialog implements ActionListener {
         emailidfield.setText(t.getEmailId());
         contactnumberfield.setText(t.getContactNumber());
         birthdatespinner.setValue(t.getBirthDateInDateFormat());
-        gendercombo.setSelectedItem(t.getGender() + "");
+        gendercombo.setSelectedItem(t.getGender());
         experiencefield.setText(t.getExperience());
         qualificationfield.setText(t.getQualification());
         profilepiclabel.setIcon(new ImageIcon(t.getProfilePic(100, 120)));

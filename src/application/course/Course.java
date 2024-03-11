@@ -3,7 +3,6 @@ package application.course;
 import application.department.Department;
 
 public class Course extends Department {
-
     private String coursename;
     private String coursecode;
     private int maxtheorymarks = 0;

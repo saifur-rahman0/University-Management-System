@@ -1,30 +1,22 @@
 package application.common;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
+import application.admin.AdminMain;
+import application.student.Student;
+import application.student.StudentData;
+import application.student.ViewStudentPanel;
+import application.teacher.Teacher;
+import application.teacher.TeacherData;
+import application.teacher.ViewTeacherPanel;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-
-import application.admin.AdminMain;
-import application.teacher.Teacher;
-import application.teacher.TeacherData;
-import application.teacher.ViewTeacherPanel;
-import application.student.Student;
-import application.student.StudentData;
-import application.student.ViewStudentPanel;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 
 /*
@@ -33,9 +25,8 @@ import application.student.ViewStudentPanel;
  */
 @SuppressWarnings("serial")
 public class UsersPanel extends JPanel {
-
-    private JLabel headerlabel;
-    private JTable table;
+    private final JLabel headerlabel;
+    private final JTable table;
     String condition = "";
 
     /**
@@ -121,7 +112,7 @@ public class UsersPanel extends JPanel {
 
     public void createtablemodel() {
         ArrayList<User> list = new UserData().getUserInfo(condition);
-        String Column[] = {"User Profile", "Class", "User id", "User name", "Login Date", "Login Time"};
+        String[] Column = {"User Profile", "Class", "User id", "User name", "Login Date", "Login Time"};
         DefaultTableModel model = new DefaultTableModel(Column, 0);
         for (int i = 0; i < list.size(); i++) {
             User user = list.get(i);

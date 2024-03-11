@@ -1,11 +1,17 @@
 package application.student;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.FileDialog;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Image;
+import application.admin.AdminMain;
+import application.common.HintTextField;
+import application.course.CourseData;
+import application.department.DepartmentData;
+import application.department.RollNumberData;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -15,31 +21,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.imageio.ImageIO;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListCellRenderer;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSpinner;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.SpinnerDateModel;
-import javax.swing.SwingConstants;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
-
-import application.admin.AdminMain;
-import application.common.HintTextField;
-import application.department.DepartmentData;
-import application.department.RollNumberData;
-import application.course.CourseData;
-
 /*
  * Title : AddStudentDialog.java
  * Purpose : For adding new student or edit student details
@@ -48,37 +29,41 @@ import application.course.CourseData;
 public class AddStudentDialog extends JDialog implements ActionListener {
 
     private final JPanel contentPanel = new JPanel();
-    private JTextField rollnumberfield;
-    private JTextField firstnamefield;
-    private JTextField lastnamefield;
-    private JTextField emailidfield;
-    private JTextField contactnumberfield;
-    private JTextField addressfield;
-    private JTextField fathernamefield;
-    private JTextField fatheroccupationfield;
-    private JTextField mothernamefield;
-    private JTextField motheroccupationfield;
-    private JLabel lblPhoto;
-    private JLabel filename;
-    private JComboBox<String> deptnamecombo, semoryearcombo, optionalcoursecombo, gendercombo;
-    private JSpinner birthdatespinner;
-    private JButton choosefilebutton, addstudentbutton;
+    private final JTextField rollnumberfield;
+    private final JTextField firstnamefield;
+    private final JTextField lastnamefield;
+    private final JTextField emailidfield;
+    private final JTextField contactnumberfield;
+    private final JTextField addressfield;
+    private final JTextField fathernamefield;
+    private final JTextField fatheroccupationfield;
+    private final JTextField mothernamefield;
+    private final JTextField motheroccupationfield;
+    private final JLabel lblPhoto;
+    private final JLabel filename;
+    private final JComboBox<String> deptnamecombo;
+    private final JComboBox<String> semoryearcombo;
+    private final JComboBox<String> optionalcoursecombo;
+    private final JComboBox<String> gendercombo;
+    private final JSpinner birthdatespinner;
+    private final JButton choosefilebutton;
+    private final JButton addstudentbutton;
     private File file;
     private String imagepath = null;
-    private JLabel filesize;
+    private final JLabel filesize;
     private AdminMain am;
-    private JLabel profilepiclabel, filesizenote;
-    private JLabel Errorlabel;
+    private final JLabel profilepiclabel;
+    private final JLabel filesizenote;
+    private final JLabel Errorlabel;
     private static AddStudentDialog dialog;
     private StudentPanel sp;
-    private JLabel headerlabel;
+    private final JLabel headerlabel;
     private Student student;
 
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
-
         // If translucent windows aren't supported, exit.
         JFrame.setDefaultLookAndFeelDecorated(true);
 
@@ -115,7 +100,7 @@ public class AddStudentDialog extends JDialog implements ActionListener {
         headerlabel.setOpaque(true);
         headerlabel.setForeground(new Color(255, 255, 255));
         headerlabel.setFont(new Font("Arial", Font.BOLD, 23));
-        headerlabel.setBorder(new MatteBorder(0, 0, 1, 0, (Color) Color.LIGHT_GRAY));
+        headerlabel.setBorder(new MatteBorder(0, 0, 1, 0, Color.LIGHT_GRAY));
 
         deptnamecombo = new JComboBox<String>(new DepartmentData().getDeptName());
         deptnamecombo.setForeground(Color.DARK_GRAY);
@@ -330,7 +315,7 @@ public class AddStudentDialog extends JDialog implements ActionListener {
         getContentPane().add(addstudentbutton);
 
         Errorlabel = new JLabel("This is required question !");
-        Errorlabel.setBorder(new MatteBorder(0, 0, 0, 0, (Color) new Color(255, 0, 0)));
+        Errorlabel.setBorder(new MatteBorder(0, 0, 0, 0, new Color(255, 0, 0)));
         Errorlabel.setHorizontalAlignment(SwingConstants.LEFT);
         Errorlabel.setForeground(new Color(255, 69, 0));
         Errorlabel.setFont(new Font("Calibri", Font.PLAIN, 16));
@@ -354,7 +339,7 @@ public class AddStudentDialog extends JDialog implements ActionListener {
         emailidfield.setText(s.getEmailId());
         contactnumberfield.setText(s.getContactNumber());
         birthdatespinner.setValue(s.getBirthDateInDateFormat());
-        gendercombo.setSelectedItem(s.getGender() + "");
+        gendercombo.setSelectedItem(s.getGender());
         addressfield.setText(s.getAddress());
         fathernamefield.setText(s.getFatherName());
         fatheroccupationfield.setText(s.getFatherOccupation());
@@ -611,7 +596,6 @@ public class AddStudentDialog extends JDialog implements ActionListener {
 
 @SuppressWarnings("serial")
 class RollNumberAvailableException extends Exception {
-
     public RollNumberAvailableException() {
         super("Roll number already available");
     }

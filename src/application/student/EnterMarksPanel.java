@@ -1,40 +1,20 @@
 package application.student;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
+import application.course.CourseData;
+import application.department.DepartmentData;
+import application.teacher.TeacherMain;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListSelectionModel;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
-import javax.swing.Timer;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableModel;
-
-import application.department.DepartmentData;
-import application.teacher.TeacherMain;
-import application.course.CourseData;
 
 /*
  * Title : EnterMarksPanel.java
@@ -43,21 +23,23 @@ import application.course.CourseData;
 @SuppressWarnings("serial")
 public class EnterMarksPanel extends JPanel implements ActionListener {
 
-    private JComboBox<String> deptnamecombo, semoryearcombo, coursenamecombo;
-    private JLabel Errorlabel;
-    private JScrollPane scrollPane;
-    private JTable table;
+    private final JComboBox<String> deptnamecombo;
+    private final JComboBox<String> semoryearcombo;
+    private final JComboBox<String> coursenamecombo;
+    private final JLabel Errorlabel;
+    private final JScrollPane scrollPane;
+    private final JTable table;
     private int totalstudent = 0;
-    private JButton submitbutton;
-    private JButton theorymarksbutton;
+    private final JButton submitbutton;
+    private final JButton theorymarksbutton;
     private JButton practicalmarksbutton;
-    private JLabel TableErrorlabel;
-    private Timer timer;
-    private JLabel label3;
-    private JLabel label2;
-    private JLabel label1;
-    private JPanel selectdeptpanel;
-    private JLabel nodatafoundlabel;
+    private final JLabel TableErrorlabel;
+    private final Timer timer;
+    private final JLabel label3;
+    private final JLabel label2;
+    private final JLabel label1;
+    private final JPanel selectdeptpanel;
+    private final JLabel nodatafoundlabel;
 
     /**
      * Create the panel.
@@ -94,6 +76,7 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
         panel.setBackground(new Color(48, 11, 103, 105));
         add(panel);
         panel.setLayout(null);
+
 
         theorymarksbutton = new JButton("Marks");
 //        theorymarksbutton.setBorder(new LineBorder(new Color(255, 255, 255)));
@@ -381,7 +364,7 @@ public class EnterMarksPanel extends JPanel implements ActionListener {
         String coursename = coursenamecombo.getSelectedItem() + "";
         String[] columnname = {"Roll Number", "Student Name", "Course Name", "Max Marks", "Marks"};
         DefaultTableModel model = new DefaultTableModel(columnname, 0) {
-            boolean[] canEdit = new boolean[]{
+            final boolean[] canEdit = new boolean[]{
                 false, false, false, false, true
             };
             public boolean isCellEditable(int rowIndex, int columnIndex) {

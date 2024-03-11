@@ -1,11 +1,9 @@
 package application.common;
 
-import java.awt.Adjustable;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
-
-import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
 
 
 /*
@@ -13,7 +11,6 @@ import javax.swing.JScrollPane;
  * Purpose : To set scroll bar at bottom
  */
 public class ScrollPaneUtil {
-
     public static void scrollToBottom(JScrollPane scrollPane) {
         JScrollBar verticalBar = scrollPane.getVerticalScrollBar();
         AdjustmentListener downScroller = new AdjustmentListener() {

@@ -1,24 +1,15 @@
 package application.student;
 
-import java.awt.Color;
-import java.awt.Cursor;
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
-
 import application.admin.AdminMain;
 import application.common.ChangePasswordDialog;
 import application.department.DepartmentData;
 import application.teacher.TeacherMain;
+
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /*
  * Title : ViewStudentPanel.java
@@ -26,15 +17,14 @@ import application.teacher.TeacherMain;
  */
 @SuppressWarnings("serial")
 public class ViewStudentPanel extends JPanel {
-
-    private JButton editdetailsbutton;
+    private final JButton editdetailsbutton;
     public JComponent lastpanel;
     AdminMain am;
     TeacherMain fm;
     StudentMain sm;
-    private JButton backbutton;
-    private JButton marksheetbutton;
-    private JLabel lblLastLogin;
+    private final JButton backbutton;
+    private final JButton marksheetbutton;
+    private final JLabel lblLastLogin;
 
     /**
      * Create the panel.

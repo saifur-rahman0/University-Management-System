@@ -1,20 +1,10 @@
 package application.admin;
 
-import java.awt.FlowLayout;
-
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import java.awt.Dialog;
-
-import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import java.awt.Font;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
-import javax.swing.JTextField;
+import java.awt.*;
 
 /*
  * Title : EditAdminLinksDialog.java
@@ -22,13 +12,12 @@ import javax.swing.JTextField;
  */
 @SuppressWarnings("serial")
 public class EditAdminLinksDialog extends JDialog {
-
     private static EditAdminLinksDialog dialog;
     private final JPanel contentPanel = new JPanel();
-    private JTextField facebookfield;
-    private JTextField instagramfield;
-    private JTextField twitterfield;
-    private JTextField linkedinfield;
+    private final JTextField facebookfield;
+    private final JTextField instagramfield;
+    private final JTextField twitterfield;
+    private final JTextField linkedinfield;
 
     /**
      * Launch the application.
@@ -145,7 +134,7 @@ public class EditAdminLinksDialog extends JDialog {
         getContentPane().add(updatelinksbutton);
 
         JLabel label = new JLabel("");
-        label.setBorder(new MatteBorder(0, 0, 1, 0, (Color) new Color(192, 192, 192)));
+        label.setBorder(new MatteBorder(0, 0, 1, 0, new Color(192, 192, 192)));
         label.setBounds(0, 242, 562, 14);
         getContentPane().add(label);
         contentPanel.setLayout(new FlowLayout());

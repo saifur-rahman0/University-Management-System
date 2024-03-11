@@ -1,11 +1,16 @@
 package application.student;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.Image;
+import application.admin.AdminMain;
+import application.course.CourseData;
+import application.department.DepartmentData;
+import application.teacher.TeacherMain;
+
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -14,55 +19,28 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.imageio.ImageIO;
-import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.JTable;
-import javax.swing.SpinnerDateModel;
-import javax.swing.SwingConstants;
-import javax.swing.border.LineBorder;
-import javax.swing.border.MatteBorder;
-import javax.swing.table.DefaultTableModel;
-
-import application.admin.AdminMain;
-import application.department.DepartmentData;
-import application.teacher.TeacherMain;
-import application.course.CourseData;
-
 /*
  * Title : MarkAttandancePanel.java
  * Purpose : For marking student attandance
  */
 @SuppressWarnings("serial")
 public class MarkAttandancePanel extends JPanel implements ActionListener {
-
-    private JTable table;
-    private JComboBox<String> semoryearcombo;
-    private JLabel lblError;
-    private JScrollPane scrollPane;
-    private JComboBox<String> coursenamecombo;
-    private JSpinner datespinner;
-    private JComboBox<String> deptnamecombo;
+    private final JTable table;
+    private final JComboBox<String> semoryearcombo;
+    private final JLabel lblError;
+    private final JScrollPane scrollPane;
+    private final JComboBox<String> coursenamecombo;
+    private final JSpinner datespinner;
+    private final JComboBox<String> deptnamecombo;
     int totalstudent = 0;
-    private JButton submitbutton;
-    private JButton fetchstudentbutton;
-    private JLabel label1;
-    private JLabel label2;
-    private JLabel label3;
-    private JLabel headerlabel;
-    private JLabel label;
-    private JLabel nodatafoundlabel;
+    private final JButton submitbutton;
+    private final JButton fetchstudentbutton;
+    private final JLabel label1;
+    private final JLabel label2;
+    private final JLabel label3;
+    private final JLabel headerlabel;
+    private final JLabel label;
+    private final JLabel nodatafoundlabel;
 
     /**
      * Create the panel.
@@ -144,7 +122,7 @@ public class MarkAttandancePanel extends JPanel implements ActionListener {
         add(label3);
 
         lblError = new JLabel("This is required question !");
-        lblError.setBorder(new MatteBorder(0, 0, 0, 0, (Color) new Color(255, 0, 0)));
+        lblError.setBorder(new MatteBorder(0, 0, 0, 0, new Color(255, 0, 0)));
         lblError.setForeground(new Color(255, 0, 0));
         lblError.setFont(new Font("Candara", Font.PLAIN, 17));
         lblError.setVisible(false);
@@ -153,7 +131,7 @@ public class MarkAttandancePanel extends JPanel implements ActionListener {
 
         scrollPane = new JScrollPane(JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-        scrollPane.setBorder(new MatteBorder(0, 0, 2, 1, (Color) new Color(192, 192, 192)));
+        scrollPane.setBorder(new MatteBorder(0, 0, 2, 1, new Color(192, 192, 192)));
         scrollPane.setVisible(false);
         scrollPane.setBounds(29, 413, 1044, 66);
         for (Component c : scrollPane.getComponents()) {
@@ -366,9 +344,9 @@ public class MarkAttandancePanel extends JPanel implements ActionListener {
     }
 
     public DefaultTableModel createModel(Attandance a) {
-        String Column[] = {"Roll Number", "Student Name", "Course Code", "Dept.", "Sem/Year", "Attandance Date", ""};
+        String[] Column = {"Roll Number", "Student Name", "Course Code", "Dept.", "Sem/Year", "Attandance Date", ""};
         DefaultTableModel model = new DefaultTableModel(Column, 0) {
-            boolean canEdit[] = {false, false, false, false, false, false, true};
+            final boolean[] canEdit = {false, false, false, false, false, false, true};
             public Class<?> getColumnClass(int column) {
                 switch (column) {
                     case 0:

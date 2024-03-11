@@ -1,13 +1,13 @@
 package application.common;
 
+import application.student.Student;
+import application.teacher.Teacher;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-
-import application.teacher.Teacher;
-import application.student.Student;
 
 
 /*
@@ -15,7 +15,6 @@ import application.student.Student;
  * Purpose : For getting all the data related to user login activity
  */
 public class UserData {
-
     Connection con = DataBaseConnection.getConnection();
 
     public int addStudentLoginTime(Student s) {

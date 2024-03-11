@@ -1,32 +1,24 @@
 package application.common;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.print.Book;
-import java.awt.print.PageFormat;
-import java.awt.print.Paper;
-import java.awt.print.Printable;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
-import java.io.File;
+import application.admin.AdminMain;
+import application.student.StudentMain;
+import application.teacher.TeacherMain;
 
 import javax.print.PrintService;
 import javax.print.attribute.HashPrintRequestAttributeSet;
 import javax.print.attribute.standard.Destination;
-import javax.swing.JButton;
-
-import application.admin.AdminMain;
-import application.teacher.TeacherMain;
-import application.student.StudentMain;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.print.*;
+import java.io.File;
 
 /*
  * Title : PrintPDF.java
  * Purpose : For printing marksheet in PDF format
  */
 public class printMarksheetPDF implements Printable, ActionListener {
-
     private AdminMain am;
     private TeacherMain fm;
     private StudentMain sm;
