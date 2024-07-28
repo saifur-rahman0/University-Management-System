@@ -14,8 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-//test 28-7-24
-
 
 @SuppressWarnings("serial")
 public class LoginPageFrame extends JFrame implements ActionListener {
